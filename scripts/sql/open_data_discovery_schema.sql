@@ -4,27 +4,36 @@ CREATE TABLE instance (
   id serial PRIMARY KEY,
   name text,
   url text,
-  description text
+  description text,
+  crawl_schedule text
 );
 
 CREATE TABLE region (
   id serial PRIMARY KEY,
   name text,
-  level_id integer,
   geom geometry(MULTIPOLYGON, 4326),
   bbox geometry(POLYGON, 4326)
 );
 
-CREATE TABLE region_level (
+CREATE TABLE instance_region_xref (
   id serial PRIMARY KEY,
   instance_id integer,
+  region_id integer,
+  instance_region_level_id integer
+);
+
+CREATE TABLE instance_region_level (
+  id serial PRIMARY KEY,
+  instance_id integer,
+  level integer,
   name text
 );
 
 CREATE TABLE region_data (
   id serial PRIMARY KEY,
-  region_id integer,
+  instance_region_xref_id integer,
   count integer,
+  create_date date,
   update_date date
 );
 
@@ -33,11 +42,17 @@ CREATE TABLE tag (
   name text
 );
 
-CREATE TABLE tag_data (
+CREATE TABLE instance_region_tag_xref (
   id serial PRIMARY KEY,
   tag_id integer,
-  region_id integer,
+  instance_region_xref_id integer
+);
+
+CREATE TABLE tag_data (
+  id serial PRIMARY KEY,
+  instance_region_tag_xref_id integer,
   count integer,
+  create_date date,
   update_date date
 );
 
@@ -46,11 +61,17 @@ CREATE TABLE category (
   name text
 );
 
-CREATE TABLE category_data (
+CREATE TABLE instance_region_category_xref (
   id serial PRIMARY KEY,
   category_id integer,
-  region_id integer,
+  instance_region_xref_id integer
+);
+
+CREATE TABLE category_data (
+  id serial PRIMARY KEY,
+  instance_region_category_xref_id integer,
   count integer,
+  create_date date,
   update_date date
 );
 
@@ -59,63 +80,152 @@ CREATE TABLE organization (
   name text
 );
 
-CREATE TABLE organization_data (
+CREATE TABLE instance_region_organization_xref (
   id serial PRIMARY KEY,
   organization_id integer,
-  region_id integer,
+  instance_region_xref_id integer
+);
+
+CREATE TABLE organization_data (
+  id serial PRIMARY KEY,
+  instance_region_organization_xref_id integer,
   count integer,
+  create_date date,
   update_date date
 );
 
-CREATE MATERIALIZED VIEW view_region_info AS
-  WITH latest_category AS (
-  	SELECT region_id, to_json(array_agg(item)) AS grouped_data FROM (
-  		SELECT DISTINCT ON (region_id, category_id)
-        region_id,
-        json_build_object('category', c.name, 'count', count, 'update', update_date) AS item
-  		FROM category_data AS cd
-  		LEFT JOIN category AS c ON c.id = cd.category_id
-  		ORDER BY region_id, category_id, update_date DESC) AS sorted_data
-  	GROUP BY region_id
-  ), latest_tag AS (
-  	SELECT region_id, to_json(array_agg(item)) AS grouped_data FROM (
-  		SELECT DISTINCT ON (region_id, tag_id) region_id, json_build_object('tag', t.name, 'count', count, 'update', update_date) AS item
-  		FROM tag_data AS td
-  		LEFT JOIN tag AS t ON t.id = td.tag_id
-  		ORDER BY region_id, tag_id, update_date DESC) AS sorted_data
-  	GROUP BY region_id
-  ), latest_organization AS (
-  	SELECT region_id, to_json(array_agg(item)) AS grouped_data FROM (
-  		SELECT DISTINCT ON (region_id, organization_id)
-        region_id,
-        json_build_object('organization', o.name, 'count', count, 'update', update_date) AS item
-  		FROM organization_data AS od
-  		LEFT JOIN organization AS o ON o.id = od.organization_id
-  		ORDER BY region_id, organization_id, update_date DESC) AS sorted_data
-  	GROUP BY region_id
-  ), latest_data AS (
-  	SELECT DISTINCT ON (region_id) region_id, count, update_date
-  	FROM region_data ORDER BY region_id, update_date DESC
-  )
+CREATE VIEW view_instance_region AS
   SELECT
-  	r.id AS region_id,
-  	r.name AS region_name,
-  	r.level_id,
-    rl.name AS level_name,
+    r.id AS region_id,
+    r.name AS region_name,
+    irl.level AS level,
+    irl.name AS level_name,
     i.id AS instance_id,
     i.name AS instance_name,
+    ST_AsGeoJson(geom, 6) AS geom,
+    ST_AsGeoJson(bbox, 6) AS bbox
+  FROM instance AS i
+  RIGHT JOIN instance_region_xref AS irx ON i.id = irx.region_id
+  LEFT JOIN region AS r ON r.id = irx.region_id
+  LEFT JOIN instance_region_level AS irl ON irl.id = irx.instance_region_level_id
+  WHERE r.geom IS NOT NULL;
+
+CREATE VIEW view_instance_tag AS
+  SELECT
+    i.id AS instance_id,
+    i.name AS instance_name,
+    t.id AS tag_id,
+    t.name AS tag_name
+  FROM instance AS i
+  RIGHT JOIN instance_region_xref AS irx ON irx.region_id = i.id
+  RIGHT JOIN instance_region_tag_xref AS irtx ON irtx.instance_region_xref_id = irx.id
+  LEFT JOIN tag AS t ON t.id = irtx.tag_id
+  GROUP BY t.id, i.id;
+
+CREATE VIEW view_instance_category AS
+  SELECT
+    i.id AS instance_id,
+    i.name AS instance_name,
+    c.id AS category_id,
+    c.name AS category_name
+  FROM instance AS i
+  RIGHT JOIN instance_region_xref AS irx ON irx.region_id = i.id
+  RIGHT JOIN instance_region_category_xref AS ircx ON ircx.instance_region_xref_id = irx.id
+  LEFT JOIN category AS c ON c.id = ircx.category_id
+  GROUP BY i.id, c.id;
+
+CREATE VIEW view_instance_organization AS
+  SELECT
+    i.id AS instance_id,
+    i.name AS instance_name,
+    o.id AS category_id,
+    o.name AS category_name
+  FROM instance AS i
+  RIGHT JOIN instance_region_xref AS irx ON irx.region_id = i.id
+  RIGHT JOIN instance_region_organization_xref AS irox ON irox.instance_region_xref_id = irx.id
+  LEFT JOIN organization AS o ON o.id = irox.organization_id
+  GROUP BY o.id, i.id;
+
+CREATE MATERIALIZED VIEW view_instance_region_info AS
+  WITH latest_category AS (
+  	SELECT
+      instance_id,
+      region_id,
+      to_json(array_agg(item)) AS grouped_data
+    FROM (
+  		SELECT DISTINCT ON (irx.region_id, irx.region_id, ircx.category_id)
+        irx.instance_id,
+        irx.region_id,
+        json_build_object('category', c.name, 'count', count, 'update_date', update_date) AS item
+  		FROM category_data AS cd
+      LEFT JOIN instance_region_category_xref AS ircx ON ircx.id = cd.instance_region_category_xref_id
+      LEFT JOIN instance_region_xref AS irx ON irx.id = ircx.instance_region_xref_id
+  		LEFT JOIN category AS c ON c.id = ircx.category_id
+  		ORDER BY irx.region_id, irx.region_id, ircx.category_id, update_date DESC
+    ) AS sorted_data
+  	GROUP BY instance_id, region_id
+  ), latest_tag AS (
+  	SELECT
+      instance_id,
+      region_id,
+      to_json(array_agg(item)) AS grouped_data
+    FROM (
+  		SELECT DISTINCT ON (irx.region_id, irx.region_id, irtx.tag_id)
+        irx.instance_id,
+        irx.region_id,
+        json_build_object('tag', t.name, 'count', count, 'update_date', update_date) AS item
+  		FROM tag_data AS td
+      LEFT JOIN instance_region_tag_xref AS irtx ON irtx.id = td.instance_region_tag_xref_id
+      LEFT JOIN instance_region_xref AS irx ON irx.id = irtx.instance_region_xref_id
+  		LEFT JOIN tag AS t ON t.id = irtx.tag_id
+  		ORDER BY irx.region_id, irx.region_id, irtx.tag_id, update_date DESC
+    ) AS sorted_data
+  	GROUP BY instance_id, region_id
+  ), latest_organization AS (
+  	SELECT
+      instance_id,
+      region_id,
+      to_json(array_agg(item)) AS grouped_data
+    FROM (
+  		SELECT DISTINCT ON (irx.instance_id, irx.region_id, irox.organization_id)
+        irx.instance_id,
+        irx.region_id,
+        json_build_object('organization', o.name, 'count', count, 'update_date', update_date) AS item
+  		FROM organization_data AS od
+      LEFT JOIN instance_region_organization_xref AS irox ON irox.id = od.instance_region_organization_xref_id
+      LEFT JOIN instance_region_xref AS irx ON irx.id = irox.instance_region_xref_id
+  		LEFT JOIN organization AS o ON o.id = irox.organization_id
+  		ORDER BY irx.instance_id, irx.region_id, irox.organization_id, update_date DESC
+    ) AS sorted_data
+  	GROUP BY instance_id, region_id
+  ), latest_data AS (
+  	SELECT DISTINCT ON (instance_id, region_id)
+      instance_id,
+      region_id,
+      count,
+      update_date
+  	FROM region_data AS rd
+    LEFT JOIN instance_region_xref AS irx ON irx.id = rd.instance_region_xref_id
+    ORDER BY instance_id, region_id, update_date DESC
+  )
+  SELECT
+    i.id AS instance_id,
+    i.name AS instance_name,
+  	r.id AS region_id,
+  	r.name AS region_name,
+  	irl.level,
+    irl.name AS level_name,
     ld.count,
     ld.update_date,
     lt.grouped_data AS tags,
     lc.grouped_data AS categories,
-    lo.grouped_data AS organizations,
-  	ST_AsGeoJson(geom) AS geom,
-    ST_AsGeoJson(bbox) AS bbox
+    lo.grouped_data AS organizations
   FROM region AS r
-  LEFT JOIN region_level AS rl ON r.level_id = rl.id
-  LEFT JOIN instance AS i ON rl.instance_id = i.id
-  LEFT JOIN latest_data AS ld ON ld.region_id = r.id
-  LEFT JOIN latest_category AS lc ON lc.region_id = r.id
-  LEFT JOIN latest_tag AS lt ON lt.region_id = r.id
-  LEFT JOIN latest_organization AS lo ON lo.region_id = r.id
-  WHERE geom IS NOT NULL;
+  RIGHT JOIN instance_region_xref AS irx ON irx.region_id = r.id
+  LEFT JOIN instance AS i ON irx.instance_id = i.id
+  LEFT JOIN instance_region_level AS irl ON irx.instance_region_level_id = irl.id
+  LEFT JOIN latest_data AS ld ON ld.region_id = r.id AND ld.instance_id = i.id
+  LEFT JOIN latest_category AS lc ON lc.region_id = r.id AND lc.instance_id = i.id
+  LEFT JOIN latest_tag AS lt ON lt.region_id = r.id AND lt.instance_id = i.id
+  LEFT JOIN latest_organization AS lo ON lo.region_id = r.id AND lo.instance_id = i.id
+  WHERE ld.update_date IS NOT NULL;
