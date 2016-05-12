@@ -6,6 +6,9 @@ module.exports = {
     "node": true
   },
   "globals": {
+    "describe": true,
+    "it": true,
+    "before": true
   },
   "plugins": [
     "json"
