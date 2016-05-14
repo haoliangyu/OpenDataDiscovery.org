@@ -18,7 +18,7 @@ var dbSchema = {
   },
   category: {
     idColumn: 'category_id',
-    xrefID: 'instance_region_category_xref',
+    xrefID: 'instance_region_category_xref_id',
     table: 'category',
     dataTable: 'category_data',
     xrefTable: 'instance_region_category_xref'
@@ -47,10 +47,10 @@ exports.saveData = function(db, instanceID, regionID, data) {
                // get all available tags, organizations, and categories for this region
                sql = [
                  'SELECT t.id, t.name, xref.id AS xref_id FROM $1^ AS xref',
-                 'RIGHT JOIN $2^ AS t ON t.ig = xref.$3^ WHERE xref.instance_region_xref_id = $4'
+                 'RIGHT JOIN $2^ AS t ON t.id = xref.$3^ WHERE xref.instance_region_xref_id = $4'
                ].join(' ');
 
-               return Promise.prop({
+               return Promise.props({
                  tag: tx.any(sql, [
                    dbSchema.tag.xrefTable,
                    dbSchema.tag.table,
@@ -108,7 +108,7 @@ exports.updateRegionData = function(db, irID, count) {
   // check if the data is the same as the latest record
   var sql = [
     'SELECT count FROM region_data WHERE instance_region_xref_id = $1',
-    'ORDER BY update_date DESC LIMIMT 1'
+    'ORDER BY update_date DESC LIMIT 1'
   ].join(' ');
 
   return db.oneOrNone(sql, irID)
@@ -147,19 +147,19 @@ exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
     promise = promise.then(function() {
       var sql = [
         'WITH new_item AS (INSERT INTO $1^ (name) VALUES ($4) RETURNING id)',
-        'INSRT INTO $2^ ($3^, instance_region_xref_id) (',
+        'INSERT INTO $2^ ($3^, instance_region_xref_id) (',
         'SELECT new_item.id, $5 FROM new_item) RETURNING *'
       ].join(' ');
 
       return db.one(sql, [itemSchema.table, itemSchema.xrefTable, itemSchema.idColumn, name, irID])
                .then(function(result) {
-                 items[name] = { id: result.tag_id, name: name, irtx_id: result.id };
+                 items[name] = { id: result.tag_id, name: name, xref_id: result.id };
                });
     });
   } else if (!items[name].xref_id) {
     // if the tag doesn't exit for this region, insert the new tag to this region
     promise = promise.then(function() {
-      var sql = 'INSRT INTO $1^ ($2^, instance_region_xref_id) VALUES ($3, $4) RETURNING *';
+      var sql = 'INSERT INTO $1^ ($2^, instance_region_xref_id) VALUES ($3, $4) RETURNING *';
       return db.one(sql, [itemSchema.xrefTable, itemSchema.idColumn, name, items[name].id])
                .then(function(result) {
                  items[name].xref_id = result.id;
@@ -169,14 +169,16 @@ exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
 
   // get latest record
   var sql = 'SELECT count FROM $1^ WHERE $2^ = $3 ORDER BY update_date DESC LIMIT 1';
-  return db.oneOrNone(sql, [itemSchema.dataTable, itemSchema.xrefID, irID])
-           .then(function(result) {
-             if (result && result.count === count) {
-               sql = 'UPDATE $1^ SET update_date = now() WHERE $2^ = $3 AND count = $4';
-             } else {
-               sql = 'INSERT INTO $1^ ($2^, count, create_date, update_date) VALUES ($1, $2, now(), now())';
-             }
+  return promise.then(function() {
+    db.oneOrNone(sql, [itemSchema.dataTable, itemSchema.xrefID, irID]);
+  })
+  .then(function(result) {
+    if (result && result.count === count) {
+      sql = 'UPDATE $1^ SET update_date = now() WHERE $2^ = $3 AND count = $4';
+    } else {
+      sql = 'INSERT INTO $1^ ($2^, count, create_date, update_date) VALUES ($3, $4, now(), now())';
+    }
 
-             return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, items[name].xref_id, count]);
-           });
+    return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, items[name].xref_id, count]);
+  });
 };

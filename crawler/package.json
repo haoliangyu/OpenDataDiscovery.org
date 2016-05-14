@@ -4,10 +4,10 @@
   "description": "the crawler of the open data on CKAN platform",
   "main": "crawler.js",
   "directories": {
-    "test": "mocha"
+    "test": "./test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [
     "crawler",

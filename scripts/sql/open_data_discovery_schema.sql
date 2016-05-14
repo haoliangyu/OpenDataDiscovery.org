@@ -94,7 +94,7 @@ CREATE TABLE organization_data (
   update_date date
 );
 
-CREATE VIEW view_instance_region AS
+CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT
     r.id AS region_id,
     r.name AS region_name,
@@ -102,10 +102,10 @@ CREATE VIEW view_instance_region AS
     irl.name AS level_name,
     i.id AS instance_id,
     i.name AS instance_name,
-    ST_AsGeoJson(geom, 6) AS geom,
-    ST_AsGeoJson(bbox, 6) AS bbox
+    geom,
+    bbox
   FROM instance AS i
-  RIGHT JOIN instance_region_xref AS irx ON i.id = irx.region_id
+  RIGHT JOIN instance_region_xref AS irx ON i.id = irx.instance_id
   LEFT JOIN region AS r ON r.id = irx.region_id
   LEFT JOIN instance_region_level AS irl ON irl.id = irx.instance_region_level_id
   WHERE r.geom IS NOT NULL;

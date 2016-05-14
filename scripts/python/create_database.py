@@ -35,12 +35,12 @@ geom_cur = geom_conn.cursor()
 
 # create instance
 sql = 'INSERT INTO instance (name, url, description) VALUES (%s, %s, %s) RETURNING *'
-cur.execute(sql, ('Data.gov', 'http://www.data.gov/', 'open data portal of us government'))
+cur.execute(sql, ('Data.gov', 'http://catalog.data.gov', 'open data portal of us government'))
 instance_id = cur.fetchone()[0]
 
 # insert region level
 cur.execute('INSERT INTO instance_region_level (instance_id, name, level) VALUES \
-            (%s, \'Nation\', 0), (%s, \'State\', 1), (%s, \'County\', 2) RETURNING level',
+            (%s, \'Nation\', 0), (%s, \'State\', 1), (%s, \'County\', 2) RETURNING id',
             (instance_id, instance_id, instance_id))
 region_level_ids = map(lambda result: result[0], cur.fetchall())
 
@@ -90,6 +90,8 @@ for county in counties:
     cur.execute('INSERT INTO instance_region_xref (instance_id, region_id, instance_region_level_id) \
                 VALUES (%s, %s, %s)',
                 [instance_id, county_id, region_level_ids[2]])
+
+cur.execute('REFRESH MATERIALIZED VIEW view_instance_region;')
 
 geom_cur.close()
 geom_conn.close()
