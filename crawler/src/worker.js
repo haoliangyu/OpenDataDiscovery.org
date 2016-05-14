@@ -5,6 +5,8 @@ var Queue = require('promise-queue');
 var _ = require('lodash');
 var ProgressBar = require('progress');
 var database = require('./database.js');
+var pgp = require('pg-promise')({ promiseLib: Promise });
+var params = require('./params.js');
 
 Queue.configure(Promise);
 
@@ -18,7 +20,9 @@ exports.getRegionData = function(url, options) {
   return ckan.getFullMetadata(url, options);
 };
 
-exports.crawlInstance = function(db, instanceID, instanceUrl) {
+exports.crawlInstance = function(instanceID, instanceUrl) {
+
+  var db = pgp(params.dbConnStr);
 
   var sql = 'SELECT region_id, Box2D(bbox) AS bbox FROM view_instance_region WHERE instance_id = $1';
 
@@ -26,7 +30,11 @@ exports.crawlInstance = function(db, instanceID, instanceUrl) {
            .then(function(regions) {
              if (regions.length < 1) { return Promise.reject('no regions'); }
 
-             var taskQueue = new Queue(1, Infinity);
+             var taskQueue = new Queue(1, Infinity, {
+               onEmpty: function() {
+                 database.refresh(db);
+               }
+             });
              var bar = new ProgressBar('Crawling data: [:bar] :current/:total', regions.length);
 
              _.forEach(regions, function(region) {
@@ -52,14 +60,14 @@ exports.crawlInstance = function(db, instanceID, instanceUrl) {
                });
              });
            })
-          .catch(function(err) {
-            switch (err) {
-              case 'no region':
-                logger.info('No region is found for instance: ', instanceID);
-                return Promise.resolve();
-              default:
-                logger.warn('Failed to fetch data from ' + instanceUrl);
-                logger.error(err);
-            }
-          });
+           .catch(function(err) {
+             switch (err) {
+               case 'no region':
+                 logger.info('No region is found for instance: ', instanceID);
+                 return Promise.resolve();
+               default:
+                 logger.warn('Failed to fetch data from ' + instanceUrl);
+                 logger.error(err);
+             }
+           });
 };

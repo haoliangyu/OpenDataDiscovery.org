@@ -34,8 +34,8 @@ geom_conn = pg.connect('host=%s port=%s dbname=%s user=%s' %
 geom_cur = geom_conn.cursor()
 
 # create instance
-sql = 'INSERT INTO instance (name, url, description) VALUES (%s, %s, %s) RETURNING *'
-cur.execute(sql, ('Data.gov', 'http://catalog.data.gov', 'open data portal of us government'))
+sql = 'INSERT INTO instance (name, url, description, crawl_schedule) VALUES (%s, %s, %s, %s) RETURNING *'
+cur.execute(sql, ('Data.gov', 'http://catalog.data.gov', 'open data portal of us government', '* 1 * * 2'))
 instance_id = cur.fetchone()[0]
 
 # insert region level

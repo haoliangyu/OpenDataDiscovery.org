@@ -182,3 +182,11 @@ exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
     return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, items[name].xref_id, count]);
   });
 };
+
+/**
+ * Refresh mateiral views at the database
+ * @return {[type]} [description]
+ */
+exports.refresh = function(db) {
+  return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info');
+};
