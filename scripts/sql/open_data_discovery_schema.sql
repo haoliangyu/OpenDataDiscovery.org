@@ -26,7 +26,8 @@ CREATE TABLE instance_region_level (
   id serial PRIMARY KEY,
   instance_id integer,
   level integer,
-  name text
+  name text,
+  layer_name text
 );
 
 CREATE TABLE region_data (
@@ -94,13 +95,15 @@ CREATE TABLE organization_data (
   update_date date
 );
 
-CREATE TABLE vector_tile (
-  id serial PRIMARY KEY,
-  region_id integer,
-  zoom_level integer,
-  x integer,
-  y integer,
-  tile BYTEA
+CREATE VIEW view_vector_tile_layer AS (
+  SELECT
+    i.id AS instance_id,
+    i.name AS instance_name,
+    irl.level,
+    irl.name AS level_name,
+    irl.layer_name
+    FROM instance_region_level AS irl
+    LEFT JOIN instance AS i ON i.id = irl.instance_id
 );
 
 CREATE MATERIALIZED VIEW view_instance_region AS
