@@ -18,45 +18,6 @@ module.exports = {
   "rules": {
 
     /**
-     * Rules that I don'think they should (or need to) be applied, bascially because
-     * we are writing in this way, or it's a matter of preference/environment.
-     * If everyone agrees, they will be removed when published
-     */
-
-    // require return statements to either always or never specify values
-    "consistent-return": 0,
-
-    // Limit Cyclomatic Complexity
-    "complexity": 0,
-
-    // disallow unnecessary concatenation of literals or template literals
-    "no-useless-concat": 0,
-
-    // enforce consistent spacing after the // or /* in a comment
-    "spaced-comment": 0,
-
-    // require or disallow “Yoda” conditions
-    "yoda": 0,
-
-    // enforce consistent spacing inside array brackets
-    "array-bracket-spacing": [0, "always"],
-
-    // enforce at least one newline at the end of files
-    "eol-last": 0,
-
-    // enforce the consistent use of either function declarations or expressions
-    "func-style": [0, "expression"],
-
-    // enforce the consistent use of either backticks, double, or single quotes
-    "quotes": 0,
-
-    // disallow the use of variables before they are defined
-    "no-use-before-define": 0,
-
-    // disallow the use of console
-    "no-console": 0,
-
-    /**
      * Good practices, although violating them doesn't cause problems
      */
 

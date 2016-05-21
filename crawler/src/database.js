@@ -185,7 +185,8 @@ exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
 
 /**
  * Refresh mateiral views at the database
- * @return {[type]} [description]
+ * @param  {object}     db    pgp database connection object
+ * @return {undefined}
  */
 exports.refresh = function(db) {
   return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info');
