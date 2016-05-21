@@ -7,8 +7,8 @@ exports.searchLimit = {
   default: 500
 };
 
-exports.minWait = 5000;
+exports.minWait = 1000;
 
-exports.maxWait = 30000;
+exports.maxWait = 20000;
 
 exports.maxTimeout = 150000;

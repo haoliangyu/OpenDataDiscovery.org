@@ -94,6 +94,15 @@ CREATE TABLE organization_data (
   update_date date
 );
 
+CREATE TABLE vector_tile (
+  id serial PRIMARY KEY,
+  region_id integer,
+  zoom_level integer,
+  x integer,
+  y integer,
+  tile BYTEA
+);
+
 CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT
     r.id AS region_id,
