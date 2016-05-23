@@ -5,10 +5,11 @@ var userAgents = require('./userAgents.js');
 var _ = require('lodash');
 
 var gentleRequest = function(request) {
-  return Promise.delay(_.random(params.minWait, params.maxWait)).timeout(params.maxTimeout)
+  return Promise.delay(_.random(params.minWait, params.maxWait))
                 .then(function() {
                   return request;
-                });
+                })
+                .timeout(params.maxTimeout);
 };
 
 var getMetadata = function(url, options) {
