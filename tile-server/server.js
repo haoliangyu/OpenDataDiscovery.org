@@ -8,6 +8,7 @@ var params = require('./params.js');
 
 var app = new Tilesplash(params.dbConnStr);
 var db = pgp(params.dbConnStr);
+
 var sql = [
   'SELECT ST_AsGeoJSON(vir.geom) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date',
@@ -36,7 +37,12 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
           }, getCacheTime(0, 1));
         }
 
-        render(sprintf(sql, layer.instance_id, layer.level));
+        var tileLimit = Math.pow(2, tile.z);
+        if (tile.x < 0 || tile.y < 0 || tile.x >= tileLimit || tile.y >= tileLimit) {
+          return render.empty();
+        } else {
+          render(sprintf(sql, layer.instance_id, layer.level));
+        }
       });
     });
   })
