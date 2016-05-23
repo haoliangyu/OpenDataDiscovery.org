@@ -38,6 +38,8 @@ CREATE TABLE region_data (
   update_date date
 );
 
+CREATE INDEX region_data_update_date_idx ON region_data (update_date);
+
 CREATE TABLE tag (
   id serial PRIMARY KEY,
   name text
@@ -56,6 +58,8 @@ CREATE TABLE tag_data (
   create_date date,
   update_date date
 );
+
+CREATE INDEX tag_data_update_date_idx ON tag_data (update_date);
 
 CREATE TABLE category (
   id serial PRIMARY KEY,
@@ -76,6 +80,8 @@ CREATE TABLE category_data (
   update_date date
 );
 
+CREATE INDEX category_data_update_date_idx ON category_data (update_date);
+
 CREATE TABLE organization (
   id serial PRIMARY KEY,
   name text
@@ -94,6 +100,8 @@ CREATE TABLE organization_data (
   create_date date,
   update_date date
 );
+
+CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 
 CREATE VIEW view_vector_tile_layer AS (
   SELECT
