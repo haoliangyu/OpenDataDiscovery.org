@@ -50,7 +50,7 @@ exports.saveData = function(db, instanceID, regionID, data) {
                  'WHERE instance_id = $1 AND region_id = $2'
                ].join(' ');
 
-               return db.oneOrNone(sql, [instanceID, regionID]);
+               return tx.oneOrNone(sql, [instanceID, regionID]);
              })
              .then(function(result) {
                if (result) {
