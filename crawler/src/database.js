@@ -36,14 +36,30 @@ var dbSchema = {
 exports.saveData = function(db, instanceID, regionID, data) {
   return db.tx(function(tx) {
     var sql = 'SELECT id FROM instance_region_xref WHERE instance_id = $1 AND region_id = $2';
-    var instanceRegionID;
+    var tagData = {};
+    var catData = {};
+    var orgData = {};
+    var instanceRegionID, dataCount;
 
     return tx.one(sql, [instanceID, regionID])
              .then(function(result) {
                instanceRegionID = result.id;
-               return exports.updateRegionData(tx, instanceRegionID, data.count);
+
+               sql = [
+                 'SELECT count, tags, categories, organizations FROM view_instance_region_info',
+                 'WHERE instance_id = $1 AND region_id = $2'
+               ].join(' ');
+
+               return db.oneOrNone(sql, [instanceID, regionID]);
              })
-             .then(function() {
+             .then(function(result) {
+               if (result) {
+                 dataCount = result.count;
+                 tagData = _.keyBy(result.tags, 'name');
+                 catData = _.keyBy(result.categories, 'name');
+                 orgData = _.keyBy(result.organizations, 'name');
+               }
+
                // get all available tags, organizations, and categories for this region
                sql = [
                  'SELECT t.id, t.name, xref.id AS xref_id FROM $1^ AS xref',
@@ -72,23 +88,50 @@ exports.saveData = function(db, instanceID, regionID, data) {
                });
              })
              .then(function(result) {
-               var tags = _.zipObject(_.map(result.tag, 'name'), result.tag);
-               var organizations = _.zipObject(_.map(result.organization, 'name'), result.organization);
-               var categories = _.zipObject(_.map(result.category, 'name'), result.category);
+               var tags = _.keyBy(result.tag, 'name');
+               var organizations = _.keyBy(result.organization, 'name');
+               var categories = _.keyBy(result.category, 'name');
                var tasks = [];
 
+               var dataPromise = exports.updateRegionData(tx, instanceRegionID, data.count, dataCount);
+               tasks.push(dataPromise);
+
                var tagPromise = Promise.each(data.tags, function(tag) {
-                 return exports.updateItemData(tx, instanceRegionID, tags, dbSchema.tag, tag.display_name, tag.count);
+                 return exports.updateItemData(
+                   tx,
+                   instanceRegionID,
+                   tags[tag.display_name],
+                   dbSchema.tag,
+                   tag.display_name,
+                   tag.count,
+                   tagData[tag.display_name]
+                 );
                });
                tasks.push(tagPromise);
 
                var orgPromise = Promise.each(data.organizations, function(organization) {
-                 return exports.updateItemData(tx, instanceRegionID, organizations, dbSchema.organization, organization.display_name, organization.count);
+                 return exports.updateItemData(
+                   tx,
+                   instanceRegionID,
+                   organizations[organization.display_name],
+                   dbSchema.organization,
+                   organization.display_name,
+                   organization.count,
+                   orgData[organization.display_name]
+                 );
                });
                tasks.push(orgPromise);
 
                var catPromise = Promise.each(data.categories, function(category) {
-                 return exports.updateItemData(tx, instanceRegionID, categories, dbSchema.category, category.display_name, category.count);
+                 return exports.updateItemData(
+                   tx,
+                   instanceRegionID,
+                   categories[category.display_name],
+                   dbSchema.category,
+                   category.display_name,
+                   category.count,
+                   catData[category.display_name]
+                 );
                });
                tasks.push(catPromise);
 
@@ -102,50 +145,50 @@ exports.saveData = function(db, instanceID, regionID, data) {
  * @param  {object}   db                pgp database object
  * @param  {integer}  irID              instance region ID
  * @param  {object}   count             data count
+ * @param  {integer}  lastUpdate        latest data count for this region
  * @return {object}   promise
  */
-exports.updateRegionData = function(db, irID, count) {
+exports.updateRegionData = function(db, irID, count, lastUpdate) {
   // check if the data is the same as the latest record
   var sql = [
     'SELECT count FROM region_data WHERE instance_region_xref_id = $1',
     'ORDER BY update_date DESC LIMIT 1'
   ].join(' ');
 
-  return db.oneOrNone(sql, irID)
-           .then(function(result) {
-             if (result && result.count === count) {
-               sql = [
-                 'UPDATE region_data SET update_date = now()',
-                 'WHERE instance_region_xref_id = $1 AND count = $2'
-               ].join(' ');
-             } else {
-               sql = [
-                 'INSERT INTO region_data (instance_region_xref_id, count, create_date, update_date)',
-                 'VALUES ($1, $2, now(), now())'
-               ].join(' ');
-             }
+  if (lastUpdate === count) {
+    sql = [
+      'UPDATE region_data SET update_date = now()',
+      'WHERE instance_region_xref_id = $1 AND count = $2'
+    ].join(' ');
+  } else {
+    sql = [
+      'INSERT INTO region_data (instance_region_xref_id, count, create_date, update_date)',
+      'VALUES ($1, $2, now(), now())'
+    ].join(' ');
+  }
 
-             return db.none(sql, [irID, count]);
-           });
+  return db.none(sql, [irID, count]);
 };
 
 /**
  * save region data,
  * @param  {object}   db                pgp database object
  * @param  {integer}  irID              instance region ID
- * @param  {object}   items             items for this region
+ * @param  {object}   item              data item
  * @param  {object}   itemSchema        item database schema infor
  * @param  {string}   name              tag name
  * @param  {integer}  count             data count
+ * @param  {object}   lastUpdate        latest data for this item
  * @return {object}   promise
  */
-exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
+exports.updateItemData = function(db, irID, item, itemSchema, name, count, lastUpdate) {
   var promise = Promise.resolve();
+  var sql;
 
-  if (!items[name]) {
+  if (!item) {
     // if the tag doesn't exit at all, insert the new tag
     promise = promise.then(function() {
-      var sql = [
+      sql = [
         'WITH new_item AS (INSERT INTO $1^ (name) VALUES ($4) RETURNING id)',
         'INSERT INTO $2^ ($3^, instance_region_xref_id) (',
         'SELECT new_item.id, $5 FROM new_item) RETURNING *'
@@ -153,33 +196,28 @@ exports.updateItemData = function(db, irID, items, itemSchema, name, count) {
 
       return db.one(sql, [itemSchema.table, itemSchema.xrefTable, itemSchema.idColumn, name, irID])
                .then(function(result) {
-                 items[name] = { id: result.tag_id, name: name, xref_id: result.id };
+                 item = { id: result.tag_id, name: name, xref_id: result.id };
                });
     });
-  } else if (!items[name].xref_id) {
+  } else if (!item.xref_id) {
     // if the tag doesn't exit for this region, insert the new tag to this region
     promise = promise.then(function() {
-      var sql = 'INSERT INTO $1^ ($2^, instance_region_xref_id) VALUES ($3, $4) RETURNING *';
-      return db.one(sql, [itemSchema.xrefTable, itemSchema.idColumn, name, items[name].id])
+      sql = 'INSERT INTO $1^ ($2^, instance_region_xref_id) VALUES ($3, $4) RETURNING *';
+      return db.one(sql, [itemSchema.xrefTable, itemSchema.idColumn, name, item.id])
                .then(function(result) {
-                 items[name].xref_id = result.id;
+                 item.xref_id = result.id;
                });
     });
   }
 
-  // get latest record
-  var sql = 'SELECT count FROM $1^ WHERE $2^ = $3 ORDER BY update_date DESC LIMIT 1';
   return promise.then(function() {
-    db.oneOrNone(sql, [itemSchema.dataTable, itemSchema.xrefID, irID]);
-  })
-  .then(function(result) {
-    if (result && result.count === count) {
+    if (lastUpdate && lastUpdate.count === count) {
       sql = 'UPDATE $1^ SET update_date = now() WHERE $2^ = $3 AND count = $4';
     } else {
       sql = 'INSERT INTO $1^ ($2^, count, create_date, update_date) VALUES ($3, $4, now(), now())';
     }
 
-    return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, items[name].xref_id, count]);
+    return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, item.xref_id, count]);
   });
 };
 

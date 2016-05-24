@@ -39,6 +39,7 @@ CREATE TABLE region_data (
 );
 
 CREATE INDEX region_data_update_date_idx ON region_data (update_date);
+CREATE INDEX region_data_xref_id_idx ON region_data (instance_region_xref_id);
 
 CREATE TABLE tag (
   id serial PRIMARY KEY,
@@ -60,6 +61,7 @@ CREATE TABLE tag_data (
 );
 
 CREATE INDEX tag_data_update_date_idx ON tag_data (update_date);
+CREATE INDEX tag_data_xref_id_idx ON tag_data (instance_region_tag_xref_id);
 
 CREATE TABLE category (
   id serial PRIMARY KEY,
@@ -81,6 +83,7 @@ CREATE TABLE category_data (
 );
 
 CREATE INDEX category_data_update_date_idx ON category_data (update_date);
+CREATE INDEX category_data_xref_id_idx ON category_data (instance_region_category_xref_id);
 
 CREATE TABLE organization (
   id serial PRIMARY KEY,
@@ -102,6 +105,7 @@ CREATE TABLE organization_data (
 );
 
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
+CREATE INDEX organization_data_xref_id_idx ON organization_data (instance_region_organization_xref_id);
 
 CREATE VIEW view_vector_tile_layer AS (
   SELECT
