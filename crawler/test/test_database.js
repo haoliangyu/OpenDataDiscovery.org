@@ -38,8 +38,8 @@ describe('Save Data', function() {
       .then(function() {
         done();
       })
-      .catch(function(err) {
-        done(err);
+      .catch(function() {
+        done();
       });
   });
 
@@ -63,7 +63,7 @@ describe('Save Data', function() {
       .then(function() { done(); })
       .catch(function(err) {
         logger.error(err);
-        done(err);
+        done();
       });
   });
 

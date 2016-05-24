@@ -27,10 +27,10 @@ var dbSchema = {
 
 /**
  * main entry to save crawled data into database
- * @param  {object}   db          pgp database object
- * @param  {integer}  instanceID  instance ID
- * @param  {integer}  regionID    region ID
- * @param  {object}   data        open data summary
+ * @param  {object}   db            pgp database object
+ * @param  {integer}  instanceID    instance ID
+ * @param  {integer}  regionID      region ID
+ * @param  {object}   data          open data summary
  * @return {object}   promise
  */
 exports.saveData = function(db, instanceID, regionID, data) {
@@ -60,10 +60,9 @@ exports.saveData = function(db, instanceID, regionID, data) {
                  orgData = _.keyBy(result.organizations, 'name');
                }
 
-               // get all available tags, organizations, and categories for this region
                sql = [
-                 'SELECT t.id, t.name, xref.id AS xref_id FROM $1^ AS xref',
-                 'RIGHT JOIN $2^ AS t ON t.id = xref.$3^ WHERE xref.instance_region_xref_id = $4'
+                 'SELECT t.id, t.name, xref.id AS xref_id FROM $2^ AS t',
+                 'LEFT JOIN $1^ AS xref ON t.id = xref.$3^ AND xref.instance_region_xref_id = $4'
                ].join(' ');
 
                return Promise.props({
@@ -200,10 +199,10 @@ exports.updateItemData = function(db, irID, item, itemSchema, name, count, lastU
                });
     });
   } else if (!item.xref_id) {
-    // if the tag doesn't exit for this region, insert the new tag to this region
+    // if the item doesn't exit for this region, insert the new tag to this region
     promise = promise.then(function() {
       sql = 'INSERT INTO $1^ ($2^, instance_region_xref_id) VALUES ($3, $4) RETURNING *';
-      return db.one(sql, [itemSchema.xrefTable, itemSchema.idColumn, name, item.id])
+      return db.one(sql, [itemSchema.xrefTable, itemSchema.idColumn, item.id, irID])
                .then(function(result) {
                  item.xref_id = result.id;
                });

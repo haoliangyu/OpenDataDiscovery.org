@@ -52,6 +52,8 @@ CREATE TABLE instance_region_tag_xref (
   instance_region_xref_id integer
 );
 
+CREATE INDEX instance_region_tag_xref_ir_id_idx ON instance_region_tag_xref (instance_region_xref_id);
+
 CREATE TABLE tag_data (
   id serial PRIMARY KEY,
   instance_region_tag_xref_id integer,
@@ -74,6 +76,8 @@ CREATE TABLE instance_region_category_xref (
   instance_region_xref_id integer
 );
 
+CREATE INDEX instance_region_category_xref_ir_id_idx ON instance_region_category_xref (instance_region_xref_id);
+
 CREATE TABLE category_data (
   id serial PRIMARY KEY,
   instance_region_category_xref_id integer,
@@ -95,6 +99,8 @@ CREATE TABLE instance_region_organization_xref (
   organization_id integer,
   instance_region_xref_id integer
 );
+
+CREATE INDEX instance_region_organization_xref_ir_id_idx ON instance_region_organization_xref (instance_region_xref_id);
 
 CREATE TABLE organization_data (
   id serial PRIMARY KEY,
