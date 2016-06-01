@@ -11,7 +11,7 @@ var db = pgp(params.dbConnStr);
 
 var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
-  'SELECT ST_AsGeoJSON(vir.geom) AS the_geom_geojson,',
+  'SELECT ST_AsGeoJSON(vir.geom, 6) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date',
   'FROM bbox, view_instance_region_info AS viri',
   'LEFT JOIN view_instance_region AS vir',
@@ -33,8 +33,8 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
       app.layer(layer.layer_name, function(tile, render) {
         // only cache layer if the instance_region level is larger than 1.
         if (layer.level > 1) {
-          this.cache(function() {
-            return layer.layer_name;
+          this.cache(function(tile) {
+            return app.defaultCacheKeyGenerator(tile);
           }, getCacheTime(0, 1));
         }
 
