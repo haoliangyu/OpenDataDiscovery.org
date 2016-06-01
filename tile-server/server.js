@@ -10,13 +10,14 @@ var app = new Tilesplash(params.dbConnStr);
 var db = pgp(params.dbConnStr);
 
 var sql = [
+  'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date',
-  'FROM view_instance_region_info AS viri',
+  'FROM bbox, view_instance_region_info AS viri',
   'LEFT JOIN view_instance_region AS vir',
-    'ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
+  '  ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
   'WHERE viri.instance_id = %d AND viri.level = %d AND',
-  'ST_Intersects(vir.geom, !bbox_4326!)'
+  'ST_Intersects(vir.geom, bbox.geom)'
 ].join(' ');
 
 var getCacheTime = function(week, day) {
