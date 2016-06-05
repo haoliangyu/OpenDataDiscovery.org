@@ -1,12 +1,14 @@
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var mocha = require('gulp-spawn-mocha');
+var clean = require('gulp-clean');
+var runSequence = require('run-sequence');
 
 var paths = {
   scripts: ['**/*.js', '!node_modules/**', '!coverage/**']
 };
 
-gulp.task('test', function() {
+gulp.task('test-mocha', function() {
   return gulp
     .src('./test/**/*.js')
     .pipe(mocha({
@@ -14,6 +16,15 @@ gulp.task('test', function() {
         report: 'none'
       }
     }));
+});
+
+gulp.task('clean-report', function() {
+  return gulp.src('./coverage', { read: false })
+             .pipe(clean());
+});
+
+gulp.task('test', function(callback) {
+  runSequence('test-mocha', 'clean-report', callback);
 });
 
 gulp.task('eslint', function () {
