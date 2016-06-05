@@ -38,8 +38,8 @@ describe('Save Data', function() {
       .then(function() {
         done();
       })
-      .catch(function() {
-        done();
+      .catch(function(err) {
+        logger.error(err);
       });
   });
 
@@ -52,10 +52,14 @@ describe('Save Data', function() {
         return database.saveData(db, instanceID, regionID, data);
       })
       .then(function() {
-        return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info');
-      })
-      .then(function() {
-        return db.one('SELECT count FROM view_instance_region_info WHERE instance_id = $1 AND region_id = $2', [instanceID, regionID]);
+        var sql = [
+          'WITH region_xref AS (',
+          ' SELECT id FROM instance_region_xref WHERE instance_id = $1 AND region_id = $2)',
+          'SELECT count FROM region_xref AS rx, region_data WHERE instance_region_xref_id = rx.id',
+          'ORDER BY update_date LIMIT 1'
+        ].join(' ');
+
+        return db.one(sql, [instanceID, regionID]);
       })
       .then(function(result) {
         return expect(result.count).to.equal(1010);

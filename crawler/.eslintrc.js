@@ -12,7 +12,7 @@ module.exports = {
     "before": true
   },
   "plugins": [
-    "json"
+    'json'
   ],
   "extends": "eslint:recommended",
   "rules": {
