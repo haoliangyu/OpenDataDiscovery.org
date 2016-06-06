@@ -1,5 +1,5 @@
 node_modules
 coverage
-scripts/data
+scripts/data/*
 
 !scripts/data/odd_instance.gz
