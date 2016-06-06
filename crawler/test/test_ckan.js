@@ -32,18 +32,4 @@ describe('Get Data', function() {
       done(err);
     });
   });
-
-  it('It should return data from africa open data', function(done) {
-    return worker.getRegionData('https://africaopendata.org', {
-      extras: { ext_bbox: [] }
-    })
-    .then(function(data) {
-      expect(data.count).to.above(0);
-    })
-    .then(function() { done(); })
-    .catch(function(err) {
-      logger.error(err);
-      done(err);
-    });
-  });
 });
