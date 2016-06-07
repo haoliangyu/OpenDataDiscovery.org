@@ -4,10 +4,10 @@ var fs = require('fs');
 
 var app = express();
 
-fs.readdirSync(__dirname + './api/').forEach(function (file) {
+fs.readdirSync(__dirname + '/api/').forEach(function (file) {
   if(file.substr(-3) !== '.js') {
     //run the attachHandlers function inside module export
-    require(__dirname + './/api/' + file).attachHandlers(app);
+    require(__dirname + '//api/' + file).attachHandlers(app);
   }
 });
 

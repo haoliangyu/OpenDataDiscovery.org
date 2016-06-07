@@ -10,14 +10,20 @@ var db = pgp(params.dbConnStr);
 var promise;
 
 if (argv['-d']) {
-  promise = db.any('SELECT id, url FROM instance WHERE name = $1', argv['-d']);
+  promise = db.any('SELECT id, name, url FROM instance WHERE name = $1', argv['-d']);
 } else {
-  promise = db.any('SELECT id, url FROM instance');
+  promise = db.any('SELECT id, name, url FROM instance');
 }
 
 promise.then(function(results) {
   var tasks = _.map(results, function(result) {
-    return worker.crawlInstance(result.id, result.url);
+    return Promise.resolve()
+      .then(function() {
+        logger.info('Crawling instance: ', result.name);
+      })
+      .then(function() {
+        return worker.crawlInstance(result.id, result.url);
+      });
   });
 
   return Promise.all(tasks);

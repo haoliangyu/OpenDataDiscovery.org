@@ -12,7 +12,8 @@ var db = pgp(params.dbConnStr);
 var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom, 6) AS the_geom_geojson,',
-  'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date',
+  'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
+  'viri.region_id, viri.region_name',
   'FROM bbox, view_instance_region_info AS viri',
   'LEFT JOIN view_instance_region AS vir',
   '  ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
