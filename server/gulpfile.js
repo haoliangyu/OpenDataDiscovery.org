@@ -3,9 +3,10 @@ var eslint = require('gulp-eslint');
 var mocha = require('gulp-spawn-mocha');
 var clean = require('gulp-clean');
 var runSequence = require('run-sequence');
+var cache = require('gulp-cached');
 
 var paths = {
-  scripts: ['**/*.js', '!node_modules/**', '!coverage/**']
+  scripts: ['**/*.js', '!node_modules/**', '!coverage/**', '!.eslintrc.js', '!gulpfile.js']
 };
 
 gulp.task('test-mocha', function() {
@@ -29,13 +30,18 @@ gulp.task('test', function(callback) {
 
 gulp.task('eslint', function () {
   return gulp.src(paths.scripts)
+    .pipe(cache('eslint', {
+      optimizeMemory: true
+    }))
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['eslint', 'test']);
+  gulp.watch(paths.scripts, function(callback) {
+    runSequence('eslint', 'test', callback);
+  });
 });
 
 gulp.task('default', ['watch']);
