@@ -3,6 +3,7 @@ module.exports = {
     "blockBindings": true
   },
   "env": {
+    "browser": true,
     "node": true
   },
   "globals": {
@@ -12,7 +13,9 @@ module.exports = {
     "before": true
   },
   "plugins": [
-    "json"
+    "json",
+    "angular",
+    "html"
   ],
   "extends": "eslint:recommended",
   "rules": {

@@ -31,7 +31,7 @@ describe('Save Data', function() {
 
   // set up the test data
   before(function(done) {
-    return readFile('./test/sql/test_database_data.sql', 'utf8')
+    return readFile('./crawler/test/sql/test_database_data.sql', 'utf8')
       .then(function(content) {
         return db.none(content);
       })
@@ -73,7 +73,7 @@ describe('Save Data', function() {
 
   // clean up test data
   after(function(done) {
-    return readFile('./test/sql/test_database_cleanup.sql', 'utf8')
+    return readFile('./crawler/test/sql/test_database_cleanup.sql', 'utf8')
       .then(function(content) {
         return db.none(content);
       })
