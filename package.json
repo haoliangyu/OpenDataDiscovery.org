@@ -34,7 +34,8 @@
     "leaflet.vectorgrid": "^0.1.2",
     "mocha": "^2.4.5",
     "nodemon": "^1.9.2",
-    "run-sequence": "^1.2.1"
+    "run-sequence": "^1.2.1",
+    "supertest": "^1.2.0"
   },
   "dependencies": {
     "bluebird": "^3.3.5",

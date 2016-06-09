@@ -1,3 +1,5 @@
 exports.dbConnStr = 'postgres://postgres@localhost:5432/odd';
 
-exports.vtBaseUrl = 'http://www.OpenDataDiscovery.org/vt/%{name}s/{z}/{x}/{y}.mvt';
+exports.port = 8080;
+
+exports.vtBaseUrl = 'http://www.OpenDataDiscovery.org/vt/%s/{z}/{x}/{y}.mvt';

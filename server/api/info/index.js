@@ -23,5 +23,5 @@ exports.attachHandlers = function(router) {
  * 		]
  * 	}
  */
-  router.get('/info/instance', info.getInstances);
+  router.get('/api/info/instance', info.getInstances);
 };

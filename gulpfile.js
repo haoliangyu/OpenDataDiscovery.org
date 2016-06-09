@@ -28,7 +28,7 @@ function addTestTask(name, paths) {
   });
 }
 
-// addTestTask('test-server', tests.server);
+addTestTask('test-server', tests.server);
 addTestTask('test-crawler', tests.crawler);
 
 /**
@@ -39,7 +39,9 @@ function addLintingTask(name, paths) {
   gulp.task(name, function () {
     return gulp.src(paths)
       .pipe(cache(name, { optimizeMemory: true }))
-      .pipe(eslint())
+      .pipe(eslint({
+        quiet: true
+      }))
       .pipe(eslint.format())
       .pipe(eslint.failAfterError());
   });
@@ -61,7 +63,7 @@ function addWatchTask(name, paths, tasks) {
   });
 }
 
-addWatchTask('watch-server', scripts.server, ['eslint-server']);
+addWatchTask('watch-server', scripts.server, ['eslint-server', 'test-server']);
 addWatchTask('watch-crawler', scripts.crawler, ['eslint-crawler', 'test-crawler']);
 addWatchTask('watch-tile-server', scripts.tile_server, ['eslint-tile-server']);
 

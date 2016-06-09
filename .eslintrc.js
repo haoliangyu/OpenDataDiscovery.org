@@ -96,6 +96,9 @@ module.exports = {
     // enforce dot notation whenever possible
     "dot-notation": [ 1, { allowPattern: '^[a-z]+(.[a-z]+)+$' } ],
 
+    // disallow unused expressions
+    "no-unused-expressions": 1,
+
     /**
      * Error: violating following rules may cause problems
      */
@@ -138,9 +141,6 @@ module.exports = {
 
     // disallow void operators
     "no-void": 2,
-
-    // disallow unused expressions
-    "no-unused-expressions": 2,
 
     // disallow unnecessary calls to .call() and .apply()
     "no-useless-call": 2,

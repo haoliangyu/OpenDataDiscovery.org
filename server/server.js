@@ -2,6 +2,8 @@ var express = require('express');
 var logger = require('log4js').getLogger('server');
 var fs = require('fs');
 
+var params = require('./config/params.js');
+
 var app = express();
 
 fs.readdirSync(__dirname + '/api/').forEach(function (file) {
@@ -11,6 +13,6 @@ fs.readdirSync(__dirname + '/api/').forEach(function (file) {
   }
 });
 
-app.listen(10086);
+app.listen(params.port);
 
 logger.info('Server is running...');
