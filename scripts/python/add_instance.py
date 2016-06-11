@@ -57,10 +57,6 @@ cur.execute('INSERT INTO instance_region_xref (instance_id, region_id, instance_
 
 conn.commit()
 
-# update database
-cur.execute('REFRESH MATERIALIZED VIEW view_instance_region')
-conn.commit()
-
 # backup
 directory = os.path.dirname(os.path.realpath(__file__))
 subprocess.call('bash %s/../bash/dump_instance.sh' % directory, shell=True)
