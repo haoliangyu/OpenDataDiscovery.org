@@ -4,6 +4,7 @@ CREATE TABLE instance (
   id serial PRIMARY KEY,
   name text,
   url text,
+  location text,
   description text,
   crawl_schedule text
 );
