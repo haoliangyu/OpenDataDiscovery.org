@@ -4,7 +4,7 @@
     <title>Vector Tile Test</title>
 
     <script src="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.js"></script>
-    <script type="text/javascript" src="../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <script type="text/javascript" src="./Leaflet.VectorGrid.bundled.min.js"></script>
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v1.0.0-rc.1/leaflet.css" />
 
@@ -28,7 +28,7 @@
 
       map.addLayer(base);
 
-      var layer = L.vectorGrid.protobuf('http://localhost:3000/datagov_county/{z}/{x}/{y}.mvt');
+      var layer = L.vectorGrid.protobuf('http://localhost:8060/open_africa/{z}/{x}/{y}.mvt');
 
       map.addLayer(layer);
     </script>

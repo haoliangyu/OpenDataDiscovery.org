@@ -8,7 +8,7 @@ var nodemon = require('gulp-nodemon');
 var scripts = {
   crawler: ['./crawler/**/*.js'],
   server: ['./server/**/*.js'],
-  tile_server: ['./tile-server/**/*.js']
+  tile_server: ['./tile-server/**/*.js', '!./tile-server/test/*.js']
 };
 
 var tests = {

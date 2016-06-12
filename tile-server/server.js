@@ -6,7 +6,7 @@ var _ = require('lodash');
 var sprintf = require('sprintf-js').sprintf;
 var params = require('./params.js');
 
-var app = new Tilesplash(params.dbConnStr);
+var app = new Tilesplash(params.dbConnStr, 'redis');
 var db = pgp(params.dbConnStr);
 
 var sql = [
