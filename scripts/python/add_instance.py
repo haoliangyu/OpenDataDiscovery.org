@@ -22,6 +22,9 @@ schedule = '* 1 * * 3'
 region = 'State'
 region_level = 0
 
+# vetor tile layer
+layer_name = 'alagoas _data'
+
 # **************************************************************************** #
 #                               Database                                       #
 # **************************************************************************** #
@@ -39,9 +42,9 @@ cur.execute(sql, [name, url, description, schedule, location])
 instance_id = cur.fetchone()[0]
 
 # insert region level
-cur.execute('INSERT INTO instance_region_level (instance_id, name, level) VALUES \
+cur.execute('INSERT INTO instance_region_level (instance_id, name, level, layer_name) VALUES \
             (%s, %s, %s) RETURNING id',
-            (instance_id, region, region_level))
+            (instance_id, region, region_level, layer_name))
 region_level_id = cur.fetchone()[0]
 
 # insert boundary and bbox
