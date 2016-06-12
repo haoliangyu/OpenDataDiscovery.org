@@ -2,4 +2,6 @@ node_modules
 coverage
 scripts/data/*
 
+.vagrant
+
 !scripts/data/odd_instance.gz
