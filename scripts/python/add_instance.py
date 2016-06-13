@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Alagoas Data and Information'
-url = 'http://dados.al.gov.br'
-description = 'Open Data for the Alagoas Government'
-location = 'Alagoas, Brazil'
-schedule = '* 1 * * 3'
+name = 'Alberta Open Government Portal'
+url = 'https://open.alberta.ca'
+description = 'Open Data for the Alberta Government'
+location = 'Alberta, Canada'
+schedule = '* 1 * * 4'
 
 # region level
-region = 'State'
+region = 'Province'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'alagoas _data'
+layer_name = 'alberta_open_data'
 
 # **************************************************************************** #
 #                               Database                                       #
@@ -43,9 +43,14 @@ instance_id = cur.fetchone()[0]
 
 # insert region level
 cur.execute('INSERT INTO instance_region_level (instance_id, name, level, layer_name) VALUES \
-            (%s, %s, %s) RETURNING id',
+            (%s, %s, %s, %s) RETURNING id',
             (instance_id, region, region_level, layer_name))
 region_level_id = cur.fetchone()[0]
+
+# convert Polygon to MultiPolygon
+if boundary['type'] == 'Polygon':
+    boundary['type'] = 'MultiPolygon'
+    boundary['coordinates'] = [boundary['coordinates']]
 
 # insert boundary and bbox
 cur.execute('INSERT INTO region (name, geom, bbox) VALUES \
@@ -57,6 +62,9 @@ nation_id = cur.fetchone()[0]
 cur.execute('INSERT INTO instance_region_xref (instance_id, region_id, instance_region_level_id) \
             VALUES (%s, %s, %s)',
             [instance_id, nation_id, region_level_id])
+
+# refresh region
+cur.execute('REFRESH MATERIALIZED VIEW view_instance_region')
 
 conn.commit()
 
