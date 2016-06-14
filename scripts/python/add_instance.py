@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Alberta Open Government Portal'
-url = 'https://open.alberta.ca'
-description = 'Open Data for the Alberta Government'
-location = 'Alberta, Canada'
-schedule = '* 1 * * 4'
+name = 'Amsterdam Open Data'
+url = 'http://data.amsterdam.nl'
+description = 'Amsterdam Open Data Portal'
+location = 'Amsterdam, Netherlands'
+schedule = '* 1 * * 3'
 
 # region level
-region = 'Province'
+region = 'City'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'alberta_open_data'
+layer_name = 'amsterdam_open_data'
 
 # **************************************************************************** #
 #                               Database                                       #
