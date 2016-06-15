@@ -15,7 +15,7 @@ echo -e "\n######## install nginx... ########\n"
 sudo apt-get -y install nginx
 
 echo -e "\n######## configuring nginx... ########\n"
-sudo cp nginx.conf /etc/nginx/sites-available/
+sudo cp /vagrant/bootstrap/nginx.conf /etc/nginx/sites-available/
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
@@ -46,10 +46,18 @@ cd /vagrant
 sudo npm install
 
 echo -e "\n######## set up database... ########\n"
-sudo -u postgres createdb odd
 gunzip -k /vagrant/scripts/data/odd_instance.gz
-sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis"
-sudo -u postgres psql -d odd -f /vagrant/scripts/data/odd_instance
+
+DB_USER="odd_admin"
+DB_PASSWORD="Bko9tu39"
+
+sudo -u postgres createdb odd
+sudo -u postgres psql -c "CREATE EXTENSION postgis;";
+sudo -u postgres psql -c "CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';";
+sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;";
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to ${DB_USER};"
+sudo -u postgres psql -w odd -f /vagrant/scripts/data/odd_instance
+
 rm /vagrant/scripts/data/odd_instance
 
 echo -e "\n######## set up servers... ########\n"

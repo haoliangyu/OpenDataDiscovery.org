@@ -3,7 +3,7 @@ var info = require('./info.js');
 exports.attachHandlers = function(router) {
 
   /**
- * @api {get} /info/instance Request instance information
+ * @api {get} /api/info/instance Request instance information
  * @apiName GetInstances
  * @apiGroup Info
  *
