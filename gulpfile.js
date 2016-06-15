@@ -64,31 +64,13 @@ function addWatchTask(name, paths, tasks) {
   });
 }
 
-addWatchTask('watch-crawler', scripts.server, ['eslint-crawler', 'test-crawler']);
-
-/**
- * Nodemon
- */
-
-function addNodemonTask(name, entry, path, before, after) {
-  gulp.task(name, function() {
-    nodemon({
-      script: entry,
-      watch: path,
-      ext: 'js',
-      tasks: before || [],
-      env: { 'NODE_ENV': 'development' }
-    })
-    .on('restart', after || []);
-  });
-}
-
-addNodemonTask('nodemon-server', './server/server.js', './server', ['eslint-server'], ['test-server']);
-addNodemonTask('nodemon-tile-server', './tile-server/server.js', './tile-server', ['eslint-tile-server']);
+addWatchTask('watch-crawler', scripts.crawler, ['eslint-crawler', 'test-crawler']);
+addWatchTask('watch-server', scripts.server, ['eslint-server', 'test-server']);
+addWatchTask('watch-tile-server', scripts.tile_server, ['eslint-tile-server']);
 
 /**
  * Tasks
  */
 
-gulp.task('watch', ['watch-crawler']);
+gulp.task('watch', ['watch-crawler', 'watch-server', 'watch-tile-server']);
 gulp.task('default', ['watch']);

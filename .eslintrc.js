@@ -96,9 +96,6 @@ module.exports = {
     // enforce dot notation whenever possible
     "dot-notation": [ 1, { allowPattern: '^[a-z]+(.[a-z]+)+$' } ],
 
-    // disallow unused expressions
-    "no-unused-expressions": 1,
-
     /**
      * Error: violating following rules may cause problems
      */

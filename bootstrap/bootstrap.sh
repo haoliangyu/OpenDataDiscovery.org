@@ -18,6 +18,7 @@ echo -e "\n######## configuring nginx... ########\n"
 sudo cp /vagrant/bootstrap/nginx.conf /etc/nginx/sites-available/
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf
+sudo service nginx restart
 
 echo -e "\n######## install postgresql... ########\n"
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
@@ -40,6 +41,8 @@ sudo npm install -g gulp
 sudo npm install -g mocha
 sudo npm install -g istanbul
 sudo npm install -g eslint
+sudo npm install -g webpack
+sudo npm install -g webpack-dev-server
 
 echo -e "\n######## install project dependencies... ########\n"
 cd /vagrant
@@ -60,6 +63,6 @@ sudo -u postgres psql -w odd -f /vagrant/scripts/data/odd_instance
 
 rm /vagrant/scripts/data/odd_instance
 
-echo -e "\n######## set up servers... ########\n"
-pm2 start /vagrant/bootstrap/process.json --only odd.server --env production
-pm2 start /vagrant/bootstrap/process.json --only odd.tile-server --env production
+# echo -e "\n######## set up servers... ########\n"
+# sudo -u vagrant pm2 start /vagrant/bootstrap/process.json --only odd.server --env production
+# sudo -u vagrant pm2 start /vagrant/bootstrap/process.json --only odd.tile-server --env production

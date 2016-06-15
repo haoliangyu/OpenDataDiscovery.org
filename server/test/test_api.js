@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 var params = require('../config/params.js');
 
-describe('API - /info/instance', function() {
+describe('API - /api/info/instance', function() {
   it('It should return an array of instance information', function(done) {
     request('localhost:' + params.port)
       .get('/api/info/instance')
@@ -15,6 +15,7 @@ describe('API - /info/instance', function() {
         if (err) {
           expect(res.body.success).to.be.false;
           expect(res.body.message).to.exist;
+          done();
           return;
         }
 
