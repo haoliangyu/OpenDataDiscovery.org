@@ -52,9 +52,9 @@ DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
 
 sudo -u postgres createdb odd
-sudo -u postgres psql -c "CREATE EXTENSION postgis;";
 sudo -u postgres psql -c "CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';";
 sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;";
+sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;";
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to ${DB_USER};"
 sudo -u postgres psql -w odd -f /vagrant/scripts/data/odd_instance
 
