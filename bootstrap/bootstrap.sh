@@ -59,8 +59,10 @@ sudo -u postgres psql -c "CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';
 sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;";
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;";
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to odd_admin;"
-sudo -u postgres psql -w odd -f /vagrant/scripts/data/schema.sql
-sudo -u postgres psql -w odd -f /vagrant/scripts/data/instance_data.sql
+
+export PGPASSWORD=$DB_PASSWORD
+psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/schema.sql
+psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
 
 rm /vagrant/scripts/data/schema.sql
 rm /vagrant/scripts/data/instance_data.sql
