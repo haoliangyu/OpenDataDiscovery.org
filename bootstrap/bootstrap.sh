@@ -49,7 +49,7 @@ cd /vagrant
 sudo npm install
 
 echo -e "\n######## set up database... ########\n"
-gunzip -k /vagrant/scripts/data/odd_instance.gz
+tar zxvf /vagrant/scripts/data/odd_instance.tar.gz -C /vagrant/scripts/data
 
 DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
@@ -58,10 +58,12 @@ sudo -u postgres createdb odd
 sudo -u postgres psql -c "CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';";
 sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;";
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;";
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to ${DB_USER};"
-sudo -u postgres psql -w odd -f /vagrant/scripts/data/odd_instance
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to odd_admin;"
+sudo -u postgres psql -w odd -f /vagrant/scripts/data/schema.sql
+sudo -u postgres psql -w odd -f /vagrant/scripts/data/instance_data.sql
 
-rm /vagrant/scripts/data/odd_instance
+rm /vagrant/scripts/data/schema.sql
+rm /vagrant/scripts/data/instance_data.sql
 
 # echo -e "\n######## set up servers... ########\n"
 # sudo -u vagrant pm2 start /vagrant/bootstrap/process.json --only odd.server --env production
