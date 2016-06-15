@@ -29,9 +29,7 @@ exports.crawlInstance = function(instanceID, instanceUrl) {
   .then(function(regions) {
     if (regions.length < 1) { return Promise.reject('no regions'); }
 
-    var taskQueue = new Queue(1, Infinity, {
-      onEmpty: function() { database.refresh(db); }
-    });
+    var taskQueue = new Queue(1, Infinity);
     var bar = new ProgressBar('Crawling data: [:bar] :current/:total', regions.length);
 
     _.forEach(regions, function(region) {
