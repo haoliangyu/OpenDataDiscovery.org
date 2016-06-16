@@ -9,5 +9,6 @@ OpenDataDiscovery.org is mapping these CKAN portals.
 | [Alagoas Data and Information](http://dados.al.gov.br/) | Alagoas, Brazil | State | :heavy_check_mark: (?) |
 | [Alberta Open Government Portal](https://open.alberta.ca/) | Alberta, Canada | Province |  |
 | [Amsterdam Open Data](http://data.amsterdam.nl/) | Amsterdam, Netherlands | City |  |
+| [Alagon Open Data](http://opendata.aragon.es/) | Alagon, Spain | Province |  |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).

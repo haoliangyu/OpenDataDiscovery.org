@@ -21,10 +21,11 @@ sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.
 sudo service nginx restart
 
 echo -e "\n######## install postgresql... ########\n"
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
-wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list'
+wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 -y
+sudo apt-get install -y postgresql-client-9.5
 
 echo -e "\n######## starting to create the postgis extension... ########\n"
 sudo -u postgres psql -c "CREATE EXTENSION postgis;"
@@ -54,13 +55,12 @@ tar zxvf /vagrant/scripts/data/odd_instance.tar.gz -C /vagrant/scripts/data
 DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
 
-sudo -u postgres createdb odd
 sudo -u postgres psql -c "CREATE USER ${DB_USER} WITH PASSWORD '${DB_PASSWORD}';";
-sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;";
-sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;";
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES on DATABASE odd to odd_admin;"
+sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;"
 
 export PGPASSWORD=$DB_PASSWORD
+createdb -h localhost -U $DB_USER odd
+sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;"
 psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/schema.sql
 psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
 

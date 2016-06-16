@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Amsterdam Open Data'
-url = 'http://data.amsterdam.nl'
-description = 'Amsterdam Open Data Portal'
-location = 'Amsterdam, Netherlands'
-schedule = '* 1 * * 3'
+name = 'Aragon Open Data'
+url = 'http://opendata.aragon.es'
+description = 'Aragon Open Data Portal'
+location = 'Aragon, Spain'
+schedule = '* 1 * * 1'
 
 # region level
-region = 'City'
+region = 'Province'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'amsterdam_open_data'
+layer_name = 'aragon_open_data'
 
 # **************************************************************************** #
 #                               Database                                       #

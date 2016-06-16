@@ -8,8 +8,8 @@ import random
 import requests
 
 # portal info
-base_url = 'https://open.alberta.ca'
-bbox = [-119.970703125, 48.922499263758255, -109.9072265625, 59.99898612060444]
+base_url = 'http://opendata.aragon.es/'
+bbox = [39.8468, -2.1736, 42.9245, 0.771335]
 
 # config
 test_count = 20
