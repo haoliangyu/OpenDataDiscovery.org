@@ -27,6 +27,13 @@ sudo apt-get update
 sudo apt-get install postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 -y
 sudo apt-get install -y postgresql-client-9.5
 
+echo -e "\n######## copying database files... ########\n"
+sudo cp /vagrant/bootstrap/pg_hba.conf /etc/postgresql/9.5/main/
+sudo cp /vagrant/bootstrap/postgresql.conf /etc/postgresql/9.5/main/
+
+echo -e "\n######## restarting postgresql... ########\n"
+sudo service postgresql restart
+
 echo -e "\n######## starting to create the postgis extension... ########\n"
 sudo -u postgres psql -c "CREATE EXTENSION postgis;"
 sudo -u postgres psql -c "CREATE EXTENSION postgis_topology;"
