@@ -1,6 +1,7 @@
 node_modules
 coverage
 scripts/data/*
+www/static
 
 .vagrant
 
