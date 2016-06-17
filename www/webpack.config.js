@@ -24,7 +24,15 @@ module.exports = {
       npm: __dirname + '/../node_modules'
     }
   },
+  eslint: {
+    configFile: '../.eslintrc.js',
+    quiet: true,
+    failOnError: true
+  },
   module: {
+    preLoaders: [
+      {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+    ],
     loaders: [
       {
         test: /\.js$/,
