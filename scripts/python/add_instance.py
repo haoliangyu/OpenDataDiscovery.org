@@ -29,7 +29,7 @@ layer_name = 'aragon_open_data'
 #                               Database                                       #
 # **************************************************************************** #
 
-conn = pg.connect('host=localhost dbname=odd user=postgres')
+conn = pg.connect('host=localhost port=6060 dbname=odd user=odd_admin password=Bko9tu39')
 cur = conn.cursor()
 
 boundary = json.loads(open(geometry_path).read())['features'][0]['geometry']
