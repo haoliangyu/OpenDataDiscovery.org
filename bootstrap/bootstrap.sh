@@ -73,7 +73,3 @@ psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
 
 rm /vagrant/scripts/data/schema.sql
 rm /vagrant/scripts/data/instance_data.sql
-
-# echo -e "\n######## set up servers... ########\n"
-# sudo -u vagrant pm2 start /vagrant/bootstrap/process.json --only odd.server --env production
-# sudo -u vagrant pm2 start /vagrant/bootstrap/process.json --only odd.tile-server --env production
