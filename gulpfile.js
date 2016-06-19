@@ -40,6 +40,7 @@ function addLintingTask(name, paths) {
     return gulp.src(paths)
       .pipe(cache(name, { optimizeMemory: true }))
       .pipe(eslint({
+        configFile: './.eslintrc.js',
         quiet: true
       }))
       .pipe(eslint.format())

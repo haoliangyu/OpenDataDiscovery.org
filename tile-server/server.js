@@ -7,8 +7,21 @@ var sprintf = require('sprintf-js').sprintf;
 var params = require('./params.js');
 
 var app = new Tilesplash(params.dbConnStr, 'redis');
-var db = pgp(params.dbConnStr);
 
+// log all requests
+app.server.use('/:layer/:z/:x/:y.mvt', function(req, res, next) {
+  logger.info(sprintf('[GET] %s', req.url));
+  next();
+});
+
+var getCacheTime = function(week, day) {
+  week = _.isInteger(week) && week > 0 ? week : 0;
+  day = _.isInteger(day) && day > 0 ? day : 0;
+
+  return 604800000 * week + 86400000 * day;
+};
+
+var db = pgp(params.dbConnStr);
 var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom, 6) AS the_geom_geojson,',
@@ -20,13 +33,6 @@ var sql = [
   'WHERE viri.instance_id = %d AND viri.level = %d AND',
   'ST_Intersects(vir.geom, bbox.geom)'
 ].join(' ');
-
-var getCacheTime = function(week, day) {
-  week = _.isInteger(week) && week > 0 ? week : 0;
-  day = _.isInteger(day) && day > 0 ? day : 0;
-
-  return 604800000 * week + 86400000 * day;
-};
 
 db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE layer_name IS NOT NULL')
   .then(function(results) {
