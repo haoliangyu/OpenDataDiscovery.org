@@ -17,21 +17,23 @@ class mapService {
       style: 'mapbox://styles/mapbox/light-v9',
       zoom: 13,
       center: [-122.447303, 37.753574]
-    })
-    .addControl(new mapboxgl.Navigation())
-    .on('style.load', function() {
-      // load the first layer of instance by default
-      // this.ajaxService.getInstances() 
-      //     .then(result => {
-      //       this.instances = result.instances;
-      //       _.forEach(result.instances, instance => {
-      //         this.map.addSource(instance.name, {
-      //           type: 'vector',
-      //           url: instance.layers[0].url
-      //         });
-      //       });
-      //     });
     });
+
+    this.map.on('load', () => {
+      // load the first layer of instance by default
+      this.ajaxService.getInstances()
+          .then(result => {
+            this.instances = result.instances;
+            _.forEach(result.instances, instance => {
+              this.map.addSource(instance.name, {
+                type: 'vector',
+                tiles: _.map(instance.layers, 'url')
+              });
+            });
+          });
+    });
+
+    this.map.addControl(new mapboxgl.Navigation());
   }
 }
 

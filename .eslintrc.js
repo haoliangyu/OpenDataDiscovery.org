@@ -25,6 +25,8 @@ module.exports = {
 
     "no-console": 0,
 
+    "no-invalid-this": 0,
+
     /**
      * Good practices, although violating them doesn't cause problems
      */
