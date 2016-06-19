@@ -6,7 +6,8 @@ CREATE TABLE instance (
   url text,
   location text,
   description text,
-  crawl_schedule text
+  crawl_schedule text,
+  is_georeferenced boolean DEFAULT false
 );
 
 CREATE TABLE region (
