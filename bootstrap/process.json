@@ -2,21 +2,30 @@
   "apps": [
     {
       "name": "odd.crawler",
-      "script": "/vagrant/crawler/crawler.js",
-      "watch": ["/vagrant/crawler"],
-      "ignore_watch": ["/vagrant/crawler/test"]
+      "script": "../crawler/crawler.js",
+      "watch": ["../crawler"],
+      "ignore_watch": ["../crawler/test"],
+      "watch_options": {
+        "usePolling": true
+      }
     },
     {
       "name": "odd.server",
-      "script": "/vagrant/server/server.js",
-      "watch": ["/vagrant/server"],
-      "ignore_watch": ["/vagrant/server/test"]
+      "script": "../server/server.js",
+      "watch": "../server",
+      "ignore_watch": ["../server/test"],
+      "watch_options": {
+        "usePolling": true
+      }
     },
     {
       "name": "odd.tile-server",
-      "script": "/vagrant/tile-server/server.js",
-      "watch": ["/vagrant/tile-server"],
-      "ignore_watch": ["/vagrant/tile-server/test"]
+      "script": "../tile-server/server.js",
+      "watch": ["../tile-server"],
+      "ignore_watch": ["../tile-server/test"],
+      "watch_options": {
+        "usePolling": true
+      }
     }
   ]
 }

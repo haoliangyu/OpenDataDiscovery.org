@@ -21,7 +21,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.less', '.css', '.html'],
     alias: {
-      npm: __dirname + '/../node_modules'
+      'mapbox-gl': path.resolve('../node_modules/mapbox-gl/dist/mapbox-gl.js')
     }
   },
   eslint: {
