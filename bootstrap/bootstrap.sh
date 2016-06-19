@@ -73,3 +73,7 @@ psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
 
 rm /vagrant/scripts/data/schema.sql
 rm /vagrant/scripts/data/instance_data.sql
+
+echo -e "\n######## generate static files... ########\n"
+cd www
+webpack

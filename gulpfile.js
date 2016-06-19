@@ -3,7 +3,6 @@ var eslint = require('gulp-eslint');
 var mocha = require('gulp-spawn-mocha');
 var runSequence = require('run-sequence');
 var cache = require('gulp-cached');
-var nodemon = require('gulp-nodemon');
 
 var scripts = {
   crawler: ['./crawler/**/*.js'],
