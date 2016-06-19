@@ -2,10 +2,10 @@ import angular from 'angular';
 
 class mapCtrl {
 
-  constructor($scope) {
+  constructor($scope, mapService) {
     'ngInject';
 
-    
+    mapService.initialize();
   }
 
 }

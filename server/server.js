@@ -19,7 +19,7 @@ fs.readdirSync(__dirname + '/api/').forEach(function (file) {
 
 app.use(express.static(__dirname + '/../www/static/'))
     .all('/vt/:layer/:z/:x/:y.mvt', function(req, res) {
-      var vtUrl = sprintf(params.vtUrlTemplate, vtParams.port, req.params.layer, +req.params.z, +req.params.x, +req.params.y);
+      var vtUrl = sprintf(params.vtRequestUrl.internal, vtParams.port, req.params.layer, +req.params.z, +req.params.x, +req.params.y);
       request.get(vtUrl).then(function(result) {
         res.send(result);
       })

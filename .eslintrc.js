@@ -11,7 +11,9 @@ module.exports = {
     "describe": true,
     "it": true,
     "after": true,
-    "before": true
+    "before": true,
+    "mapboxgl": true,
+    "_": true
   },
   "plugins": [
     "json",
@@ -20,6 +22,8 @@ module.exports = {
   ],
   "extends": "eslint:recommended",
   "rules": {
+
+    "no-console": 0,
 
     /**
      * Good practices, although violating them doesn't cause problems

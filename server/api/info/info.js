@@ -11,7 +11,7 @@ exports.getInstances = function(req, res) {
   var db = pgp(params.dbConnStr);
   var sql = [
     'SELECT i.name, url,',
-    'to_json(array_agg(json_build_object(\'level\', level_name, \'name\', layer_name))) AS layers',
+    'json_agg(json_build_object(\'level\', level_name, \'name\', layer_name) ORDER BY level) AS layers',
     'FROM view_vector_tile_layer AS vvtl, instance AS i',
     'WHERE vvtl.instance_id = i.id GROUP BY i.name, url'
   ].join(' ');
@@ -20,7 +20,7 @@ exports.getInstances = function(req, res) {
     .then(function(results) {
       _.forEach(results, function(instance) {
         _.forEach(instance.layers, function(layer) {
-          layer.url = sprintf(params.vtBaseUrl, layer);
+          layer.url = sprintf(params.vtRequestUrl.external, layer);
         });
       });
 

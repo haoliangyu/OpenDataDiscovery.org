@@ -4,4 +4,7 @@ exports.port = 8080;
 
 exports.devPort = 8086;
 
-exports.vtUrlTemplate = 'http://localhost:%d/%s/%d/%d/%d.mvt';
+exports.vtRequestUrl = {
+  internal: 'http://localhost:%d/%s/%d/%d/%d.mvt',
+  external: '/vt/%s/{z}/{x}/{y}/mvt'
+};
