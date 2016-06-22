@@ -70,6 +70,7 @@
     "express": "^4.13.4",
     "font-awesome": "^4.6.3",
     "geojson-vt": "^2.2.0",
+    "http-proxy-middleware": "^0.16.0",
     "leaflet": "^1.0.0-rc.1",
     "leaflet.vectorgrid": "git+https://github.com/haoliangyu/Leaflet.VectorGrid.git",
     "lodash": "^4.11.2",

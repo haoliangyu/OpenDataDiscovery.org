@@ -3,7 +3,7 @@ var logger = require('log4js').getLogger('server');
 var fs = require('fs');
 var http = require('http');
 var sprintf = require('sprintf-js').sprintf;
-var request = require('request-promise');
+var proxy = require('http-proxy-middleware');
 
 var params = require('./config/params.js');
 var vtParams = require('../tile-server/params.js');
@@ -18,17 +18,12 @@ fs.readdirSync(__dirname + '/api/').forEach(function (file) {
 });
 
 app.use(express.static(__dirname + '/../www/static/'))
-    .all('/vt/:layer/:z/:x/:y.mvt', function(req, res) {
-      var vtUrl = sprintf(params.vtRequestUrl.internal, vtParams.port, req.params.layer, +req.params.z, +req.params.x, +req.params.y);
-      request.get(vtUrl).then(function(result) {
-        logger.info(typeof result);
-        res.send(result);
-      })
-      .catch(function(err) {
-        logger.error(err);
-        res.status(500).send({ success: false, message: 'Unable to retrieve vector tile' })
-      });
-    })
+    .use('/vt/:layer/:z/:x/:y.mvt', proxy({
+      target: 'http://localhost:' + vtParams.port,
+      pathRewrite: {
+        '^/vt': '/'
+      }
+    }))
     .all('/*', function(req, res) {
       res.status(200)
           .set({ 'content-type': 'text/html; charset=utf-8' })

@@ -1,11 +1,7 @@
 import 'leaflet';
 import angular from 'angular';
 
-import 'geojson-vt';
-import 'pbf';
-import 'topojson';
-import 'vector-tile';
-require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js');
+require('../../../../scripts/js/Leaflet.VectorGrid.bundled.min.js');
 
 class mapService {
 
@@ -30,15 +26,18 @@ class mapService {
 
     this.map.addLayer(basemap);
 
-    this.ajaxService
-      .getInstances()
-      .then(result => {
-        _.forEach(result.instances, instance => {
-          if (instance.layers[0].name === 'datagov_nation') return;
-          var layer = L.vectorGrid.protobuf(instance.layers[0].url);
-          this.map.addLayer(layer);
-        });
-      });
+    var layer = L.vectorGrid.protobuf('http://localhost:8086/vt/open_africa/{z}/{x}/{y}.mvt');
+    this.map.addLayer(layer);
+
+    // this.ajaxService
+    //   .getInstances()
+    //   .then(result => {
+    //     _.forEach(result.instances, instance => {
+    //       if (instance.layers[0].name === 'datagov_nation') return;
+    //       var layer = L.vectorGrid.protobuf(instance.layers[0].url);
+    //       this.map.addLayer(layer);
+    //     });
+    //   });
   }
 }
 
