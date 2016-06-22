@@ -20,7 +20,7 @@ exports.getInstances = function(req, res) {
     .then(function(results) {
       _.forEach(results, function(instance) {
         _.forEach(instance.layers, function(layer) {
-          layer.url = sprintf(params.vtRequestUrl.external, layer.name);
+          layer.url = sprintf(params.vtRequestUrl.external[process.env.NODE_ENV], layer.name);
         });
       });
 

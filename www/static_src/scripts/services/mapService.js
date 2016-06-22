@@ -1,5 +1,11 @@
+import 'leaflet';
 import angular from 'angular';
-import mapboxgl from 'mapbox-gl';
+
+import 'geojson-vt';
+import 'pbf';
+import 'topojson';
+import 'vector-tile';
+require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js');
 
 class mapService {
 
@@ -7,33 +13,32 @@ class mapService {
     'ngInject';
 
     this.ajaxService = ajaxService;
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZHozMTY0MjQiLCJhIjoiNzI3NmNkOTcyNWFlNGQxNzU2OTA1N2EzN2FkNWIwMTcifQ.NS8KWg47FzfLPlKY0JMNiQ';
   }
 
   initialize() {
 
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/light-v9',
-      zoom: 13,
-      center: [-122.447303, 37.753574]
+    this.map = L.map('map', {
+      center: [0, 0],
+      zoom: 2
     });
 
-    this.map.on('load', () => {
-      // load the first layer of instance by default
-      this.ajaxService.getInstances()
-          .then(result => {
-            this.instances = result.instances;
-            _.forEach(result.instances, instance => {
-              this.map.addSource(instance.name, {
-                type: 'vector',
-                tiles: _.map(instance.layers, 'url')
-              });
-            });
-          });
+    var basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+    	subdomains: 'abcd',
+    	maxZoom: 19
     });
 
-    this.map.addControl(new mapboxgl.Navigation());
+    this.map.addLayer(basemap);
+
+    this.ajaxService
+      .getInstances()
+      .then(result => {
+        _.forEach(result.instances, instance => {
+          if (instance.layers[0].name === 'datagov_nation') return;
+          var layer = L.vectorGrid.protobuf(instance.layers[0].url);
+          this.map.addLayer(layer);
+        });
+      });
   }
 }
 

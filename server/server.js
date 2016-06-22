@@ -21,6 +21,7 @@ app.use(express.static(__dirname + '/../www/static/'))
     .all('/vt/:layer/:z/:x/:y.mvt', function(req, res) {
       var vtUrl = sprintf(params.vtRequestUrl.internal, vtParams.port, req.params.layer, +req.params.z, +req.params.x, +req.params.y);
       request.get(vtUrl).then(function(result) {
+        logger.info(typeof result);
         res.send(result);
       })
       .catch(function(err) {
@@ -35,8 +36,8 @@ app.use(express.static(__dirname + '/../www/static/'))
     });
 
 http.createServer(app)
-    .listen(params.port, function() {
-      logger.info(sprintf('Server is running at port %d...', params.port));
+    .listen(params.port.production, function() {
+      logger.info(sprintf('Server is running at port %d...', params.port.production));
     })
     .on('request', function(req, res) {
       logger.info(sprintf('[%s] %s', req.method, req.url));

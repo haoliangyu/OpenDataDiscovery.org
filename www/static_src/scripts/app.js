@@ -2,10 +2,8 @@
  * import dependencies
  */
 import angular from 'angular';
-import mapboxgl from 'mapbox-gl';
 import 'angular-ui-bootstrap';
 import 'angular-route';
-import 'd3';
 import 'lodash';
 
 require('../styles/app.less');

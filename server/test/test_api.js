@@ -9,7 +9,7 @@ var params = require('../config/params.js');
 
 describe('API - /api/info/instance', function() {
   it('It should return an array of instance information', function(done) {
-    request('localhost:' + params.devPort)
+    request('localhost:' + params.port.development)
       .get('/api/info/instance')
       .end(function(err, res) {
         if (err) {

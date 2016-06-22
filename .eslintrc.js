@@ -13,7 +13,8 @@ module.exports = {
     "after": true,
     "before": true,
     "mapboxgl": true,
-    "_": true
+    "_": true,
+    "L": true
   },
   "plugins": [
     "json",
