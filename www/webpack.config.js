@@ -70,7 +70,8 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
       Pbf: 'pbf',
-      'vectorTile': 'vector-tile'
+      'vectorTile': 'vector-tile',
+      'geojsonvt': 'geojson-vt'
     }),
     new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
