@@ -19,11 +19,7 @@ module.exports = {
     chunkFilename: '[id].chunk.js'
   },
   resolve: {
-    extensions: ['', '.js', '.less', '.css', '.html'],
-    alias: {
-      'webworkify': 'webworkify-webpack',
-      'mapbox-gl': path.resolve('../node_modules/mapbox-gl/dist/mapbox-gl.js')
-    }
+    extensions: ['', '.js', '.less', '.css', '.html']
   },
   eslint: {
     configFile: '../.eslintrc.js',
@@ -32,7 +28,7 @@ module.exports = {
   },
   module: {
     preLoaders: [
-      {test: /\.js$/, loader: "eslint-loader", exclude: [ /node_modules/, /scripts/ ]}
+      {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/ }
     ],
     loaders: [
       {
@@ -72,7 +68,10 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    new webpack.optimize.DedupePlugin(),
+    new webpack.ProvidePlugin({
+      Pbf: 'pbf',
+      'vectorTile': 'vector-tile'
+    }),
     new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       template: path.resolve(srcDir, 'views/index.html'),

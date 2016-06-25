@@ -2,6 +2,7 @@ var express = require('express');
 var logger = require('log4js').getLogger('server');
 var fs = require('fs');
 var http = require('http');
+var path = require('path');
 var sprintf = require('sprintf-js').sprintf;
 var proxy = require('http-proxy-middleware');
 
@@ -17,7 +18,7 @@ fs.readdirSync(__dirname + '/api/').forEach(function (file) {
   }
 });
 
-app.use(express.static(__dirname + '/../www/static/'))
+app.use(express.static(path.resolve(__dirname, './../www/static/')))
     .use('/vt/:layer/:z/:x/:y.mvt', proxy({
       target: 'http://localhost:' + vtParams.port,
       pathRewrite: {
@@ -27,13 +28,13 @@ app.use(express.static(__dirname + '/../www/static/'))
     .all('/*', function(req, res) {
       res.status(200)
           .set({ 'content-type': 'text/html; charset=utf-8' })
-          .sendfile('../www/static/index.html' );
+          .sendFile('../www/static/index.html' );
     });
 
 http.createServer(app)
     .listen(params.port.production, function() {
       logger.info(sprintf('Server is running at port %d...', params.port.production));
     })
-    .on('request', function(req, res) {
+    .on('request', function(req) {
       logger.info(sprintf('[%s] %s', req.method, req.url));
     });

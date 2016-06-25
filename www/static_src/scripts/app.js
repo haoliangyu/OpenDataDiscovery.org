@@ -14,8 +14,7 @@ angular.module('OpenDataDiscovery', [
 ])
 .constant('_', window._)
 .config(function($routeProvider, $locationProvider) {
-  $routeProvider
-   .when('/', {
+  $routeProvider.when('/', {
     templateUrl: 'index.html',
     controller: 'oddCtrl'
   });
