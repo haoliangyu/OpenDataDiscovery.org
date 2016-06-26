@@ -10,16 +10,18 @@ exports.attachHandlers = function(router) {
  * @apiSuccess {Object} Response object
  * @apiSuccessExample
  * 	{
- * 		success: true,
- * 		instances: [
+ * 		"success": true,
+ * 		"instances": [
  * 			{
- * 				name: 'Data.gov',
- * 				layers: [
- * 					{ level: 'Nation', name: 'datagov_nation' url: tile_url },
- * 					...
+ * 				"name": "Data.gov",
+ * 				"bbox": {
+ * 					"type": "Feature",
+ * 					"coordinates": []
+ * 				},
+ * 				"layers": [
+ * 					{ "level": "Nation", "name": "datagov_nation" "url": "tile_url" }
  * 				]
- * 			},
- * 			...
+ * 			}
  * 		]
  * 	}
  */

@@ -31,7 +31,12 @@ class mapService {
       .getInstances()
       .then(result => {
         _.forEach(result.instances, instance => {
-          var layer = L.vectorGrid.protobuf(instance.layers[0].url);
+          let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
+
+          let layer = L.vectorGrid.protobuf(instance.layers[0].url, {
+            bbox: L.latLngBounds(latLngs)
+          });
+
           this.map.addLayer(layer);
         });
       });
