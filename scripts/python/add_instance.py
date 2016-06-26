@@ -69,8 +69,9 @@ cur.execute('REFRESH MATERIALIZED VIEW view_instance_region')
 conn.commit()
 
 # backup
-directory = os.path.dirname(os.path.realpath(__file__))
-subprocess.call('bash %s/../bash/dump_instance.sh' % directory, shell=True)
+# python.subprocess seems to be broken at Ubuntu 16.04. Need to wait for a fix
+# directory = os.path.dirname(os.path.realpath(__file__))
+# subprocess.call('bash %s/../bash/dump_instance.sh' % directory, shell=True)
 
 cur.close()
 conn.close()
