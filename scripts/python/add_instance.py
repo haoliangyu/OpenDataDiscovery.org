@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Aragon Open Data'
-url = 'http://opendata.aragon.es'
-description = 'Aragon Open Data Portal'
-location = 'Aragon, Spain'
-schedule = '* 1 * * 1'
+name = 'Arenys de Munt Open Government'
+url = 'http://go.arenysdemunt.cat/ca'
+description = 'Arenys de Munt Open Government'
+location = 'Arenys de Munt, Spain'
+schedule = '* 1 * * 3'
 
 # region level
-region = 'Province'
+region = 'City'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'aragon_open_data'
+layer_name = 'arenys_de_munt_open_gov'
 
 # **************************************************************************** #
 #                               Database                                       #

@@ -5,5 +5,3 @@ scripts/data/*
 www/static
 
 .vagrant
-
-!scripts/data/odd_instance.gz
