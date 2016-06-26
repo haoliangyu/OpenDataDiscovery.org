@@ -1,5 +1,6 @@
 node_modules
 coverage
+scripts
 scripts/data/*
 www/static
 
