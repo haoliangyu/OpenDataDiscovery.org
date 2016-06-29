@@ -32,12 +32,22 @@ class mapService {
       .then(result => {
         _.forEach(result.instances, instance => {
           let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
+          let layer = instance.layers[0];
 
-          let layer = L.vectorGrid.protobuf(instance.layers[0].url, {
-            bbox: L.latLngBounds(latLngs)
+          let tileLayer = L.vectorGrid.protobuf(layer.url, {
+            bbox: L.latLngBounds(latLngs),
+            vectorTileLayerStyles: {
+              // all tilesplash layer is named 'vectile' internally
+              vectile: {
+                weight: 3,
+                fillColor: '#449bf6',
+                fillOpacity: 0.7,
+                fill: true
+              }
+            }
           });
 
-          this.map.addLayer(layer);
+          this.map.addLayer(tileLayer);
         });
       });
   }
