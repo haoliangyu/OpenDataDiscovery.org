@@ -28,7 +28,7 @@ app.use(express.static(path.resolve(__dirname, './../www/static/')))
     .all('/*', function(req, res) {
       res.status(200)
           .set({ 'content-type': 'text/html; charset=utf-8' })
-          .sendFile('../www/static/index.html' );
+          .sendFile(path.resolve(__dirname, '../www/static/index.html'));
     });
 
 http.createServer(app)

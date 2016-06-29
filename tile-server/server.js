@@ -8,12 +8,6 @@ var params = require('./params.js');
 
 var app = new Tilesplash(params.dbConnStr, 'redis');
 
-// log all requests
-app.server.use('/:layer/:z/:x/:y.mvt', function(req, res, next) {
-  logger.info(sprintf('[GET] %s', req.url));
-  next();
-});
-
 var getCacheTime = function(week, day) {
   week = _.isInteger(week) && week > 0 ? week : 0;
   day = _.isInteger(day) && day > 0 ? day : 0;
@@ -38,12 +32,9 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
   .then(function(results) {
     _.forEach(results, function(layer) {
       app.layer(layer.layer_name, function(tile, render) {
-        // only cache layer if the instance_region level is larger than 1.
-        if (layer.level > 1) {
-          this.cache(function(tile) {
-            return app.defaultCacheKeyGenerator(tile);
-          }, getCacheTime(0, 1));
-        }
+        this.cache(function(tile) {
+          return app.defaultCacheKeyGenerator(tile);
+        }, getCacheTime(0, 3));
 
         render(sprintf(sql, layer.instance_id, layer.level));
       });
