@@ -1,6 +1,7 @@
 node_modules
 coverage
 /scripts
+bootstrap/bootstrap_aws.sh
 www/static
 
 .vagrant

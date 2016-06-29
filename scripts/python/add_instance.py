@@ -12,24 +12,24 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Arenys de Munt Open Government'
-url = 'http://go.arenysdemunt.cat/ca'
-description = 'Arenys de Munt Open Government'
-location = 'Arenys de Munt, Spain'
-schedule = '* 1 * * 3'
+name = 'Barrow Borough Council''s Open Data Portal'
+url = 'https://data.barrowbc.gov.uk'
+description = 'Barrow Borough Council''s Open Data Portal'
+location = 'Barrow-In-Furness, UK'
+schedule = '* 1 * * 1'
 
 # region level
 region = 'City'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'arenys_de_munt_open_gov'
+layer_name = 'barrow_borough_open_gov'
 
 # **************************************************************************** #
 #                               Database                                       #
 # **************************************************************************** #
 
-conn = pg.connect('host=localhost port=6060 dbname=odd user=odd_admin password=Bko9tu39')
+conn = pg.connect('host=52.87.229.42 port=5432 dbname=odd user=odd_admin password=Bko9tu39')
 cur = conn.cursor()
 
 boundary = json.loads(open(geometry_path).read())['features'][0]['geometry']
