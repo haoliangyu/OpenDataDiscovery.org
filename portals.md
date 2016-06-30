@@ -14,5 +14,6 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Arenys de Munt Open Government](http://go.arenysdemunt.cat/ca/) | Arenys de Munt, Spain | City |  |
 | [Barrow Borough Council's Open Data Portal](https://data.barrowbc.gov.uk/) | Barrow-In-Furness, UK | City |  |
 | [Santander Open Data](http://datos.santander.es/)  | Santander, Spain  | City | |
+| [DataBC](https://data.gov.bc.ca/)  | British Columbia, Canada  | Province | |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).

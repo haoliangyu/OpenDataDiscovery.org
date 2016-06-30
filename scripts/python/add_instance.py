@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Barrow Borough Council''s Open Data Portal'
-url = 'https://data.barrowbc.gov.uk'
-description = 'Barrow Borough Council''s Open Data Portal'
-location = 'Barrow-In-Furness, UK'
-schedule = '* 1 * * 1'
+name = 'DataBC'
+url = 'https://catalogue.data.gov.bc.ca'
+description = 'British Columbia Open Data Portal'
+location = 'British Columbia, Canada'
+schedule = '* 1 * * 5'
 
 # region level
-region = 'City'
+region = 'Province'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'barrow_borough_open_gov'
+layer_name = 'data_bc'
 
 # **************************************************************************** #
 #                               Database                                       #
