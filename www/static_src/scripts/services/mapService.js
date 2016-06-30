@@ -44,12 +44,38 @@ class mapService {
                 fillOpacity: 0.7,
                 fill: true
               }
-            }
+            },
+            onMouseOver: this._onMouseOver.bind(this),
+            onMouseOut: this._onMouseOut.bind(this),
+            onMouseMove: this._onMouseMove.bind(this)
           });
 
           this.map.addLayer(tileLayer);
         });
       });
+  }
+
+  _onMouseOver(e) {
+    this.map.closePopup();
+
+    this.currentPopup = L.popup({
+      offset: L.point(0, -1),
+      closeButton: false
+    })
+    .setLatLng(e.latlng)
+    .setContent('test')
+    .openOn(this.map);
+  }
+
+  _onMouseOut(e) {
+    this.map.closePopup();
+    delete this.currentPopup;
+  }
+
+  _onMouseMove(e) {
+    if (this.currentPopup) {
+      this.currentPopup.setLatLng(e.latlng);
+    }
   }
 }
 
