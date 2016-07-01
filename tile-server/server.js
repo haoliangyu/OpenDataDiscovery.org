@@ -18,7 +18,7 @@ var getCacheTime = function(week, day) {
 var db = pgp(params.dbConnStr);
 var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
-  'SELECT ST_AsGeoJSON(vir.geom, 6) AS the_geom_geojson,',
+  'SELECT ST_AsGeoJSON(vir.geom, 5) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
   'viri.region_id, viri.region_name',
   'FROM bbox, view_instance_region_info AS viri',

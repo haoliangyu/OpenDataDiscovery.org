@@ -185,7 +185,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      to_json(array_agg(item)) AS grouped_data
+      json_agg(item) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, ircx.category_id)
         irx.instance_id,
@@ -202,7 +202,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      to_json(array_agg(item)) AS grouped_data
+      json_agg(item) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, irtx.tag_id)
         irx.instance_id,
@@ -219,7 +219,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      to_json(array_agg(item)) AS grouped_data
+      json_agg(item) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.instance_id, irx.region_id, irox.organization_id)
         irx.instance_id,
