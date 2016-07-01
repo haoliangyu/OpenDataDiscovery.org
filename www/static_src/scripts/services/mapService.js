@@ -6,9 +6,11 @@ require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js'
 
 class mapService {
 
-  constructor(ajaxService) {
+  constructor($rootScope, $compile, ajaxService) {
     'ngInject';
 
+    this.$rootScope = $rootScope;
+    this.$compile = $compile;
     this.ajaxService = ajaxService;
   }
 
@@ -58,12 +60,20 @@ class mapService {
   _onMouseOver(e) {
     this.map.closePopup();
 
+    // get data from the tile
+    let coords = e.target.getCoords();
+    let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+
+    let content = angular.element('<info-popup></info-popup>');
+    let scope = this.$rootScope.$new(true);
+    scope.properties = geojson.properties;
+
     this.currentPopup = L.popup({
       offset: L.point(0, -1),
       closeButton: false
     })
+    .setContent(this.$compile(content)(scope)[0])
     .setLatLng(e.latlng)
-    .setContent('test')
     .openOn(this.map);
   }
 
@@ -79,7 +89,7 @@ class mapService {
   }
 }
 
-mapService.$inject = ['ajaxService'];
+mapService.$inject = ['$rootScope', '$compile', 'ajaxService'];
 
 angular.module('OpenDataDiscovery').service('mapService', mapService);
 

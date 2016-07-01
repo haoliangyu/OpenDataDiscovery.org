@@ -41,9 +41,9 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
         render(sprintf(sql, layer.instance_id, layer.level), function(geojson) {
 
           _.forEach(geojson.features, function(feature) {
-            feature.properties.topTag = util.getTopItems(feature.properties.tags, 1);
-            feature.properties.topCategory = util.getTopItems(feature.properties.categories, 1);
-            feature.properties.topOrganization = util.getTopItems(feature.properties.organizations, 1);
+            feature.properties.top_tag = util.getTopItems(feature.properties.tags, 1)[0];
+            feature.properties.top_category = util.getTopItems(feature.properties.categories, 1)[0];
+            feature.properties.top_organization = util.getTopItems(feature.properties.organizations, 1)[0];
 
             delete feature.properties.tags;
             delete feature.properties.categories;

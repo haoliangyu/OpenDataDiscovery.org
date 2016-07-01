@@ -1,0 +1,22 @@
+<div>{{ properties.instance_name }}</div>
+
+<div>{{ properties.region_name }}</div>
+
+<div>
+  <label># of published datasets:</label> {{ properties.count }}
+</div>
+{{ test }}
+<div>
+  <label>Top Tag:</label>
+  <div ng-if="properties.top_tag">{{ properties.top_tag.name }} ({{ properties.top_tag.count }})</div>
+</div>
+
+<div>
+  <label>Top Category:</label>
+  <div ng-if="properties.top_category">{{ properties.top_category.name }} ({{ properties.top_category.count }})</div>
+</div>
+
+<div>
+  <label>Top Organization:</label>
+  <div ng-if="properties.top_organization">{{ properties.top_organization.name }} ({{ properties.top_organization.count }})</div>
+</div>
