@@ -6,6 +6,8 @@ var _ = require('lodash');
 var sprintf = require('sprintf-js').sprintf;
 var params = require('./params.js');
 
+var util = require('./util.js');
+
 var app = new Tilesplash(params.dbConnStr, 'redis');
 
 var getCacheTime = function(week, day) {
@@ -20,7 +22,7 @@ var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom, 5) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
-  'viri.region_id, viri.region_name',
+  'viri.region_id, viri.region_name, viri.tags, viri.categories, viri.organizations',
   'FROM bbox, view_instance_region_info AS viri',
   'LEFT JOIN view_instance_region AS vir',
   '  ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
@@ -36,7 +38,20 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
           return app.defaultCacheKeyGenerator(tile);
         }, getCacheTime(0, 3));
 
-        render(sprintf(sql, layer.instance_id, layer.level));
+        render(sprintf(sql, layer.instance_id, layer.level), function(geojson) {
+
+          _.forEach(geojson.features, function(feature) {
+            feature.properties.topTag = util.getTopItems(feature.properties.tags, 1);
+            feature.properties.topCategory = util.getTopItems(feature.properties.categories, 1);
+            feature.properties.topOrganization = util.getTopItems(feature.properties.organizations, 1);
+
+            delete feature.properties.tags;
+            delete feature.properties.categories;
+            delete feature.properties.organizations;
+          });
+
+          return geojson;
+        });
       });
     });
   })

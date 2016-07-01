@@ -190,7 +190,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, ircx.category_id)
         irx.instance_id,
         irx.region_id,
-        json_build_object('category', c.name, 'count', count, 'update_date', update_date) AS item
+        json_build_object('name', c.name, 'count', count, 'update_date', update_date) AS item
   		FROM category_data AS cd
       LEFT JOIN instance_region_category_xref AS ircx ON ircx.id = cd.instance_region_category_xref_id
       LEFT JOIN instance_region_xref AS irx ON irx.id = ircx.instance_region_xref_id
@@ -207,7 +207,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, irtx.tag_id)
         irx.instance_id,
         irx.region_id,
-        json_build_object('tag', t.name, 'count', count, 'update_date', update_date) AS item
+        json_build_object('name', t.name, 'count', count, 'update_date', update_date) AS item
   		FROM tag_data AS td
       LEFT JOIN instance_region_tag_xref AS irtx ON irtx.id = td.instance_region_tag_xref_id
       LEFT JOIN instance_region_xref AS irx ON irx.id = irtx.instance_region_xref_id
@@ -224,7 +224,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   		SELECT DISTINCT ON (irx.instance_id, irx.region_id, irox.organization_id)
         irx.instance_id,
         irx.region_id,
-        json_build_object('organization', o.name, 'count', count, 'update_date', update_date) AS item
+        json_build_object('name', o.name, 'count', count, 'update_date', update_date) AS item
   		FROM organization_data AS od
       LEFT JOIN instance_region_organization_xref AS irox ON irox.id = od.instance_region_organization_xref_id
       LEFT JOIN instance_region_xref AS irx ON irx.id = irox.instance_region_xref_id
@@ -251,9 +251,9 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
     irl.name AS level_name,
     ld.count,
     ld.update_date,
-    lt.grouped_data AS tags,
-    lc.grouped_data AS categories,
-    lo.grouped_data AS organizations
+    COALESCE(lt.grouped_data, json_build_array()) AS tags,
+    COALESCE(lc.grouped_data, json_build_array()) AS categories,
+    COALESCE(lo.grouped_data, json_build_array()) AS organizations
   FROM region AS r
   RIGHT JOIN instance_region_xref AS irx ON irx.region_id = r.id
   LEFT JOIN instance AS i ON irx.instance_id = i.id

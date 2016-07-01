@@ -82,7 +82,7 @@
     "promise-queue": "git+https://github.com/haoliangyu/promise-queue.git#on-empty",
     "request-promise": "^3.0.0",
     "sprintf-js": "^1.0.3",
-    "tilesplash": "^2.0.1",
+    "tilesplash": "git+https://github.com/haoliangyu/tilesplash.git#master",
     "topojson": "^1.6.26",
     "turf": "^2.0.2",
     "vector-tile": "^1.2.1",
