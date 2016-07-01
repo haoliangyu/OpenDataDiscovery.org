@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'DataBC'
-url = 'https://catalogue.data.gov.bc.ca'
-description = 'British Columbia Open Data Portal'
-location = 'British Columbia, Canada'
-schedule = '* 1 * * 5'
+name = 'Bermuda.io'
+url = 'http://bermuda.io'
+description = 'Bermuda.io is part of a global trend toward open data, using technology to provide the public with greater access to information.'
+location = 'Bermuda'
+schedule = '* 1 * * 4'
 
 # region level
-region = 'Province'
+region = 'City'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'data_bc'
+layer_name = 'bermuda_io'
 
 # **************************************************************************** #
 #                               Database                                       #
