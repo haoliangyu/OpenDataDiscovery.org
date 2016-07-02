@@ -9,15 +9,12 @@ var params = require('./params.js');
 var util = require('./util.js');
 
 var app = new Tilesplash(params.dbConnStr, 'redis');
-
-var getCacheTime = function(week, day) {
-  week = _.isInteger(week) && week > 0 ? week : 0;
-  day = _.isInteger(day) && day > 0 ? day : 0;
-
-  return 604800000 * week + 86400000 * day;
-};
+app.server.on('listerning', function() {
+  util.clearCache();
+});
 
 var db = pgp(params.dbConnStr);
+
 var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom, 5) AS the_geom_geojson,',
@@ -34,16 +31,19 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
   .then(function(results) {
     _.forEach(results, function(layer) {
       app.layer(layer.layer_name, function(tile, render) {
-        this.cache(function(tile) {
-          return app.defaultCacheKeyGenerator(tile);
-        }, getCacheTime(0, 3));
+        this.cache(util.getCacheKey, util.getCacheTime(0, 3));
 
         render(sprintf(sql, layer.instance_id, layer.level), function(geojson) {
 
           _.forEach(geojson.features, function(feature) {
+
             feature.properties.top_tag = util.getTopItems(feature.properties.tags, 1)[0];
             feature.properties.top_category = util.getTopItems(feature.properties.categories, 1)[0];
             feature.properties.top_organization = util.getTopItems(feature.properties.organizations, 1)[0];
+
+            feature.properties.top_tag = JSON.stringify(feature.properties.top_tag);
+            feature.properties.top_category = JSON.stringify(feature.properties.top_category);
+            feature.properties.top_organization = JSON.stringify(feature.properties.top_organization);
 
             delete feature.properties.tags;
             delete feature.properties.categories;

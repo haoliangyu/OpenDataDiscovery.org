@@ -66,11 +66,26 @@ class mapService {
 
     let content = angular.element('<info-popup></info-popup>');
     let scope = this.$rootScope.$new(true);
+
+    if (typeof geojson.properties.top_tag === 'string') {
+      geojson.properties.top_tag = JSON.parse(geojson.properties.top_tag);
+    }
+
+    if (typeof geojson.properties.top_category === 'string') {
+      geojson.properties.top_category = JSON.parse(geojson.properties.top_category);
+    }
+
+    if (typeof geojson.properties.top_organization === 'string') {
+      geojson.properties.top_organization = JSON.parse(geojson.properties.top_organization);
+    }
+
+
     scope.properties = geojson.properties;
 
     this.currentPopup = L.popup({
       offset: L.point(0, -1),
-      closeButton: false
+      closeButton: false,
+      minWidth: 200
     })
     .setContent(this.$compile(content)(scope)[0])
     .setLatLng(e.latlng)

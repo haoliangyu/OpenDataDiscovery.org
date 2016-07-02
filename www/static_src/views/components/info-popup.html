@@ -1,22 +1,42 @@
-<div>{{ properties.instance_name }}</div>
-
-<div>{{ properties.region_name }}</div>
-
-<div>
-  <label># of published datasets:</label> {{ properties.count }}
-</div>
-{{ test }}
-<div>
-  <label>Top Tag:</label>
-  <div ng-if="properties.top_tag">{{ properties.top_tag.name }} ({{ properties.top_tag.count }})</div>
+<div class="portal-name">
+  {{ properties.instance_name }}
 </div>
 
-<div>
-  <label>Top Category:</label>
-  <div ng-if="properties.top_category">{{ properties.top_category.name }} ({{ properties.top_category.count }})</div>
+<div class="portal-location">
+  {{ properties.region_name }}
 </div>
 
-<div>
-  <label>Top Organization:</label>
-  <div ng-if="properties.top_organization">{{ properties.top_organization.name }} ({{ properties.top_organization.count }})</div>
-</div>
+<table>
+  <tr>
+    <td>
+      <label>Datasets</label>
+    </td>
+    <td>
+      <span>{{ properties.count }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Top Tag</label>
+    </td>
+    <td>
+      <span class="portal-info" ng-if="properties.top_tag">{{ properties.top_tag.name }} ({{ properties.top_tag.count }})</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Top Category</label>
+    </td>
+    <td>
+      <span class="portal-info" ng-if="properties.top_category">{{ properties.top_category.name }} ({{ properties.top_category.count }})</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label>Top Organization</label>
+    </td>
+    <td>
+      <span class="portal-info" ng-if="properties.top_organization">{{ properties.top_organization.name }} ({{ properties.top_organization.count }})</span>
+    </td>
+  </tr>
+</table>
