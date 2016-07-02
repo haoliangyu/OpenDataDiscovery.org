@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Buenos Aires Data'
-url = 'http://data.buenosaires.gob.ar'
-description = 'Buenos Aires Data'
-location = 'Buenos Aires, Argentina'
-schedule = '* 1 * * 2'
+name = 'Bermuda.io'
+url = 'http://bermuda.io'
+description = 'Bermuda.io is part of a global trend toward open data, using technology to provide the public with greater access to information.'
+location = 'Bermuda'
+schedule = '* 1 * * 4'
 
 # region level
 region = 'City'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'buenos_aires_data'
+layer_name = 'bermuda_io'
 
 # **************************************************************************** #
 #                               Database                                       #

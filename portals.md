@@ -17,6 +17,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DataBC](https://data.gov.bc.ca/)  | British Columbia, Canada  | Province | |
 | [Burmuda.io](http://bermuda.io/)  | Burmuda  | City | |
 | [Buenos Aires Data](http://data.buenosaires.gob.ar/)  | Buenos Aires, Argentina  | City | |
+| [Uruguay Open Data Catalog](https://catalogodatos.gub.uy/)  | Uruguay  | Country | |
 
 # Unsupported portals
 
