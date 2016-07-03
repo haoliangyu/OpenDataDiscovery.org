@@ -7,8 +7,5 @@ exports.port = {
 
 exports.vtRequestUrl = {
   internal: 'http://localhost:%d/%s/%d/%d/%d.mvt',
-  external: {
-    development: 'http://localhost:8086/vt/%s/{z}/{x}/{y}.mvt',
-    production: 'http://www.opendatadiscovery.org/vt/%s/{z}/{x}/{y}.mvt'
-  }
+  external: '/vt/%s/{z}/{x}/{y}.mvt'
 };

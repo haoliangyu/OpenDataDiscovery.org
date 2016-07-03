@@ -19,6 +19,14 @@ class ajaxService {
       });
   }
 
+  /**
+   * Get the current base url;.
+   * @return {string} base url
+   */
+  getBaseUrl() {
+    return 'http://' + location.host;
+  }
+
 }
 
 ajaxService.$inject = ['$http'];

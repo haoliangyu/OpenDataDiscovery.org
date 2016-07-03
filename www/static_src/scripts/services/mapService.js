@@ -29,6 +29,8 @@ class mapService {
 
     this.map.addLayer(basemap);
 
+    let baseUrl = this.ajaxService.getBaseUrl();
+    console.log(baseUrl);
     this.ajaxService
       .getInstances()
       .then(result => {
@@ -36,7 +38,7 @@ class mapService {
           let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
           let layer = instance.layers[0];
 
-          let tileLayer = L.vectorGrid.protobuf(layer.url, {
+          let tileLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
             bbox: L.latLngBounds(latLngs),
             vectorTileLayerStyles: {
               // all tilesplash layer is named 'vectile' internally
