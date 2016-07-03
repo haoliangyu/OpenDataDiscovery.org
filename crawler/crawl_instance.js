@@ -10,19 +10,20 @@ var db = pgp(params.dbConnStr);
 var promise;
 
 if (argv['-d']) {
-  promise = db.any('SELECT id, name, url FROM instance WHERE name = $1', argv['-d']);
+  promise = db.any('SELECT id, name, url, is_georeferenced FROM instance WHERE name = $1', argv['-d']);
 } else {
-  promise = db.any('SELECT id, name, url FROM instance');
+  promise = db.any('SELECT id, name, url, is_georeferenced FROM instance');
 }
 
 promise.then(function(results) {
   var tasks = _.map(results, function(result) {
     return Promise.resolve()
       .then(function() {
-        logger.info('Crawling instance: ', result.name);
-      })
-      .then(function() {
-        return worker.crawlInstance(result.id, result.url);
+        if (result.is_georeferenced) {
+          return worker.spatialCrawl(result.name, result.id, result.url);
+        } else {
+          return worker.crawl(result.name, result.id, result.url);
+        }
       });
   });
 
