@@ -38,7 +38,7 @@ exports.getDataTags = function(url, options) {
   queryOptions.rows = 0;
 
   return getMetadata(url, queryOptions).then(function(result) {
-    return result.search_facets.tags.items;
+    return result.search_facets.tags ? result.search_facets.tags.items : [];
   });
 };
 
@@ -49,7 +49,7 @@ exports.getOrganizations = function(url, options) {
   queryOptions.rows = 0;
 
   return getMetadata(url, queryOptions).then(function(result) {
-    return result.search_facets.organization.items;
+    return result.search_facets.organization ? result.search_facets.tags.items : [];
   });
 };
 
@@ -60,7 +60,7 @@ exports.getDataGroups = function(url, options) {
   queryOptions.rows = 0;
 
   return getMetadata(url, queryOptions).then(function(result) {
-    return result.search_facets.groups.items;
+    return result.search_facets.groups ? result.search_facets.tags.items : [];
   });
 };
 
@@ -71,11 +71,12 @@ exports.getFullMetadata = function(url, options) {
   queryOptions.rows = 0;
 
   return getMetadata(url, queryOptions).then(function(response) {
+    var search_facets = response.result.search_facets;
     return {
       count: response.result.count,
-      categories: response.result.search_facets.groups.items,
-      organizations: response.result.search_facets.organization.items,
-      tags: response.result.search_facets.tags.items
+      categories: search_facets.groups ? search_facets.groups.items : [],
+      organizations: search_facets.organization ? search_facets.organization.items : [],
+      tags: search_facets.tags ? search_facets.tags.items : []
     };
   });
 };
