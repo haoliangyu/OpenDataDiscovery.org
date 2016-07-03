@@ -2,7 +2,7 @@
 
 OpenDataDiscovery.org is mapping these CKAN portals:
 
-|  Portal |  Region | Region Levels | Georeferenced Data |
+|  Portal |  Region | Region Level(s) | Georeferenced Data |
 | --- | --- | --- | --- |
 | [Data.gov](https://www.data.gov/)  | United States  | Nation / State / County |    :heavy_check_mark: |
 | [openAFRICA](https://africaopendata.org/)  | Africa  | Continent |  |
@@ -17,12 +17,14 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DataBC](https://data.gov.bc.ca/)  | British Columbia, Canada  | Province | |
 | [Burmuda.io](http://bermuda.io/)  | Burmuda  | City | |
 | [Buenos Aires Data](http://data.buenosaires.gob.ar/)  | Buenos Aires, Argentina  | City | |
-| [Uruguay Open Data Catalog](https://catalogodatos.gub.uy/)  | Uruguay  | Country | |
+| [Uruguay Open Data Catalog](https://catalogodatos.gub.uy/)  | Uruguay  | Nation | |
+| [Paraguay Open Data Catalog](https://www.datos.gov.py/)  | Paraguay  | Nation | |
 
 # Unsupported portals
 
 |  Portal |  Region | Reason |
 | --- | --- | --- | --- |
 | [Berlin Open Data](http://daten.berlin.de/)  | Berlin, Germany  | API unavailable |
+| [cities open data hub](http://cities.opendatahub.gr/)  | Greece  | site unaccessible |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).

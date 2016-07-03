@@ -12,18 +12,18 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Bermuda.io'
-url = 'http://bermuda.io'
-description = 'Bermuda.io is part of a global trend toward open data, using technology to provide the public with greater access to information.'
-location = 'Bermuda'
-schedule = '* 1 * * 4'
+name = 'Paraguay Open Data Catelog'
+url = 'https://www.datos.gov.py'
+description = 'Paraguay Open Data Catelog'
+location = 'Paraguay'
+schedule = '* 1 * * 3'
 
 # region level
-region = 'City'
+region = 'Nation'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'bermuda_io'
+layer_name = 'paraguay_open_data'
 
 # **************************************************************************** #
 #                               Database                                       #
