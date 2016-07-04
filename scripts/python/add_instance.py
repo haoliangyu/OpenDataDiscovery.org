@@ -12,10 +12,10 @@ geometry_path = '../data/boundary.geojson'
 bbox_path = '../data/bbox.geojson'
 
 # instance info
-name = 'Paraguay Open Data Catelog'
-url = 'https://www.datos.gov.py'
-description = 'Paraguay Open Data Catelog'
-location = 'Paraguay'
+name = 'Dados.gov.br'
+url = 'http://dados.gov.br'
+description = 'Brazilian national portal'
+location = 'Brazil'
 schedule = '* 1 * * 3'
 
 # region level
@@ -23,7 +23,7 @@ region = 'Nation'
 region_level = 0
 
 # vetor tile layer
-layer_name = 'paraguay_open_data'
+layer_name = 'dados_gov_br'
 
 # **************************************************************************** #
 #                               Database                                       #

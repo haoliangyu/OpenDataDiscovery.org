@@ -19,6 +19,15 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Buenos Aires Data](http://data.buenosaires.gob.ar/)  | Buenos Aires, Argentina  | City | |
 | [Uruguay Open Data Catalog](https://catalogodatos.gub.uy/)  | Uruguay  | Nation | |
 | [Paraguay Open Data Catalog](https://www.datos.gov.py/)  | Paraguay  | Nation | |
+| [OpenData Ottawa](http://data.ottawa.ca/)  | Ottawa, Canada  | City | |
+| [Surrey's Open Data](http://data.surrey.ca/)  | Surrey, Canada  | City | |
+| [City of Zagreb Open Data Portal](http://data.zagreb.hr/)  | Zagreb, Croatia  | City | |
+| [CMAP DataHub](https://datahub.cmap.illinois.gov/)  | Chicago, United States  | City | |
+| [CNMC Open Data](http://opendata.cnmc.es/)  | Spain  | Nation | |
+| [Codeando Mexico](http://datamx.io/)  | Mexico  | Nation | |
+| [Copenhagen Data](http://data.kk.dk/)  | Copenhagen, Denmark  | City | |
+| [Dados Recife](http://dados.recife.pe.gov.br/)  | Recife, Brazil  | City | |
+| [Dados.gov.br](http://dados.gov.br/)  | Brazil  | City | |
 
 # Unsupported portals
 
@@ -26,5 +35,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | --- | --- | --- | --- |
 | [Berlin Open Data](http://daten.berlin.de/)  | Berlin, Germany  | API unavailable |
 | [cities open data hub](http://cities.opendatahub.gr/)  | Greece  | site unaccessible |
+| [CivicData](http://www.civicdata.io/)  | United States  | non-governmental site |
+| [Dados Abertos IMA](http://dados.ima.sp.gov.br/)  | Brazil  | site unaccessible |
+
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
