@@ -10,14 +10,18 @@ var database = require('./src/database.js');
 
 var db = pgp(params.dbConnStr);
 
-db.any('SELECT id, url, crawl_schedule FROM instance')
+db.any('SELECT name, id, url, crawl_schedule, is_georeferenced FROM instance')
   .then(function(instances) {
-    if (instances.length < 1) { return; }
-
     _.forEach(instances, function(instance) {
       scheduler.scheduleJob(instance.crawl_schedule, function(){
         logger.info('Sceduled data fetching at ' + (new Date()).toString());
-        worker.crawlInstance(instance.id, instance.url);
+
+        if (instance.is_georeferenced) {
+          worker.spatialCrawl(instance.name, instance.id, instance.url);
+        } else {
+          worker.crawl(instance.name, instance.id, instance.url);
+        }
+
       });
     });
   });
