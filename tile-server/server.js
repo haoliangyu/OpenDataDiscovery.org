@@ -19,7 +19,8 @@ var sql = [
   'WITH bbox AS (SELECT !bbox_4326! AS geom)',
   'SELECT ST_AsGeoJSON(vir.geom, 5) AS the_geom_geojson,',
   'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
-  'viri.region_id, viri.region_name, viri.tags, viri.categories, viri.organizations',
+  'viri.region_id, viri.region_name,',
+  'viri.tags[1] AS top_tag, viri.categories[1] AS top_category, viri.organizations[1] AS top_organization',
   'FROM bbox, view_instance_region_info AS viri',
   'LEFT JOIN view_instance_region AS vir',
   '  ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
@@ -32,26 +33,7 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
     _.forEach(results, function(layer) {
       app.layer(layer.layer_name, function(tile, render) {
         this.cache(util.getCacheKey, util.getCacheTime(0, 3));
-
-        render(sprintf(sql, layer.instance_id, layer.level), function(geojson) {
-
-          _.forEach(geojson.features, function(feature) {
-
-            feature.properties.top_tag = util.getTopItems(feature.properties.tags, 1)[0];
-            feature.properties.top_category = util.getTopItems(feature.properties.categories, 1)[0];
-            feature.properties.top_organization = util.getTopItems(feature.properties.organizations, 1)[0];
-
-            feature.properties.top_tag = JSON.stringify(feature.properties.top_tag);
-            feature.properties.top_category = JSON.stringify(feature.properties.top_category);
-            feature.properties.top_organization = JSON.stringify(feature.properties.top_organization);
-
-            delete feature.properties.tags;
-            delete feature.properties.categories;
-            delete feature.properties.organizations;
-          });
-
-          return geojson;
-        });
+        render(sprintf(sql, layer.instance_id, layer.level));
       });
     });
   })

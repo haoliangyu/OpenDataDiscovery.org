@@ -185,7 +185,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      json_agg(item) AS grouped_data
+      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, ircx.category_id)
         irx.instance_id,
@@ -202,7 +202,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      json_agg(item) AS grouped_data
+      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, irtx.tag_id)
         irx.instance_id,
@@ -219,7 +219,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      json_agg(item) AS grouped_data
+      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.instance_id, irx.region_id, irox.organization_id)
         irx.instance_id,
@@ -251,9 +251,9 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
     irl.name AS level_name,
     ld.count,
     ld.update_date,
-    COALESCE(lt.grouped_data, json_build_array()) AS tags,
-    COALESCE(lc.grouped_data, json_build_array()) AS categories,
-    COALESCE(lo.grouped_data, json_build_array()) AS organizations
+    COALESCE(lt.grouped_data, '{}') AS tags,
+    COALESCE(lc.grouped_data, '{}') AS categories,
+    COALESCE(lo.grouped_data, '{}') AS organizations
   FROM region AS r
   RIGHT JOIN instance_region_xref AS irx ON irx.region_id = r.id
   LEFT JOIN instance AS i ON irx.instance_id = i.id
