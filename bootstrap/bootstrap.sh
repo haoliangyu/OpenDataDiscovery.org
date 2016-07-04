@@ -1,4 +1,17 @@
 echo -e "\n######## Starting bootstrap process ########\n"
+
+echo -e "\n######## install 1GB swap... ########\n"
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+printf "/swapfile   none    swap    sw    0   0\n" | sudo tee -a /etc/fstab
+sudo sysctl vm.swappiness=10
+printf "\nvm.swappiness=10\n" | sudo tee -a /etc/sysctl.conf
+sudo sysctl vm.vfs_cache_pressure=50
+printf "vm.vfs_cache_pressure=50\n" | sudo tee -a /etc/sysctl.conf
+sudo swapon -s
+
 echo -e "\n######## running apt-get update... ########\n"
 sudo apt-get update
 
