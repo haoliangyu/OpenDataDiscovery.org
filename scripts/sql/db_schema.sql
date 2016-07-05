@@ -185,7 +185,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
+      array_agg(item ORDER BY (item->>'count')::integer DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, ircx.category_id)
         irx.instance_id,
@@ -202,7 +202,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
+      array_agg(item ORDER BY (item->>'count')::integer DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.region_id, irx.region_id, irtx.tag_id)
         irx.instance_id,
@@ -212,6 +212,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
       LEFT JOIN instance_region_tag_xref AS irtx ON irtx.id = td.instance_region_tag_xref_id
       LEFT JOIN instance_region_xref AS irx ON irx.id = irtx.instance_region_xref_id
   		LEFT JOIN tag AS t ON t.id = irtx.tag_id
+      WHERE t.name <> ''
   		ORDER BY irx.region_id, irx.region_id, irtx.tag_id, update_date DESC
     ) AS sorted_data
   	GROUP BY instance_id, region_id
@@ -219,7 +220,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	SELECT
       instance_id,
       region_id,
-      array_agg(item ORDER BY item->>'count' DESC) AS grouped_data
+      array_agg(item ORDER BY (item->>'count')::integer DESC) AS grouped_data
     FROM (
   		SELECT DISTINCT ON (irx.instance_id, irx.region_id, irox.organization_id)
         irx.instance_id,
