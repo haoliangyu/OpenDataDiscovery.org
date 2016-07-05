@@ -1,9 +1,9 @@
 node_modules
 coverage
-/scripts
+scripts/*
 bootstrap/bootstrap_aws.sh
 www/static
 
-!/scripts/data/odd_instance.tar.gz
+!scripts/sql/db_schema.sql
 
 .vagrant
