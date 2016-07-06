@@ -10,11 +10,14 @@ exports.getInstances = function(req, res) {
   var response = { success: true };
   var db = pgp(params.dbConnStr);
   var sql = [
-    'SELECT i.name, url, ST_AsGeoJSON(bbox, 6) AS bbox,',
-    'json_agg(json_build_object(\'level\', vvtl.level_name, \'name\', layer_name) ORDER BY vvtl.level) AS layers',
+    'WITH extent AS (',
+    ' SELECT DISTINCT ON (instance_id, level) instance_id, bbox',
+    ' FROM view_instance_region ORDER BY instance_id, level)',
+    'SELECT i.name, url, ST_AsGeoJSON(extent.bbox, 4) AS bbox,',
+    'array_agg(json_build_object(\'level\', vvtl.level_name, \'name\', layer_name)) AS layers',
     'FROM view_vector_tile_layer AS vvtl',
-    'LEFT JOIN instance AS i ON vvtl.instance_id = i.id,',
-    'view_instance_region AS vir WHERE vir.instance_id = i.id AND vir.level = 0',
+    'LEFT JOIN instance AS i ON vvtl.instance_id = i.id',
+    'LEFT JOIN extent ON extent.instance_id = i.id',
     'GROUP BY i.name, url, bbox'
   ].join(' ');
 

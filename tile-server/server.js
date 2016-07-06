@@ -28,7 +28,7 @@ var sql = [
   'ST_Intersects(vir.geom, bbox.geom)'
 ].join(' ');
 
-db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE layer_name IS NOT NULL')
+db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE layer_name IS NOT NULL ORDER BY level DESC')
   .then(function(results) {
     _.forEach(results, function(layer) {
       app.layer(layer.layer_name, function(tile, render) {

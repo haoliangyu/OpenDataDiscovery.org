@@ -24,11 +24,22 @@ CREATE TABLE instance_region_xref (
   instance_region_level_id integer
 );
 
+CREATE TABLE region_level (
+  id serial PRIMARY KEY,
+  name text
+);
+
+INSERT INTO region_level (id, name) VALUES
+(0, 'Continent'),
+(1, 'Nation'),
+(2, 'Provice/State'),
+(3, 'Megalopolis'),
+(4, 'City');
+
 CREATE TABLE instance_region_level (
   id serial PRIMARY KEY,
-  instance_id integer,
-  level integer,
-  name text,
+  instance_id integer references instance(id),
+  level integer references region_level(id),
   layer_name text
 );
 
@@ -120,9 +131,10 @@ CREATE VIEW view_vector_tile_layer AS (
     i.id AS instance_id,
     i.name AS instance_name,
     irl.level,
-    irl.name AS level_name,
+    rl.name AS level_name,
     irl.layer_name
     FROM instance_region_level AS irl
+    LEFT JOIN region_level AS rl ON rl.id = irl.level
     LEFT JOIN instance AS i ON i.id = irl.instance_id
 );
 
@@ -131,7 +143,7 @@ CREATE MATERIALIZED VIEW view_instance_region AS
     r.id AS region_id,
     r.name AS region_name,
     irl.level AS level,
-    irl.name AS level_name,
+    rl.name AS level_name,
     i.id AS instance_id,
     i.name AS instance_name,
     geom,
@@ -140,6 +152,7 @@ CREATE MATERIALIZED VIEW view_instance_region AS
   RIGHT JOIN instance_region_xref AS irx ON i.id = irx.instance_id
   LEFT JOIN region AS r ON r.id = irx.region_id
   LEFT JOIN instance_region_level AS irl ON irl.id = irx.instance_region_level_id
+  LEFT JOIN region_level AS rl ON rl.id = irl.level
   WHERE r.geom IS NOT NULL;
 
 CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom)
@@ -249,7 +262,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   	r.id AS region_id,
   	r.name AS region_name,
   	irl.level,
-    irl.name AS level_name,
+    rl.name AS level_name,
     ld.count,
     ld.update_date,
     COALESCE(lt.grouped_data, '{}') AS tags,
@@ -259,6 +272,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   RIGHT JOIN instance_region_xref AS irx ON irx.region_id = r.id
   LEFT JOIN instance AS i ON irx.instance_id = i.id
   LEFT JOIN instance_region_level AS irl ON irx.instance_region_level_id = irl.id
+  LEFT JOIN region_level AS rl ON irl.level = rl.id
   LEFT JOIN latest_data AS ld ON ld.region_id = r.id AND ld.instance_id = i.id
   LEFT JOIN latest_category AS lc ON lc.region_id = r.id AND lc.instance_id = i.id
   LEFT JOIN latest_tag AS lt ON lt.region_id = r.id AND lt.instance_id = i.id
