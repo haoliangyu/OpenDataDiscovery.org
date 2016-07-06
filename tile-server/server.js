@@ -33,7 +33,12 @@ db.any('SELECT instance_id, level, layer_name FROM view_vector_tile_layer WHERE 
     _.forEach(results, function(layer) {
       app.layer(layer.layer_name, function(tile, render) {
         this.cache(util.getCacheKey, util.getCacheTime(0, 3));
-        render(sprintf(sql, layer.instance_id, layer.level));
+
+        if (layer.level === 4 && tile.z < 6) {
+          render.empty();
+        } else {
+          render(sprintf(sql, layer.instance_id, layer.level));
+        }
       });
     });
   })
