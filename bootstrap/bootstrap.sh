@@ -65,6 +65,13 @@ sudo npm install -g eslint
 sudo npm install -g webpack
 sudo npm install -g webpack-dev-server
 
+echo -e "\n######## install tile server... ########\n"
+sudo npm install -g mbtiles
+sudo npm install -g tilelive
+sudo npm install -g tilelive-vector
+sudo npm install -g tilelive-xray
+sudo npm install -g tessera
+
 echo -e "\n######## install project dependencies... ########\n"
 cd /vagrant
 sudo npm install
@@ -90,3 +97,15 @@ rm /vagrant/scripts/data/instance_data.sql
 echo -e "\n######## generate static files... ########\n"
 cd www
 webpack
+cd ..
+
+echo -e "\n######## install vector tile generator... ########\n"
+sudo apt-get install libsqlite3-dev
+sudo apt-get install zlib1g-dev
+sudo apt-get install build-essential g++ -y
+git clone https://github.com/mapbox/tippecanoe.git
+cd tippecanoe
+make
+sudo make install
+cd ..
+rm -rf tippecanoe

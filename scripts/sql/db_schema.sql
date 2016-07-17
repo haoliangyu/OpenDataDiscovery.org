@@ -7,7 +7,7 @@ CREATE TABLE instance (
   location text,
   description text,
   crawl_schedule text,
-  is_georeferenced boolean DEFAULT false
+  georeferenced boolean DEFAULT false
 );
 
 CREATE TABLE region (
@@ -40,7 +40,8 @@ CREATE TABLE instance_region_level (
   id serial PRIMARY KEY,
   instance_id integer references instance(id),
   level integer references region_level(id),
-  layer_name text
+  layer_name text,
+  active boolean DEFAULT true
 );
 
 CREATE TABLE region_data (
@@ -126,13 +127,14 @@ CREATE TABLE organization_data (
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 CREATE INDEX organization_data_xref_id_idx ON organization_data (instance_region_organization_xref_id);
 
-CREATE VIEW view_vector_tile_layer AS (
+CREATE OR REPLACE VIEW view_vector_tile_layer AS (
   SELECT
     i.id AS instance_id,
     i.name AS instance_name,
     irl.level,
     rl.name AS level_name,
-    irl.layer_name
+    irl.layer_name,
+    irl.active
     FROM instance_region_level AS irl
     LEFT JOIN region_level AS rl ON rl.id = irl.level
     LEFT JOIN instance AS i ON i.id = irl.instance_id

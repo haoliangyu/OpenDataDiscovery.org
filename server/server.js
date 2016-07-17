@@ -4,10 +4,8 @@ var fs = require('fs');
 var http = require('http');
 var path = require('path');
 var sprintf = require('sprintf-js').sprintf;
-var proxy = require('http-proxy-middleware');
 
 var params = require('./config/params.js');
-var vtParams = require('../tile-server/params.js');
 
 var app = express();
 
@@ -19,12 +17,6 @@ fs.readdirSync(__dirname + '/api/').forEach(function (file) {
 });
 
 app.use(express.static(path.resolve(__dirname, './../www/static/')))
-    .use('/vt/:layer/:z/:x/:y.mvt', proxy({
-      target: 'http://localhost:' + vtParams.port,
-      pathRewrite: {
-        '^/vt': '/'
-      }
-    }))
     .all('/*', function(req, res) {
       res.status(200)
           .set({ 'content-type': 'text/html; charset=utf-8' })

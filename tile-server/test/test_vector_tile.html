@@ -25,16 +25,17 @@
     <div id="map"></div>
 
     <script type="text/javascript">
-      var map = L.map('map').setView([34, 20], 2);
+      var map = L.map('map').setView([34, 20], 5);
 
       var base = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      	maxZoom: 19,
+        minZoom: 3,
+      	maxZoom: 10,
       	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       });
 
       map.addLayer(base);
 
-      var layer = L.vectorGrid.protobuf('http://localhost:8060/open_africa/{z}/{x}/{y}.mvt');
+      var layer = L.vectorGrid.protobuf('http://0.0.0.0:8080/vt/amsterdam_open_data/{z}/{x}/{y}.pbf');
 
       map.addLayer(layer);
     </script>

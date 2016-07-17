@@ -1,19 +1,19 @@
 {
   "apps": [
     {
-      "name": "odd.crawler",
-      "script": "../crawler/crawler.js",
-      "watch": ["../crawler"],
-      "ignore_watch": ["../crawler/test"],
+      "name": "odd.preseeding",
+      "script": "./preseeding.js",
+      "watch": ["./crawler", "./generator"],
+      "ignore_watch": ["./crawler/test", "./generator/temp"],
       "watch_options": {
         "usePolling": true
       }
     },
     {
       "name": "odd.server",
-      "script": "../server/server.js",
-      "watch": "../server",
-      "ignore_watch": ["../server/test"],
+      "script": "./server/server.js",
+      "watch": "./server",
+      "ignore_watch": ["./server/test"],
       "watch_options": {
         "usePolling": true
       },
@@ -26,9 +26,9 @@
     },
     {
       "name": "odd.tile-server",
-      "script": "../tile-server/server.js",
-      "watch": ["../tile-server"],
-      "ignore_watch": ["../tile-server/test"],
+      "script": "./tile-server/server.sh",
+      "watch": ["./tile-server"],
+      "ignore_watch": ["./tile-server/tiles"],
       "watch_options": {
         "usePolling": true
       }

@@ -12,19 +12,25 @@ class mapService {
     this.$rootScope = $rootScope;
     this.$compile = $compile;
     this.ajaxService = ajaxService;
+
+    this.MAXZOOM = 10;
+    this.MINZOOM = 3;
   }
 
   initialize() {
 
     this.map = L.map('map', {
       center: [0, 0],
-      zoom: 2
+      minZoom: this.MINZOOM,
+      maxZoom: this.MAZXOOM,
+      zoom: this.MINZOOM
     });
 
     var basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
       subdomains: 'abcd',
-      maxZoom: 11
+      maxZoom: this.MAXZOOM,
+      minZoom: this.MINZOOM
     });
 
     this.map.addLayer(basemap);

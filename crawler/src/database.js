@@ -226,5 +226,5 @@ exports.updateItemData = function(db, irID, item, itemSchema, name, count, lastU
  * @return {undefined}
  */
 exports.refresh = function(db) {
-  return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info');
+  return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info;');
 };
