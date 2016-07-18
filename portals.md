@@ -28,6 +28,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Copenhagen Data](http://data.kk.dk/)  | Copenhagen, Denmark  | City | |
 | [Dados Recife](http://dados.recife.pe.gov.br/)  | Recife, Brazil  | City | |
 | [Dados.gov.br](http://dados.gov.br/)  | Brazil  | City | |
+| [Danube Reference Data And Service Infrastructure](http://drdsi.jrc.ec.europa.eu/)  | Europe  | Continent | |
+
 
 # Unsupported portals
 
