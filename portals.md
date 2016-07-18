@@ -29,7 +29,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Dados Recife](http://dados.recife.pe.gov.br/)  | Recife, Brazil  | City | |
 | [Dados.gov.br](http://dados.gov.br/)  | Brazil  | City | |
 | [Danube Reference Data And Service Infrastructure](http://drdsi.jrc.ec.europa.eu/)  | Europe  | Continent | |
-
+| [DadosRS](http://dados.rs.gov.br/)  | Rio Grande do Sul, Brazil  | State | |
 
 # Unsupported portals
 
