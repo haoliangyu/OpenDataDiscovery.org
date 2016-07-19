@@ -25,7 +25,7 @@ exports.preseed = function(instanceID) {
       var tasks = [];
 
       sql = [
-        'SELECT ST_AsGeoJSON(vir.geom, 4) AS geom,',
+        'SELECT ST_AsGeoJSON(vir.geom, 3) AS geom,',
         'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
         'viri.region_id, viri.region_name,',
         'viri.tags[1] AS top_tag, viri.categories[1] AS top_category, viri.organizations[1] AS top_organization',

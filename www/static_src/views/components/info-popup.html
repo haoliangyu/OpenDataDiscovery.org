@@ -39,4 +39,12 @@
       <span class="portal-info" ng-if="properties.top_organization">{{ properties.top_organization.name }} ({{ properties.top_organization.count }})</span>
     </td>
   </tr>
+  <tr>
+    <td>
+      <label>Update Date</label>
+    </td>
+    <td>
+      <span class="portal-info">{{ properties.update_date | date: 'yyyy-MM-dd' }}</span>
+    </td>
+  </tr>
 </table>
