@@ -75,6 +75,7 @@
     "leaflet.vectorgrid": "git+https://github.com/haoliangyu/Leaflet.VectorGrid.git",
     "lodash": "^4.11.2",
     "log4js": "^0.6.36",
+    "mapbox-gl": "^0.21.0",
     "node-schedule": "^1.1.0",
     "pbf": "^2.0.1",
     "pg-promise": "^4.1.3",

@@ -19,7 +19,11 @@ module.exports = {
     chunkFilename: '[id].chunk.js'
   },
   resolve: {
-    extensions: ['', '.js', '.less', '.css', '.html']
+    extensions: ['', '.js', '.less', '.css', '.html'],
+    alias: {
+      'webworkify': 'webworkify-webpack',
+      'mapbox-gl': path.resolve('../node_modules/mapbox-gl/dist/mapbox-gl.js')
+    }
   },
   eslint: {
     configFile: '../.eslintrc.js',
@@ -68,12 +72,6 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    new webpack.ProvidePlugin({
-      Pbf: 'pbf',
-      'vectorTile': 'vector-tile',
-      'geojsonvt': 'geojson-vt',
-      'SphericalMercator': 'sphericalmercator'
-    }),
     new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       template: path.resolve(srcDir, 'views/index.html'),
