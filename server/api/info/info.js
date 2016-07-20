@@ -31,12 +31,29 @@ exports.getInstances = function(req, res) {
       });
 
       response.instances = results;
-      res.send(response);
+      res.json(response);
     })
     .catch(function(err) {
       logger.error(err);
 
       response.message = 'Unable to get instacne information';
-      res.status(500).send(response);
+      res.status(500).json(response);
+    });
+};
+
+exports.getRegionLevels = function(req, res) {
+  var response = { success: true };
+  var db = pgp(params.dbConnStr);
+
+  db.any('SELECT id AS level, name FROM region_level ORDER BY id')
+    .then(function(results) {
+      response.levels = results;
+      res.json(response);
+    })
+    .then(function(err) {
+      logger.error(err);
+
+      response.message = 'Unable to get region level information';
+      res.status(500).json(response);
     });
 };

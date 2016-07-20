@@ -9,11 +9,23 @@ class ajaxService {
 
   /**
    * Get CKAN instance information list
-   * @return {array} CKAN instances
+   * @return {object} response object
    */
   getInstances() {
     return this.$http
-      .get('/api/info/instance')
+      .get('/api/info/instances')
+      .then(function(result) {
+        return result.data;
+      });
+  }
+
+  /**
+   * Get region level list
+   * @return {object} response object
+   */
+  getRegionLevels() {
+    return this.$http
+      .get('/api/info/region_levels')
       .then(function(result) {
         return result.data;
       });
@@ -24,7 +36,7 @@ class ajaxService {
    * @return {string} base url
    */
   getBaseUrl() {
-    return 'http://' + location.host;
+    return location.origin;
   }
 
 }

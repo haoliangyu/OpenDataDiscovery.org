@@ -14,37 +14,49 @@ class mapService {
     this.ajaxService = ajaxService;
 
     this.MAXZOOM = 10;
-    this.MINZOOM = 3;
+    this.minZoom = 3;
   }
 
   initialize() {
 
     this.map = L.map('map', {
       center: [0, 0],
-      minZoom: this.MINZOOM,
-      maxZoom: this.MAZXOOM,
-      zoom: this.MINZOOM
+      minZoom: this.minZoom,
+      maxZoom: this.maxZoom,
+      zoom: this.minZoom
     });
 
     var basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
       subdomains: 'abcd',
       maxZoom: this.MAXZOOM,
-      minZoom: this.MINZOOM
+      minZoom: this.minZoom
     });
 
     this.map.addLayer(basemap);
 
     let baseUrl = this.ajaxService.getBaseUrl();
-    console.log(baseUrl);
+
     this.ajaxService
-      .getInstances()
+      .getRegionLevels()
+      .then(result => {
+        _.forEach(result.levels, (level, index) => {
+          this.map.createPane(level.name);
+          this.map.getPane(level.name).style.pointerEvents = 'none';
+
+          // just make them a bit higher than the tileLayer pane
+          this.map.getPane(level.name).style.zIndex = 210 + index * 10;
+        });
+
+        return this.ajaxService.getInstances();
+      })
       .then(result => {
         _.forEach(result.instances, instance => {
           let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
           let layer = instance.layers[0];
 
           let tileLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
+            pane: layer.level,
             bbox: L.latLngBounds(latLngs),
             vectorTileLayerStyles: {
               // all tilesplash layer is named 'vectile' internally
