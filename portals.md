@@ -41,5 +41,6 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [CivicData](http://www.civicdata.io/)  | United States  | non-governmental site |
 | [Dados Abertos IMA](http://dados.ima.sp.gov.br/)  | Brazil  | site unaccessible |
 | [DATA CITY Sabae](http://ckan.sabae.jrrk.org/)  | Sabae, Japan  | site unaccessible |
+| [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
