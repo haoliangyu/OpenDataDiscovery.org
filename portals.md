@@ -31,6 +31,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Danube Reference Data And Service Infrastructure](http://drdsi.jrc.ec.europa.eu/)  | Europe  | Continent | |
 | [DadosRS](http://dados.rs.gov.br/)  | Rio Grande do Sul, Brazil  | State | |
 | [Data for Japan](http://dataforjapan.org/)  | Japan  | Nation | |
+| [data.gov.au](https://data.gov.au/)  | Austria  | Nation | |
 
 # Unsupported portals
 
@@ -42,5 +43,6 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Dados Abertos IMA](http://dados.ima.sp.gov.br/)  | Brazil  | site unaccessible |
 | [DATA CITY Sabae](http://ckan.sabae.jrrk.org/)  | Sabae, Japan  | site unaccessible |
 | [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
+| [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
