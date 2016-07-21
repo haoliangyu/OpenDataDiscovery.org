@@ -21,3 +21,5 @@ Specially, we are collecting information about the state of data opening, includ
 A program is setup to collect this information weekly for each portals. Check this [list](https://github.com/OpenDataDiscovery/OpenDataDiscovery.org/blob/master/portals.md) to see all supported portals.
 
 ## Thanks to these awesome people
+
+* [Vitaly Tomilov](https://github.com/vitaly-t)
