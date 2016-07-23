@@ -26,7 +26,7 @@ exports.attachHandlers = function(router) {
    * 	}
    */
 
-  router.get('/api/info/instances', info.getInstances);
+  router.get('/api/instances', info.getInstances);
 
   /**
    * @api {get} /api/info/region_levels Get region levels
@@ -44,6 +44,6 @@ exports.attachHandlers = function(router) {
    * 	}
    */
 
-  router.get('/api/info/region_levels', info.getRegionLevels);
+  router.get('/api/region_levels', info.getRegionLevels);
 
 };

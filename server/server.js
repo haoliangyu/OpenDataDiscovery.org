@@ -9,12 +9,7 @@ var params = require('./config/params.js');
 
 var app = express();
 
-fs.readdirSync(__dirname + '/api/').forEach(function (file) {
-  if(file.substr(-3) !== '.js') {
-    //run the attachHandlers function inside module export
-    require(__dirname + '//api/' + file).attachHandlers(app);
-  }
-});
+require('./api/index.js').attachHandlers(app);
 
 app.use(express.static(path.resolve(__dirname, './../www/static/')))
     .all('/*', function(req, res) {
