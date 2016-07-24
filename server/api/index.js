@@ -1,13 +1,14 @@
+var bodyParser = require('body-parser');
+
 var info = require('./info.js');
+var map = require('./map.js');
 
 exports.attachHandlers = function(router) {
 
   /**
-   * @api {get} /api/info/instance Get instance information
+   * @api {get} /api/instance Get instance information
    * @apiName GetInstances
-   * @apiGroup Info
    *
-   * @apiSuccess {json} Response object
    * @apiSuccessExample
    * 	{
    * 		"success": true,
@@ -29,12 +30,10 @@ exports.attachHandlers = function(router) {
   router.get('/api/instances', info.getInstances);
 
   /**
-   * @api {get} /api/info/region_levels Get region levels
+   * @api {get} /api/region_levels Get region levels
    * @apiName GetRegionLevels
-   * @apiGroup Info
    *
-   * @apiSuccess {json} Response object
-   * @apiSuccessExample
+   * @apiSuccessExample {json} Response
    * 	{
    * 		"success": true,
    * 		"instances": [
@@ -45,5 +44,25 @@ exports.attachHandlers = function(router) {
    */
 
   router.get('/api/region_levels', info.getRegionLevels);
+
+  /**
+   * @api {post} /api/map_styles Get map styles
+   * @apiName GetMapStyles
+   *
+   * @apiParam {integer}    [class=5]     Number of data classes, range from 3 to 11. Default: 5
+   * @apiParam {integer[]}  [instances]   A list of instance IDs to calculate. If not provided, all instances will be in the calculation.
+   *
+   * @apiSuccessExample {json} Response
+   * 	{
+   * 		"success": true,
+   * 		"styles": [
+   * 			{ "fill": "#ff0", "upperBound": -Infinit, "lowerBound": 1000 },
+   * 			{ "fill": "#f0f", "lowerBound": 1000, "upperBound": 2000 },
+   * 			{ "fill": "#0ff", "lowerBound": 2000, "upperBound": Infinit }
+   * 		]
+   * 	}
+   */
+
+  router.post('/api/map_styles', bodyParser.json(), map.getStyles);
 
 };

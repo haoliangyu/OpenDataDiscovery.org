@@ -2,9 +2,9 @@ var _ = require('lodash');
 var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var sprintf = require('sprintf-js').sprintf;
-var logger = require('log4js').getLogger('');
+var logger = require('log4js').getLogger('info');
 
-var params = require('../../config/params.js');
+var params = require('../config/params.js');
 
 exports.getInstances = function(req, res) {
   var response = { success: true };
@@ -13,7 +13,7 @@ exports.getInstances = function(req, res) {
     'WITH extent AS (',
     ' SELECT DISTINCT ON (instance_id) instance_id, bbox',
     ' FROM view_instance_region ORDER BY instance_id, level)',
-    'SELECT i.name, url, ST_AsGeoJSON(extent.bbox, 4) AS bbox,',
+    'SELECT i.name, url, ST_AsGeoJSON(extent.bbox, 3) AS bbox,',
     'array_agg(json_build_object(\'level\', vvtl.level_name, \'name\', layer_name) ORDER BY vvtl.level) AS layers',
     'FROM view_vector_tile_layer AS vvtl',
     'LEFT JOIN instance AS i ON vvtl.instance_id = i.id',
@@ -50,7 +50,7 @@ exports.getRegionLevels = function(req, res) {
       response.levels = results;
       res.json(response);
     })
-    .then(function(err) {
+    .catch(function(err) {
       logger.error(err);
 
       response.message = 'Unable to get region level information';

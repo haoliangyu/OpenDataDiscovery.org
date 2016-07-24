@@ -1,6 +1,5 @@
 var express = require('express');
 var logger = require('log4js').getLogger('server');
-var fs = require('fs');
 var http = require('http');
 var path = require('path');
 var sprintf = require('sprintf-js').sprintf;

@@ -13,8 +13,8 @@ class ajaxService {
    */
   getInstances() {
     return this.$http
-      .get('/api/info/instances')
-      .then(function(result) {
+      .get('/api/instances')
+      .then(result => {
         return result.data;
       });
   }
@@ -25,8 +25,17 @@ class ajaxService {
    */
   getRegionLevels() {
     return this.$http
-      .get('/api/info/region_levels')
-      .then(function(result) {
+      .get('/api/region_levels')
+      .then(result => {
+        return result.data;
+      });
+  }
+
+  getMapStyles(classCount) {
+    classCount |= 5;
+    return this.$http
+      .post('/api/map_styles', { class: classCount })
+      .then(result => {
         return result.data;
       });
   }

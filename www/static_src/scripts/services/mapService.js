@@ -26,7 +26,7 @@ class mapService {
       zoom: this.minZoom
     });
 
-    var basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
       subdomains: 'abcd',
       maxZoom: this.MAXZOOM,
@@ -36,9 +36,14 @@ class mapService {
     this.map.addLayer(basemap);
 
     let baseUrl = this.ajaxService.getBaseUrl();
+    let styles;
 
     this.ajaxService
-      .getRegionLevels()
+      .getMapStyles(5)
+      .then(result => {
+        styles = result.styles;
+        return this.ajaxService.getRegionLevels();
+      })
       .then(result => {
         _.forEach(result.levels, (level, index) => {
           this.map.createPane(level.name);
@@ -53,20 +58,30 @@ class mapService {
       .then(result => {
         _.forEach(result.instances, instance => {
           let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
+
+          // only show the upper region level initially
           let layer = instance.layers[0];
+
+          let layerStyle = {};
+          layerStyle[layer.name] = properties => {
+            var count = properties.count;
+            let color = _.find(styles, style => {
+              return style.lowerBound <= count && count <= style.upperBound;
+            }).fill;
+
+            return {
+              color: '#6c7069',
+              weight: 1,
+              fill: true,
+              fillColor: color,
+              fillOpacity: 0.7
+            };
+          };
 
           let tileLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
             pane: layer.level,
             bbox: L.latLngBounds(latLngs),
-            vectorTileLayerStyles: {
-              // all tilesplash layer is named 'vectile' internally
-              vectile: {
-                weight: 3,
-                fillColor: '#449bf6',
-                fillOpacity: 0.7,
-                fill: true
-              }
-            },
+            vectorTileLayerStyles: layerStyle,
             onMouseOver: this._onMouseOver.bind(this),
             onMouseOut: this._onMouseOut.bind(this),
             onMouseMove: this._onMouseMove.bind(this)
@@ -99,7 +114,6 @@ class mapService {
       geojson.properties.top_organization = JSON.parse(geojson.properties.top_organization);
     }
 
-
     scope.properties = geojson.properties;
 
     this.currentPopup = L.popup({
@@ -112,7 +126,7 @@ class mapService {
     .openOn(this.map);
   }
 
-  _onMouseOut(e) {
+  _onMouseOut() {
     this.map.closePopup();
     delete this.currentPopup;
   }
