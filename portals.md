@@ -34,6 +34,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.gov.au](https://data.gov.au/)  | Austria  | Nation | |
 | [Data.gc.ca](http://open.canada.ca/en/open-data/)  | Canada  | Nation | |
 | [data.gov.ie](https://data.gov.ie/data/)  | Ireland  | Nation | |
+| [data.gov.sk](https://data.gov.sk/)  | Slovakia  | Nation | |
 
 # Unsupported portals
 
