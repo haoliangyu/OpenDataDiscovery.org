@@ -15,8 +15,8 @@ Queue.configure(Promise);
 var db = pgp(params.dbConnStr);
 var promise;
 
-if (argv['-d']) {
-  promise = db.any('SELECT id, name, url, georeferenced FROM instance WHERE name = $1', argv['-d']);
+if (argv.i) {
+  promise = db.any('SELECT id, name, url, georeferenced FROM instance WHERE name = $1', argv.i);
 } else {
   promise = db.any('SELECT id, name, url, georeferenced FROM instance');
 }
@@ -24,9 +24,12 @@ if (argv['-d']) {
 var queue = new Queue(1, Infinity, {
   onEmpty: function() {
     return crawler.refresh(db)
+      .then(function() {
+        if (argv.d) { return Promise.reject('fetch data only'); }
+      })
       .then(function() { return generator.preseed(); })
       .then(function() { return exec('pm2 restart odd.tile-server'); })
-      .then(function() { process.exit(); });
+      .finally(function() { process.exit(); });
   }
 });
 
