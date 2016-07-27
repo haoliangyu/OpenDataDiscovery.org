@@ -4,7 +4,7 @@ var _ = require('lodash');
 var fs = require('fs');
 var sprintf = require('sprintf-js').sprintf;
 var writeFile = Promise.promisify(require('fs').writeFile);
-var exec = require('process-promises').exec;
+var exec = require('child-process-promise').exec;
 
 var params = require('./params.js');
 
@@ -70,7 +70,7 @@ exports.preseed = function(instanceID) {
         fs.mkdirSync(params.tileDir);
       }
 
-      var tasks = [];
+      var commands = [];
 
       _.forEach(results, function(layer) {
         var source = sprintf('%s/%s.geojson', params.tempDir, layer);
@@ -85,13 +85,13 @@ exports.preseed = function(instanceID) {
           '--force',
           '--drop-polygons',
           '--no-polygon-splitting',
-          '--reverse'
+          '--reverse;'
         ].join(' ');
 
-        tasks.push(exec(command));
+        commands.push(command);
       });
 
-      return Promise.all(tasks).then(function() { return results; });
+      return exec(commands.join('')).then(function() { return results; });
     })
     .then(function(layers) {
       // update tile-server config
@@ -104,5 +104,17 @@ exports.preseed = function(instanceID) {
       });
 
       fs.writeFileSync('./tile-server/config.json', JSON.stringify(serverConfig));
+      cleanup();
+    })
+    .catch(function(err) {
+      cleanup();
+      return Promise.reject(err);
     });
 };
+
+function cleanup() {
+  var files = fs.readdirSync('./tile-generator/temp/');
+  _.forEach(files, function(file) {
+    if (file.endsWith('.geojson')) { fs.unlinkSync('./tile-generator/temp/' + file); }
+  });
+}

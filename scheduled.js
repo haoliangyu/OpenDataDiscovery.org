@@ -3,7 +3,7 @@ var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var _ = require('lodash');
 var logger = require('log4js').getLogger('scheduled');
-var exec = require('process-promises').exec;
+var exec = require('child-process-promise').exec;
 var Queue = require('promise-queue');
 
 var crawler = require('./crawler/crawler.js');
