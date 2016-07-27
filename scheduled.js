@@ -14,25 +14,29 @@ Queue.configure(Promise);
 
 var db = pgp(params.dbConnStr);
 
-db.any('SELECT id, name, url, georeferenced, crawl_schedule FROM instance')
-  .then(function(instances) {
-
-    _.forEach(instances, function(instance) {
-      schedule.scheduleJob(instance.crawl_schedule, function(){
+db.each('SELECT id, name, url, georeferenced, crawl_schedule FROM instance', [], function (instance) {
+    schedule.scheduleJob(instance.crawl_schedule, function () {
         var queue = new Queue(1, Infinity, {
-          onEmpty: function() {
-            return crawler.refresh(db)
-              .then(function() { return generator.preseed(instance.id); })
-              .then(function() { return exec('pm2 restart odd.tile-server'); })
-              .then(function() { process.exit(); });
-          }
+            onEmpty: function () {
+                return crawler.refresh(db)
+                    .then(function () {
+                        return generator.preseed(instance.id);
+                    })
+                    .then(function () {
+                        return exec('pm2 restart odd.tile-server');
+                    })
+                    .then(function () {
+                        process.exit();
+                    });
+            }
         });
-
         crawler.crawl(instance.name, instance.id, instance.url, instance.georeferenced, queue)
-        .catch(function(err) {
-          logger.error(err);
-        });
+            .catch(function (err) {
+                logger.error(err);
+            });
 
-      });
     });
-  });
+})
+    .catch(function (err) {
+        logger.error(err);
+    });
