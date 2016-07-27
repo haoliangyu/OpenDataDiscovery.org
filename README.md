@@ -1,6 +1,6 @@
 # OpenDataDiscovery.org
 
-Currently working in progress.
+Currently working in progress. See the [**demo site**](http://ec2-52-87-229-42.compute-1.amazonaws.com/).
 
 **OpenDataDiscovery.org** is a map of open data portals based on CKAN platforms and their state of data opening. This is a project to gain more understanding of the open world as a whole, not just pieces of it.
 
