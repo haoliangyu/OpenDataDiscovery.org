@@ -37,7 +37,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.gov.sk](https://data.gov.sk/)  | Slovakia  | Nation | |
 | [data.gov.ro](https://data.gov.ro/)  | Romania  | Nation | |
 | [data.gov.uk](https://data.gov.uk/)  | United Kingdoms  | Nation | |
-| [data.gov.ar](https://data.gov.ar/)  | Austria  | Nation | |
+| [data.gov.at](https://data.gov.at/)  | Austria  | Nation | |
 
 # Unsupported portals
 
