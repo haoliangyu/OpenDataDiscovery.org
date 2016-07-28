@@ -157,7 +157,7 @@ CREATE MATERIALIZED VIEW view_instance_region AS
   LEFT JOIN region_level AS rl ON rl.id = irl.level
   WHERE r.geom IS NOT NULL;
 
-CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom)
+CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom);
 
 CREATE VIEW view_instance_tag AS
   SELECT
