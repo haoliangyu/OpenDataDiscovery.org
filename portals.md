@@ -32,11 +32,12 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DadosRS](http://dados.rs.gov.br/)  | Rio Grande do Sul, Brazil  | State | |
 | [Data for Japan](http://dataforjapan.org/)  | Japan  | Nation | |
 | [data.gov.au](https://data.gov.au/)  | Austria  | Nation | |
-| [Data.gc.ca](http://open.canada.ca/en/open-data/)  | Canada  | Nation | |
+| [data.gc.ca](http://open.canada.ca/en/open-data/)  | Canada  | Nation | |
 | [data.gov.ie](https://data.gov.ie/data/)  | Ireland  | Nation | |
 | [data.gov.sk](https://data.gov.sk/)  | Slovakia  | Nation | |
 | [data.gov.ro](https://data.gov.ro/)  | Romania  | Nation | |
 | [data.gov.uk](https://data.gov.uk/)  | United Kingdoms  | Nation | |
+| [data.gov.ar](https://data.gov.ar/)  | Austria  | Nation | |
 
 # Unsupported portals
 
