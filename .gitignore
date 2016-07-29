@@ -7,7 +7,6 @@ coverage
 bootstrap/bootstrap_aws.sh
 www/static
 
-!/scripts/data/bootstrap_data.sql.tar.gz
 !/scripts/sql/db_schema.sql
 !/tile-server/test/*
 !/tile-server/tiles/README.md
