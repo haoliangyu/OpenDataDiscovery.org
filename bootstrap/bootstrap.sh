@@ -89,10 +89,10 @@ export PGPASSWORD=$DB_PASSWORD
 createdb -h localhost -U $DB_USER odd
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;"
 psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/sql/db_schema.sql
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/output.sql
+psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/bootstrap_data.sql
 psql -h localhost -U $DB_USER -d odd -c "REFRESH MATERIALIZED VIEW view_instance_region;"
 
-rm /vagrant/scripts/data/output.sql
+rm /vagrant/scripts/data/bootstrap_data.sql
 
 echo -e "\n######## generate static files... ########\n"
 cd www
