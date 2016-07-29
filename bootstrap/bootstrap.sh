@@ -77,7 +77,8 @@ cd /vagrant
 sudo npm install
 
 echo -e "\n######## set up database... ########\n"
-tar zxvf /vagrant/scripts/data/odd_instance.tar.gz -C /vagrant/scripts/data
+curl -o /vagrant/bootstrap_data.sql.tar.gz https://s3.amazonaws.com/open.data.discovery.org/bootstrap_data.sql.tar.gz
+tar zxvf /vagrant/bootstrap_data.sql.tar.gz -C /vagrant
 
 DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
@@ -88,11 +89,12 @@ sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;"
 export PGPASSWORD=$DB_PASSWORD
 createdb -h localhost -U $DB_USER odd
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;"
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/schema.sql
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
+psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/sql/db_schema.sql
+psql -h localhost -U $DB_USER -d odd -f /vagrant/bootstrap_data.sql
+psql -h localhost -U $DB_USER -d odd -c "REFRESH MATERIALIZED VIEW view_instance_region;"
 
-rm /vagrant/scripts/data/schema.sql
-rm /vagrant/scripts/data/instance_data.sql
+rm /vagrant/bootstrap_data.sql.tar.gz
+rm /vagrant/bootstrap_data.sql
 
 echo -e "\n######## generate static files... ########\n"
 cd www
@@ -109,3 +111,9 @@ make
 sudo make install
 cd ..
 rm -rf tippecanoe
+
+echo -e "\n######## create initial tile server config... ########\n"
+echo "{}" > tile-server/config.json
+
+echo -e "\n######## start server... ########\n"
+bash bootstrap/pm2_prod.sh
