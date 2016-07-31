@@ -18,7 +18,25 @@ Specially, we are collecting information about the state of data opening, includ
 
 * organizations that publish datasets
 
-A program is setup to collect this information weekly for each portals. Check this [list](https://github.com/OpenDataDiscovery/OpenDataDiscovery.org/blob/master/portals.md) to see all supported portals.
+A program is setup to collect this information weekly for each portals. Check the [list of supported portals](https://github.com/OpenDataDiscovery/OpenDataDiscovery.org/blob/master/portals.md).
+
+## How to Contribute?
+
+Though this is largely a personal project, all contribution is welcomed. To set up your local instance, please
+
+* install [virtual box](https://www.virtualbox.org/wiki/Downloads) and [vagrant](https://www.vagrantup.com/docs/installation/)
+
+* run `vagrant up` to set up vagrant machine. By default it has 2 CPU and 2 GB memory, change it [here](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/development/Vagrantfile#L51) if needed.
+
+* download the bootstrap [data]() (with 5 layers) and restore it. You could access the database at `localhost:6060` with the [credential](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/master/bootstrap/bootstrap.sh#L82)
+
+* run `/vagrant/update.js` **inside the vagrant machine** to fetch data and generate tiles.
+
+* Open the app at `localhost:8086`
+
+See the [to-do list](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/development/todo.md) for actively developing features and submit PR to **developing** branch.
+
+
 
 ## Thanks to these awesome people
 
