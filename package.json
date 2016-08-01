@@ -74,7 +74,7 @@
     "express": "^4.14.0",
     "font-awesome": "^4.6.3",
     "geojson-vt": "^2.2.0",
-    "leaflet": "^1.0.0-rc.1",
+    "leaflet": "^1.0.0-rc.2",
     "leaflet.vectorgrid": "git+https://github.com/haoliangyu/Leaflet.VectorGrid.git",
     "lodash": "^4.11.2",
     "log4js": "^0.6.36",
