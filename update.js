@@ -29,13 +29,14 @@ var queue = new Queue(1, Infinity, {
       })
       .then(function() { return generator.preseed(); })
       .then(function() { return exec('pm2 restart odd.tile-server'); })
+      .catch(function(err) { logger.error(err); })
       .finally(function() { process.exit(); });
   }
 });
 
 promise.then(function(results) {
   var tasks = _.map(results, function(instance) {
-    return crawler.crawl(instance.name, instance.id, instance.url, instance.georeferenced, queue);
+    return crawler.crawl(instance.name, instance.id, instance.url, instance.georeferenced, queue, db);
   });
 
   return Promise.all(tasks);

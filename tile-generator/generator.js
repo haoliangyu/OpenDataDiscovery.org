@@ -8,8 +8,9 @@ var exec = require('child-process-promise').exec;
 
 var params = require('./params.js');
 
-exports.preseed = function(instanceID) {
-  var db = pgp(params.dbConnStr);
+exports.preseed = function(instanceID, db) {
+  db = db || pgp(params.dbConnStr);
+
   var sql = [
     'SELECT instance_id, level, layer_name FROM view_vector_tile_layer',
     'WHERE layer_name IS NOT NULL AND active'
