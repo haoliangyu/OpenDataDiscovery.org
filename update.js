@@ -23,7 +23,7 @@ if (argv.i) {
 
 var queue = new Queue(1, Infinity, {
   onEmpty: function() {
-    return crawler.refresh(db)
+    return crawler.refresh(null, db)
       .then(function() {
         if (argv.d) { return Promise.reject('fetch data only'); }
       })
