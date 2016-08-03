@@ -1,4 +1,6 @@
 var Promise = require('bluebird');
+var pgp = require('pg-promise')({ promiseLib: Promise });
+var params = require('./params.js');
 var _ = require('lodash');
 
 var dbSchema = {
@@ -226,5 +228,6 @@ exports.updateItemData = function(db, irID, item, itemSchema, name, count, lastU
  * @return {undefined}
  */
 exports.refresh = function(db) {
+  db = db || pgp(params.dbConnStr);
   return db.none('REFRESH MATERIALIZED VIEW view_instance_region_info;');
 };

@@ -6,9 +6,10 @@ var database = require('./database.js');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var params = require('./params.js');
 
-exports.spatialCrawl = function(instanceName, instanceID, instanceUrl, queue) {
+exports.spatialCrawl = function(instanceName, instanceID, instanceUrl, queue, db) {
 
-  var db = pgp(params.dbConnStr);
+  db = db || pgp(params.dbConnStr);
+
   var sql = 'SELECT region_id, Box2D(bbox) AS bbox FROM view_instance_region WHERE instance_id = $1';
 
   return db.any(sql, instanceID)
@@ -45,10 +46,12 @@ exports.spatialCrawl = function(instanceName, instanceID, instanceUrl, queue) {
   });
 };
 
-exports.crawl = function(instanceName, instanceID, instanceUrl, queue) {
+exports.crawl = function(instanceName, instanceID, instanceUrl, queue, db) {
+
+  db = db || pgp(params.dbConnStr);
+
   logger.info('Crawling ' + instanceName + '...');
 
-  var db = pgp(params.dbConnStr);
   var sql = [
     'SELECT region_id FROM instance_region_xref AS irx',
     'LEFT JOIN instance_region_level as irl ON irl.id = irx.instance_region_level_id',

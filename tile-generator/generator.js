@@ -2,14 +2,18 @@ var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var _ = require('lodash');
 var fs = require('fs');
+var path = require('path');
 var sprintf = require('sprintf-js').sprintf;
 var writeFile = Promise.promisify(require('fs').writeFile);
 var exec = require('child-process-promise').exec;
 
 var params = require('./params.js');
+var tempDir = path.resolve(__dirname, params.tempDir);
+var tileDir = path.resolve(__dirname, params.tileDir);
 
-exports.preseed = function(instanceID) {
-  var db = pgp(params.dbConnStr);
+exports.preseed = function(instanceID, db) {
+  db = db || pgp(params.dbConnStr);
+
   var sql = [
     'SELECT instance_id, level, layer_name FROM view_vector_tile_layer',
     'WHERE layer_name IS NOT NULL AND active'
@@ -46,12 +50,12 @@ exports.preseed = function(instanceID) {
               };
             });
 
-            if (!fs.existsSync(params.tempDir)){
-              fs.mkdirSync(params.tempDir);
+            if (!fs.existsSync(tempDir)){
+              fs.mkdirSync(tempDir);
             }
 
             var geoJSON = { type: 'FeatureCollection', features: features };
-            var fileName = sprintf('%s/%s.geojson', params.tempDir, layer.layer_name);
+            var fileName = sprintf('%s/%s.geojson', tempDir, layer.layer_name);
             return writeFile(fileName, JSON.stringify(geoJSON));
           })
           .then(function() {
@@ -66,15 +70,15 @@ exports.preseed = function(instanceID) {
     .then(function(results) {
       // create .mbtiles file
 
-      if (!fs.existsSync(params.tileDir)){
-        fs.mkdirSync(params.tileDir);
+      if (!fs.existsSync(tileDir)){
+        fs.mkdirSync(tileDir);
       }
 
       var commands = [];
 
       _.forEach(results, function(layer) {
-        var source = sprintf('%s/%s.geojson', params.tempDir, layer);
-        var target = sprintf('%s/%s.mbtiles', params.tileDir, layer);
+        var source = sprintf('%s/%s.geojson', tempDir, layer);
+        var target = sprintf('%s/%s.mbtiles', tileDir, layer);
         var command = [
           'cat ' + source + ' |',
           'tippecanoe',
@@ -95,15 +99,16 @@ exports.preseed = function(instanceID) {
     })
     .then(function(layers) {
       // update tile-server config
-      var serverConfig = JSON.parse(fs.readFileSync('./tile-server/config.json', 'utf8'));
+      var configPath = path.resolve(__dirname, '../tile-server/config.json');
+      var serverConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
       _.forEach(layers, function(layer) {
         var url = params.tileBaseUrl + layer;
-        var filePath = sprintf('%s/%s.mbtiles', params.tileDir, layer);
+        var filePath = sprintf('%s/%s.mbtiles', tileDir, layer);
         serverConfig[url] = 'mbtiles://' + filePath;
       });
 
-      fs.writeFileSync('./tile-server/config.json', JSON.stringify(serverConfig));
+      fs.writeFileSync(configPath, JSON.stringify(serverConfig));
       cleanup();
     })
     .catch(function(err) {
@@ -113,8 +118,8 @@ exports.preseed = function(instanceID) {
 };
 
 function cleanup() {
-  var files = fs.readdirSync('./tile-generator/temp/');
+  var files = fs.readdirSync(tempDir);
   _.forEach(files, function(file) {
-    if (file.endsWith('.geojson')) { fs.unlinkSync('./tile-generator/temp/' + file); }
+    if (file.endsWith('.geojson')) { fs.unlinkSync(path.resolve(tempDir, file)); }
   });
 }

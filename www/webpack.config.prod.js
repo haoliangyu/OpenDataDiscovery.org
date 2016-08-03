@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 var srcDir = 'static_src';
 var outputDir = 'static';
@@ -21,15 +22,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.less', '.css', '.html']
   },
-  eslint: {
-    configFile: '../.eslintrc.js',
-    quiet: true,
-    failOnError: true
-  },
   module: {
-    preLoaders: [
-      {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/ }
-    ],
     loaders: [
       {
         test: /\.js$/,
@@ -67,6 +60,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: false,
+      mangle: false
+    }),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
       Pbf: 'pbf',
@@ -78,6 +75,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(srcDir, 'views/index.html'),
       inject: true
+    }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer'
     })
   ]
 };

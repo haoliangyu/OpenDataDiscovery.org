@@ -1,18 +1,14 @@
-var Promise = require('bluebird');
-var pgp = require('pg-promise')({ promiseLib: Promise });
-
 var worker = require('./src/worker.js');
 var database = require('./src/database.js');
-var params = require('./src/params.js');
 
-exports.crawl = function(name, id, url, geoferenced, queue) {
+exports.crawl = function(name, id, url, geoferenced, queue, db) {
   if (geoferenced) {
-    return worker.spatialCrawl(name, id, url, queue);
+    return worker.spatialCrawl(name, id, url, queue, db);
   } else {
-    return worker.crawl(name, id, url, queue);
+    return worker.crawl(name, id, url, queue, db);
   }
 };
 
-exports.refresh = function() {
-  return database.refresh(pgp(params.dbConnStr));
+exports.refresh = function(db) {
+  return database.refresh(db);
 };
