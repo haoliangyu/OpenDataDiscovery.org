@@ -84,12 +84,17 @@ class mapService {
             vectorTileLayerStyles: layerStyle,
             onMouseOver: this._onMouseOver.bind(this),
             onMouseOut: this._onMouseOut.bind(this),
-            onMouseMove: this._onMouseMove.bind(this)
+            onMouseMove: this._onMouseMove.bind(this),
+            onClick: this._onMouseClick.bind(this)
           });
 
           this.map.addLayer(tileLayer);
         });
       });
+  }
+
+  _onMouseClick(e) {
+    this.$rootScope.$broadcast('sidebar:open');
   }
 
   _onMouseOver(e) {

@@ -2,35 +2,12 @@ import angular from 'angular';
 
 class sidebarCtrl {
 
-  constructor($scope, $mdSidenav) {
+  constructor($scope) {
     'ngInject';
-
-    this.$mdSidenav = $mdSidenav;
-
-    /**
-     * Sidebar Events
-     */
-
-    $scope.$on('sidebar:open', () => {
-      this.open();
-    });
-
-    $scope.$on('sidebar:close', () => {
-      this.close();
-    });
   }
-
-  open() {
-    this.$mdSidenav('right').toggle();
-  }
-
-  close() {
-    this.$mdSidenav('right').close();
-  }
-
 }
 
-sidebarCtrl.$inject = ['$scope', '$mdSidenav'];
+sidebarCtrl.$inject = ['$scope'];
 
 angular.module('OpenDataDiscovery').controller('sidebarCtrl', sidebarCtrl);
 

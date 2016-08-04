@@ -39,6 +39,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.gov.uk](https://data.gov.uk/)  | United Kingdoms  | Nation | |
 | [data.gov.at](https://data.gov.at/)  | Austria  | Nation | |
 | [data.NSW](http://data.nsw.gov.au/)  | New South Wales, Australia  | Province | |
+| [Data.overheid.nl](https://data.overheid.nl/)  | Netherlands  | Nation | |
+| [Data.Rio](http://data.rio/)  | Rio Grande do Sul, Brazil  | Province | |
 
 # Unsupported portals
 
