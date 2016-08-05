@@ -41,6 +41,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.NSW](http://data.nsw.gov.au/)  | New South Wales, Australia  | Province | |
 | [Data.overheid.nl](https://data.overheid.nl/)  | Netherlands  | Nation | |
 | [Data.Rio](http://data.rio/)  | Rio Grande do Sul, Brazil  | Province | |
+| [Data.vic](https://www.data.vic.gov.au/)  | Vicotria, Australia  | Province | |
 
 # Unsupported portals
 
@@ -54,5 +55,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
 | [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
 | [data.norge.no](http://data.norge.no/)  | Norway  | not provide standard CKAN APIs |
+| [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
+| [data.wa.gov.au](http://data.wa.gov.au/)  | Western Australia, Australia  | API not accessible |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
