@@ -1,0 +1,7 @@
+<md-content>
+  <div layout="row" ng-repeat="instance in instanceList.instances" flex>
+    <md-checkbox ng-model="instance.visible" ng-click="instanceList.toggleInstance(instance)">
+      {{ instance.name }}
+    </md-checkbox>
+  </div>
+</md-content>

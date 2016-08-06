@@ -12,6 +12,7 @@ class mapService {
     this.$rootScope = $rootScope;
     this.$compile = $compile;
     this.ajaxService = ajaxService;
+    this.instances = [];
 
     this.MAXZOOM = 10;
     this.minZoom = 3;
@@ -56,7 +57,11 @@ class mapService {
         return this.ajaxService.getInstances();
       })
       .then(result => {
+        this.instances = result.instances;
+
         _.forEach(result.instances, instance => {
+          instance.visible = true;
+
           let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
 
           // only show the upper region level initially
@@ -78,7 +83,7 @@ class mapService {
             };
           };
 
-          let tileLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
+          instance.currentMapLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
             pane: layer.level,
             bbox: L.latLngBounds(latLngs),
             vectorTileLayerStyles: layerStyle,
@@ -88,13 +93,23 @@ class mapService {
             onClick: this._onMouseClick.bind(this)
           });
 
-          this.map.addLayer(tileLayer);
+          this.map.addLayer(instance.currentMapLayer);
         });
+
+        this.$rootScope.$broadcast('map:ready');
       });
   }
 
-  _onMouseClick(e) {
-    this.$rootScope.$broadcast('sidebar:open');
+  toggleInstance(instance) {
+    if (!instance.visible) {
+      this.map.addLayer(instance.currentMapLayer);
+    } else {
+      this.map.removeLayer(instance.currentMapLayer);
+    }
+  }
+
+  _onMouseClick() {
+    this.$rootScope.$broadcast('sidebar:open', 'Instance Info');
   }
 
   _onMouseOver(e) {
