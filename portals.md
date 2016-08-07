@@ -43,6 +43,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Data.Rio](http://data.rio/)  | Rio Grande do Sul, Brazil  | Province | |
 | [Data.vic](https://www.data.vic.gov.au/)  | Vicotria, Australia  | Province | |
 | [data.wa.gov.au](http://data.wa.gov.au/)  | Western Australia, Australia  | Province | |
+| [DataGM](http://datagm.org.uk/)  | Greater Manchester, UK  | Metropolitan | |
 
 # Unsupported portals
 
