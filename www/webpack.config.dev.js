@@ -8,7 +8,7 @@ var srcDir = 'static_src';
 var outputDir = 'static';
 
 module.exports = {
-  devtool: 'eval-cheap-source-map',
+  devtool: 'source-map',
   debug: true,
   entry: {
     app: path.resolve(srcDir, 'scripts/app.js')
@@ -40,12 +40,12 @@ module.exports = {
           presets: ['es2015'],
           plugins: ['syntax-decorators', 'ng-annotate']
         },
-        exclude: /node_module/
+        exclude: /node_modules/
       },
-      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'raw' },
       { test: /\.less$/, loader: 'style!css!less' },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       { test: /\.(png|gif|jpg)$/, loader: 'file?name=images/[name].[ext]' },
       // For font-awesome, created by Turbo87:
       // https://gist.github.com/Turbo87/e8e941e68308d3b40ef6

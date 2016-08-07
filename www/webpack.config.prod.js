@@ -31,12 +31,12 @@ module.exports = {
           presets: ['es2015'],
           plugins: ['syntax-decorators', 'ng-annotate']
         },
-        exclude: /node_module/
+        exclude: /node_modules/
       },
-      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'raw' },
       { test: /\.less$/, loader: 'style!css!less' },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
       { test: /\.(png|gif|jpg)$/, loaders: ['file?name=images/[name].[ext]', 'image-webpack'] },
       // For font-awesome, created by Turbo87:
       // https://gist.github.com/Turbo87/e8e941e68308d3b40ef6

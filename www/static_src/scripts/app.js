@@ -13,7 +13,7 @@ angular.module('OpenDataDiscovery', [
   'ngRoute'
 ])
 .constant('_', window._)
-.config(function($routeProvider, $locationProvider) {
+.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
   $routeProvider.when('/', {
     templateUrl: 'index.html',
     controller: 'appCtrl'
@@ -21,6 +21,10 @@ angular.module('OpenDataDiscovery', [
 
   // configure html5 to get links working on jsfiddle
   $locationProvider.html5Mode(true);
+
+  // set the theme of angular material
+  $mdThemingProvider.theme('default')
+    .accentPalette('blue');
 });
 
 function requireAll(r) { r.keys().forEach(r); }
