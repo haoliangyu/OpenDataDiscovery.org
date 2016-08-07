@@ -8,7 +8,7 @@ var srcDir = 'static_src';
 var outputDir = 'static';
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval-cheap-source-map',
   debug: true,
   entry: {
     app: path.resolve(srcDir, 'scripts/app.js')
@@ -36,15 +36,11 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         query: {
+          cacheDirectory: true,
           presets: ['es2015'],
           plugins: ['syntax-decorators', 'ng-annotate']
         },
         exclude: /node_module/
-      },
-      {
-        test: /\.js$/,
-        include: path.resolve('../node_modules/mapbox-gl-shaders/index.js'),
-        loaders: ['transform/cacheable?brfs']
       },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.html$/, loader: 'raw' },
@@ -58,13 +54,6 @@ module.exports = {
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' }
-    ],
-    postLoaders: [
-      {
-        include: /node_modules\/mapbox-gl-shaders/,
-        loader: 'transform',
-        query: 'brfs'
-      }
     ]
   },
   plugins: [
