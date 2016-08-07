@@ -44,6 +44,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Data.vic](https://www.data.vic.gov.au/)  | Vicotria, Australia  | Province | |
 | [data.wa.gov.au](http://data.wa.gov.au/)  | Western Australia, Australia  | Province | |
 | [DataGM](http://datagm.org.uk/)  | Greater Manchester, UK  | Metropolitan | |
+| [DataPOA](http://datapoa.com.br/)  | Porto Alegre, RS, Brazil  | City | |
 
 # Unsupported portals
 
