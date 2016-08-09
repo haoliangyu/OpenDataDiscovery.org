@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "odd.preseeding",
-      "script": "./preseeding.js",
+      "script": "./scheduled.js",
       "watch": ["./crawler", "./generator"],
       "ignore_watch": ["./crawler/test", "./generator/temp"],
       "watch_options": {

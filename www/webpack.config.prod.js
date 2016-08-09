@@ -31,18 +31,13 @@ module.exports = {
           presets: ['es2015'],
           plugins: ['syntax-decorators', 'ng-annotate']
         },
-        exclude: /node_module/
+        exclude: /node_modules/
       },
-      {
-        test: /\.js$/,
-        include: path.resolve('../node_modules/mapbox-gl-shaders/index.js'),
-        loaders: ['transform/cacheable?brfs']
-      },
-      { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.json$/, loader: 'json' },
       { test: /\.html$/, loader: 'raw' },
       { test: /\.less$/, loader: 'style!css!less' },
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader') },
-      { test: /\.(png|gif|jpg)$/, loader: 'file?name=images/[name].[ext]' },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css') },
+      { test: /\.(png|gif|jpg)$/, loaders: ['file?name=images/[name].[ext]', 'image-webpack'] },
       // For font-awesome, created by Turbo87:
       // https://gist.github.com/Turbo87/e8e941e68308d3b40ef6
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' },
@@ -50,18 +45,10 @@ module.exports = {
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]' }
-    ],
-    postLoaders: [
-      {
-        include: /node_modules\/mapbox-gl-shaders/,
-        loader: 'transform',
-        query: 'brfs'
-      }
     ]
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: false,
       mangle: false
     }),
     new webpack.NoErrorsPlugin(),

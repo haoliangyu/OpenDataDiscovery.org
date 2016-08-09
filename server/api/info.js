@@ -57,3 +57,36 @@ exports.getRegionLevels = function(req, res) {
       res.status(500).json(response);
     });
 };
+
+exports.getInstanceInfo = function(req, res) {
+  var instanceID = req.params.instanceID;
+  var regionID = req.params.regionID;
+  var itemCount = req.query.item_count || 10;
+
+  var db = pgp(params.dbConnStr);
+
+  var sql = [
+    'SELECT instance_name AS name, region_name AS region,',
+    ' update_date, count, tags[1:$1], categories[1:$1], organizations[1:$1]',
+    'FROM view_instance_region_info AS viri',
+    'WHERE instance_id = $2 AND region_id = $3'
+  ].join(' ');
+
+  db.oneOrNone(sql, [itemCount, instanceID, regionID])
+    .then(function(result) {
+      res.json({
+        success: true,
+        instance: result
+      });
+    })
+    .catch(function(err) {
+      if (_.isError(err)) {
+        logger.error(err);
+      }
+
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    });
+};

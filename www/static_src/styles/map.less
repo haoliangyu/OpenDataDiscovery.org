@@ -2,10 +2,23 @@ map-view {
   width: 100%;
   top: 0;
   bottom: 0;
-  position: absolute;;
+  position: absolute;
+  z-index: 50;
 
   #map {
     width: 100%;
     height: 100%;
+  }
+
+  .toolbar {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    z-index: 2000;
+    pointer-events: none;
+  }
+
+  .toolbar-button {
+    pointer-events: initial;
   }
 }
