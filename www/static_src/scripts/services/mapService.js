@@ -24,7 +24,8 @@ class mapService {
       center: [0, 0],
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
-      zoom: this.minZoom
+      zoom: this.minZoom,
+      zoomControl: false
     });
 
     let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {

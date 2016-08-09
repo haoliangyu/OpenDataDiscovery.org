@@ -45,6 +45,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.wa.gov.au](http://data.wa.gov.au/)  | Western Australia, Australia  | Province | |
 | [DataGM](http://datagm.org.uk/)  | Greater Manchester, UK  | Metropolitan | |
 | [DataPOA](http://datapoa.com.br/)  | Porto Alegre, RS, Brazil  | City | |
+| [Data.go.jp](http://www.data.go.jp/)  | Japan  | Nation | |
 
 # Unsupported portals
 
