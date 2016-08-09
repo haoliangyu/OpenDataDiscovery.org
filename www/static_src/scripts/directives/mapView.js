@@ -4,8 +4,8 @@ class mapView {
   constructor() {
     this.restrict = 'E';
     this.template = require('../../views/components/map-view.html');
-    this.scope = false;
     this.controller = 'mapCtrl';
+    this.scope = {};
   }
 }
 

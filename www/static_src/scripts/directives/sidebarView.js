@@ -4,8 +4,9 @@ class sidebarView {
   constructor() {
     this.restrict = 'E';
     this.template = require('../../views/components/sidebar-view.html');
-    this.scope = false;
     this.controller = 'sidebarCtrl';
+    this.controllerAs = 'sidebar';
+    this.scope = {};
   }
 }
 

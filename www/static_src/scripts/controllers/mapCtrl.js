@@ -7,7 +7,6 @@ class mapCtrl {
 
     mapService.initialize();
   }
-
 }
 
 mapCtrl.$inject = ['$scope', 'mapService'];

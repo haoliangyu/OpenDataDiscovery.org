@@ -1,0 +1,7 @@
+<div ng-repeat="button in toolbar.buttons">
+  <md-button class="md-fab md-primary md-mini toolbar-button"
+             ng-click="button.click()" aria-label="{{ button.name }}">
+    <md-tooltip md-direction="left">{{ button.tooltip }}</md-tooltip>
+    <i class="fa fa-lg" ng-class="button.icon"></i>
+  </md-button>
+</div>

@@ -6,7 +6,7 @@ var map = require('./map.js');
 exports.attachHandlers = function(router) {
 
   /**
-   * @api {get} /api/instance Get instance information
+   * @api {get} /api/instances Get instance list
    * @apiName GetInstances
    *
    * @apiSuccessExample
@@ -28,6 +28,33 @@ exports.attachHandlers = function(router) {
    */
 
   router.get('/api/instances', info.getInstances);
+
+  /**
+   * @api {get} /api/instance/:id Get instance information
+   * @apiName GetInstanceInfo
+   *
+   * @apiSuccessExample
+   * 	{
+   * 		"success": true,
+   * 		"instance": [
+   * 			{
+   * 				"name": "Data.gov",
+   * 				"count": 2000,
+   *     		"tags": [
+   *     				{ "name": "earth", "updateDate": "2012-08-12", "count": 125 }
+   *     		],
+   * 				"categories": [
+   * 						{ "name": "environment", "updateDate": "2011-08-21", "count": 422 }
+   * 				],
+   *     		"organizations": [
+   *     				{ "name": "department", "updateDate": "2012-08-11", "count":500 }
+   *     		],
+   *     		"updateDate": "2012-06-17"
+   * 			}
+   * 		]
+   * 	}
+   */
+  router.get('/api/instance/:instanceID/:regionID', info.getInstanceInfo);
 
   /**
    * @api {get} /api/region_levels Get region levels
