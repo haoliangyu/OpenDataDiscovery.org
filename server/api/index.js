@@ -40,6 +40,7 @@ exports.attachHandlers = function(router) {
    * 			{
    * 				"name": "Data.gov",
    * 				"count": 2000,
+   * 				"description": "test",
    *     		"tags": [
    *     				{ "name": "earth", "updateDate": "2012-08-12", "count": 125 }
    *     		],

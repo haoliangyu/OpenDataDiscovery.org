@@ -5,6 +5,7 @@ var sprintf = require('sprintf-js').sprintf;
 var logger = require('log4js').getLogger('info');
 
 var params = require('../config/params.js');
+var pgService = require('../util/pgService.js');
 
 exports.getInstances = function(req, res) {
   var response = { success: true };
@@ -66,14 +67,29 @@ exports.getInstanceInfo = function(req, res) {
   var db = pgp(params.dbConnStr);
 
   var sql = [
-    'SELECT instance_name AS name, region_name AS region,',
+    'SELECT instance_name AS name, region_name AS region, description, url, location,',
     ' update_date, count, tags[1:$1], categories[1:$1], organizations[1:$1]',
     'FROM view_instance_region_info AS viri',
+    ' LEFT JOIN instance AS i ON i.id = viri.instance_id',
     'WHERE instance_id = $2 AND region_id = $3'
   ].join(' ');
 
   db.oneOrNone(sql, [itemCount, instanceID, regionID])
     .then(function(result) {
+      pgService.camelCase(result, 'update_date');
+
+      _.forEach(result.tags, function(tag) {
+        pgService.camelCase(tag, 'update_date');
+      });
+
+      _.forEach(result.organizations, function(organization) {
+        pgService.camelCase(organization, 'update_date');
+      });
+
+      _.forEach(result.categories, function(category) {
+        pgService.camelCase(category, 'update_date');
+      });
+
       res.json({
         success: true,
         instance: result

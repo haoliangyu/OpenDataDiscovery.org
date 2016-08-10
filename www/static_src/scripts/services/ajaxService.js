@@ -47,9 +47,9 @@ class ajaxService {
 
   /**
    * [getInstanceInfo description]
-   * @param  {[type]} instanceID [description]
-   * @param  {[type]} regionID   [description]
-   * @return {[type]}            [description]
+   * @param  {integer} instanceID instance ID
+   * @param  {integer} regionID   region ID
+   * @return {object}             instance info
    */
   getInstanceInfo(instanceID, regionID) {
     return this.$http
