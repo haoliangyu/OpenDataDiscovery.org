@@ -24,6 +24,7 @@ angular.module('OpenDataDiscovery', [
 
   // set the theme of angular material
   $mdThemingProvider.theme('default')
+    .warnPalette('red')
     .accentPalette('blue');
 });
 

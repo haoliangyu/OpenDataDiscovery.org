@@ -31,10 +31,31 @@ class ajaxService {
       });
   }
 
+  /**
+   * Get style definition.
+   * @param  {integer} classCount   number of style classes
+   * @return {object[]}             styles
+   */
   getMapStyles(classCount) {
     classCount |= 5;
     return this.$http
       .post('/api/map_styles', { class: classCount })
+      .then(result => {
+        return result.data;
+      });
+  }
+
+  /**
+   * [getInstanceInfo description]
+   * @param  {integer} instanceID instance ID
+   * @param  {integer} regionID   region ID
+   * @return {object}             instance info
+   */
+  getInstanceInfo(instanceID, regionID) {
+    return this.$http
+      .get(`/api/instance/${instanceID}/${regionID}`, {
+        cache: true
+      })
       .then(result => {
         return result.data;
       });

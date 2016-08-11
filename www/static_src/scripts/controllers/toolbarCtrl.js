@@ -35,7 +35,7 @@ class toolbarCtrl {
       },
       {
         name: 'github',
-        tooltip: 'Visite Project Repository',
+        tooltip: 'Visite Projec Repository',
         icon: 'fa-github-alt',
         click: this.showProjectRepo.bind(this)
       }

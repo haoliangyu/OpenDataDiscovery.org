@@ -6,12 +6,13 @@ require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js'
 
 class mapService {
 
-  constructor($rootScope, $compile, ajaxService) {
+  constructor($rootScope, $compile, ajaxService, sidebarService) {
     'ngInject';
 
     this.$rootScope = $rootScope;
     this.$compile = $compile;
     this.ajaxService = ajaxService;
+    this.sidebarService = sidebarService;
     this.instances = [];
 
     this.MAXZOOM = 10;
@@ -109,8 +110,16 @@ class mapService {
     }
   }
 
-  _onMouseClick() {
-    this.$rootScope.$broadcast('sidebar:open', 'Instance Info');
+  _onMouseClick(e) {
+    let coords = e.target.getCoords();
+    let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+    let properties = geojson.properties;
+
+    this.ajaxService
+      .getInstanceInfo(properties.instance_id, properties.region_id)
+      .then(data => {
+        this.$rootScope.$broadcast('sidebar:open', 'Instance Info', data.instance);
+      });
   }
 
   _onMouseOver(e) {
@@ -140,7 +149,7 @@ class mapService {
     this.currentPopup = L.popup({
       offset: L.point(0, -1),
       closeButton: false,
-      minWidth: 200
+      minWidth: 250
     })
     .setContent(this.$compile(content)(scope)[0])
     .setLatLng(e.latlng)
@@ -159,7 +168,7 @@ class mapService {
   }
 }
 
-mapService.$inject = ['$rootScope', '$compile', 'ajaxService'];
+mapService.$inject = ['$rootScope', '$compile', 'ajaxService', 'sidebarService'];
 
 angular.module('OpenDataDiscovery').service('mapService', mapService);
 
