@@ -46,6 +46,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DataGM](http://datagm.org.uk/)  | Greater Manchester, UK  | Metropolitan | |
 | [DataPOA](http://datapoa.com.br/)  | Porto Alegre, RS, Brazil  | City | |
 | [Data.go.jp](http://www.data.go.jp/)  | Japan  | Nation | |
+| [datosabiertos.ec](http://datosabiertos.ec/)  | Ecuador  | Nation | |
 
 # Unsupported portals
 
@@ -60,5 +61,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
 | [data.norge.no](http://data.norge.no/)  | Norway  | not provide standard CKAN APIs |
 | [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
+| [datos.gob.mx](http://datos.gob.mx/)  | Mexico  | API unavailable |
+| [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).

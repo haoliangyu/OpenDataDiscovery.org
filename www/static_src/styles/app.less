@@ -7,21 +7,17 @@
 @import 'sidebar.less';
 
 table {
-  width: 200px;
-  margin: 15px 0 0 0;
-  table-layout:fixed;
   word-break: break-all;
+  font-size: 13px;
+  line-height: 25px;
 
   tr {
-    height: 25px;
+    td {
+      min-width: 100px;
 
-    &:nth-of-type(odd) {
-      border-top: 1px solid #2e2b2b;
-      border-bottom: 1px solid #2e2b2b;
-    }
-
-    &:nth-of-type(even) {
-      background-color: #f2f2f2;
+      span.row-name {
+        font-weight: bold;
+      }
     }
   }
 }

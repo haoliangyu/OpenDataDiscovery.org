@@ -115,15 +115,11 @@ class mapService {
     let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
     let properties = geojson.properties;
 
-    if (this.sidebarService.visible) {
-      this.$rootScope.$broadcast('sidebar:close');
-    } else {
-      this.ajaxService
-        .getInstanceInfo(properties.instance_id, properties.region_id)
-        .then(data => {
-          this.$rootScope.$broadcast('sidebar:open', 'Instance Info', data.instance);
-        });
-    }
+    this.ajaxService
+      .getInstanceInfo(properties.instance_id, properties.region_id)
+      .then(data => {
+        this.$rootScope.$broadcast('sidebar:open', 'Instance Info', data.instance);
+      });
   }
 
   _onMouseOver(e) {
@@ -153,7 +149,7 @@ class mapService {
     this.currentPopup = L.popup({
       offset: L.point(0, -1),
       closeButton: false,
-      minWidth: 200
+      minWidth: 250
     })
     .setContent(this.$compile(content)(scope)[0])
     .setLatLng(e.latlng)

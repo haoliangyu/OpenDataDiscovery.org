@@ -1,44 +1,50 @@
-<h4>{{ instanceInfo.instance.name }}</h4>
+<md-content ng-hide="instanceInfo.instance" class="sidebar-notification">
+  Click on a portal for more detail!
+</md-content>
 
-<table>
-  <tr>
-    <td>
-      <label>Location</label>
-    </td>
-    <td>
-      <span>{{ instanceInfo.instance.location }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label>Website</label>
-    </td>
-    <td>
-      <span>{{ instanceInfo.instance.url }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label>Datasets</label>
-    </td>
-    <td>
-      <span>{{ instanceInfo.instance.count }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label>Update</label>
-    </td>
-    <td>
-      <span>{{ instanceInfo.instance.updateDate }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label>Description</label>
-    </td>
-    <td>
-      <span>{{ instanceInfo.instance.description }}</span>
-    </td>
-  </tr>
-</table>
+<md-content class="instance-info" ng-show="instanceInfo.instance">
+  <h4>{{ instanceInfo.instance.name }}</h4>
+
+  <table class="instance-info-table">
+    <tr>
+      <td>
+        <span class="row-name">Location</span>
+      </td>
+      <td>
+        <span>{{ instanceInfo.instance.location }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="row-name">Website</span>
+      </td>
+      <td>
+        <a ng-href="{{instanceInfo.instance.url}}" target="_blank">visit the portal</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="row-name">Datasets</span>
+      </td>
+      <td>
+        <span>{{ instanceInfo.instance.count }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="row-name">Update</span>
+      </td>
+      <td>
+        <span>{{ instanceInfo.instance.updateDate | date: 'yyyy-MM-dd' }}</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="row-name">Description</span>
+      </td>
+      <td>
+        <span>{{ instanceInfo.instance.description }}</span>
+      </td>
+    </tr>
+  </table>
+</md-content>

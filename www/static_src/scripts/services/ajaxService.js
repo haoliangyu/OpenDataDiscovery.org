@@ -53,7 +53,9 @@ class ajaxService {
    */
   getInstanceInfo(instanceID, regionID) {
     return this.$http
-      .get(`/api/instance/${instanceID}/${regionID}`)
+      .get(`/api/instance/${instanceID}/${regionID}`, {
+        cache: true
+      })
       .then(result => {
         return result.data;
       });

@@ -2,11 +2,12 @@ import angular from 'angular';
 
 class sidebarCtrl {
 
-  constructor($scope, $rootScope, $mdSidenav, sidebarService) {
+  constructor($scope, $rootScope, $mdSidenav, $q, sidebarService) {
     'ngInject';
 
     this.$mdSidenav = $mdSidenav;
     this.$rootScope = $rootScope;
+    this.$q = $q;
     this.sidebarService = sidebarService;
     this.tabs = ['Instance List', 'Instance Info'];
 
@@ -24,15 +25,21 @@ class sidebarCtrl {
   }
 
   open(view) {
-    this.$mdSidenav('right').toggle()
-      .then(() => {
-        this.sidebarService.visible = true;
+    let promise;
+    if (this.sidebarService.visible) {
+      promise = this.$q.when();
+    } else {
+      promise = this.$mdSidenav('right').toggle();
+    }
 
-        if (view) {
-          var tabIndex = _.indexOf(this.tabs, view);
-          this.selectedTab = tabIndex > -1 ? tabIndex : 0;
-        }
-      });
+    promise.then(() => {
+      this.sidebarService.visible = true;
+
+      if (view) {
+        var tabIndex = _.indexOf(this.tabs, view);
+        this.selectedTab = tabIndex > -1 ? tabIndex : 0;
+      }
+    });
   }
 
   close() {
@@ -44,7 +51,7 @@ class sidebarCtrl {
   }
 }
 
-sidebarCtrl.$inject = ['$scope', '$rootScope', '$mdSidenav', 'sidebarService'];
+sidebarCtrl.$inject = ['$scope', '$rootScope', '$mdSidenav', '$q', 'sidebarService'];
 
 angular.module('OpenDataDiscovery').controller('sidebarCtrl', sidebarCtrl);
 
