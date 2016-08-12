@@ -26,7 +26,9 @@ CREATE TABLE instance_region_xref (
 
 CREATE TABLE region_level (
   id serial PRIMARY KEY,
-  name text
+  name text,
+  max_tile_zoom integer,
+  min_tile_zoom integer
 );
 
 INSERT INTO region_level (id, name) VALUES
@@ -127,18 +129,18 @@ CREATE TABLE organization_data (
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 CREATE INDEX organization_data_xref_id_idx ON organization_data (instance_region_organization_xref_id);
 
-CREATE OR REPLACE VIEW view_vector_tile_layer AS (
-  SELECT
-    i.id AS instance_id,
+CREATE OR REPLACE VIEW public.view_vector_tile_layer AS
+ SELECT i.id AS instance_id,
     i.name AS instance_name,
     irl.level,
     rl.name AS level_name,
     irl.layer_name,
-    irl.active
-    FROM instance_region_level AS irl
-    LEFT JOIN region_level AS rl ON rl.id = irl.level
-    LEFT JOIN instance AS i ON i.id = irl.instance_id
-);
+    irl.active,
+    rl.min_tile_zoom,
+    rl.max_tile_zoom
+   FROM instance_region_level irl
+     LEFT JOIN region_level rl ON rl.id = irl.level
+     LEFT JOIN instance i ON i.id = irl.instance_id;
 
 CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT
