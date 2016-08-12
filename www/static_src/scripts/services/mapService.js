@@ -15,8 +15,8 @@ class mapService {
     this.sidebarService = sidebarService;
     this.instances = [];
 
-    this.MAXZOOM = 10;
     this.minZoom = 3;
+    this.maxZoom = 10;
   }
 
   initialize() {
@@ -31,9 +31,7 @@ class mapService {
 
     let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-      subdomains: 'abcd',
-      maxZoom: this.MAXZOOM,
-      minZoom: this.minZoom
+      subdomains: 'abcd'
     });
 
     this.map.addLayer(basemap);
@@ -88,6 +86,8 @@ class mapService {
           instance.currentMapLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
             pane: layer.level,
             bbox: L.latLngBounds(latLngs),
+            maxTileZoom: layer.maxTileZoom,
+            minTileZoom: layer.minTileZoom,
             vectorTileLayerStyles: layerStyle,
             onMouseOver: this._onMouseOver.bind(this),
             onMouseOut: this._onMouseOut.bind(this),

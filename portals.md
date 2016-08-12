@@ -47,6 +47,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DataPOA](http://datapoa.com.br/)  | Porto Alegre, RS, Brazil  | City | |
 | [Data.go.jp](http://www.data.go.jp/)  | Japan  | Nation | |
 | [datosabiertos.ec](http://datosabiertos.ec/)  | Ecuador  | Nation | |
+| [Edo State Open Data](data.edostate.gov.ng)  | Edo State, Nigeria  | State | |
 
 # Unsupported portals
 
