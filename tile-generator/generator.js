@@ -104,7 +104,7 @@ exports.preseed = function(instanceID, db) {
 
       _.forEach(layers, function(layer) {
         var url = params.tileBaseUrl + layer;
-        var filePath = sprintf('%s/%s.mbtiles', tileDir, layer);
+        var filePath = sprintf('./tile-server/tiles/%s.mbtiles', layer);
         serverConfig[url] = 'mbtiles://' + filePath;
       });
 

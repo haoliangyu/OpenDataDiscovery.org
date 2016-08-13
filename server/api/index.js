@@ -30,6 +30,21 @@ exports.attachHandlers = function(router) {
   router.get('/api/instances', info.getInstances);
 
   /**
+   * @api {get} /api/instances/summary Get instance summary
+   * @apiName GetInstanceSummary
+   *
+   * @apiSuccessExample
+   * 	{
+   * 		"success": true,
+   * 		"summary": {
+   * 		   "count": 12
+   * 		}
+   * 	}
+   */
+
+  router.get('/api/instances/summary', info.getInstanceSummary);
+
+  /**
    * @api {get} /api/instance/:id Get instance information
    * @apiName GetInstanceInfo
    *
@@ -40,6 +55,7 @@ exports.attachHandlers = function(router) {
    * 			{
    * 				"name": "Data.gov",
    * 				"count": 2000,
+   * 				"description": "test",
    *     		"tags": [
    *     				{ "name": "earth", "updateDate": "2012-08-12", "count": 125 }
    *     		],

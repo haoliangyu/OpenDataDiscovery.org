@@ -8,7 +8,7 @@ var srcDir = 'static_src';
 var outputDir = 'static';
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   debug: true,
   entry: {
     app: path.resolve(srcDir, 'scripts/app.js')

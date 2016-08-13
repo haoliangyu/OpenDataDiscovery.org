@@ -20,6 +20,18 @@ class ajaxService {
   }
 
   /**
+   * Get a summary of instances
+   * @return {object} response object
+   */
+  getInstanceSummary() {
+    return this.$http
+      .get('/api/instances/summary')
+      .then(result => {
+        return result.data;
+      });
+  }
+
+  /**
    * Get region level list
    * @return {object} response object
    */
@@ -31,10 +43,31 @@ class ajaxService {
       });
   }
 
+  /**
+   * Get style definition.
+   * @param  {integer} classCount   number of style classes
+   * @return {object[]}             styles
+   */
   getMapStyles(classCount) {
     classCount |= 5;
     return this.$http
       .post('/api/map_styles', { class: classCount })
+      .then(result => {
+        return result.data;
+      });
+  }
+
+  /**
+   * [getInstanceInfo description]
+   * @param  {integer} instanceID instance ID
+   * @param  {integer} regionID   region ID
+   * @return {object}             instance info
+   */
+  getInstanceInfo(instanceID, regionID) {
+    return this.$http
+      .get(`/api/instance/${instanceID}/${regionID}`, {
+        cache: true
+      })
       .then(result => {
         return result.data;
       });
