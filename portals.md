@@ -48,6 +48,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Data.go.jp](http://www.data.go.jp/)  | Japan  | Nation | |
 | [datosabiertos.ec](http://datosabiertos.ec/)  | Ecuador  | Nation | |
 | [Edo State Open Data](data.edostate.gov.ng)  | Edo State, Nigeria  | State | |
+| [Environmental Climate Data Sweden](dhttps://ecds.se/)  | Sweden  | Nation | |
 
 # Unsupported portals
 
@@ -64,5 +65,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
 | [datos.gob.mx](http://datos.gob.mx/)  | Mexico  | API unavailable |
 | [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
+| [ECAI Data Portal](http://ecaidata.org/)  | Worldwide | not region-specific |
+| [Etsin](https://etsin.avointiede.fi/)  | Worldwide | no standard CKAN API provided |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).

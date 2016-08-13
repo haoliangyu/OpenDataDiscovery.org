@@ -26,6 +26,25 @@ describe('API - /api/instances', function() {
   });
 });
 
+describe('API - /api/instances/summary', function() {
+  it('It should return a summary of instances', function(done) {
+    request('localhost:' + params.port.development)
+      .get('/api/instances/summary')
+      .end(function(err, res) {
+        if (err) {
+          expect(res.body.success).to.be.false;
+          expect(res.body.message).to.exist;
+          done();
+          return;
+        }
+
+        expect(res.body.success).to.be.true;
+        expect(res.body.summary.count).to.be.above(0);
+        done();
+      });
+  });
+});
+
 describe('API - /api/region_levels', function() {
   it('It should return an array of region levels', function(done) {
     request('localhost:' + params.port.development)

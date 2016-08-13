@@ -60,6 +60,32 @@ exports.getRegionLevels = function(req, res) {
     });
 };
 
+exports.getInstanceSummary = function(req, res) {
+  var db = pgp(params.dbConnStr);
+  var sql = [
+    'SELECT SUM(viri.count) FROM view_vector_tile_layer AS vvtl',
+    ' LEFT JOIN view_instance_region_info AS viri ON viri.instance_id = vvtl.instance_id',
+    '   AND viri.level = vvtl.level'
+  ].join(' ');
+
+  db.one(sql)
+    .then(function(result) {
+      res.json({
+        success: true,
+        summary: {
+          count: result.sum
+        }
+      });
+    })
+    .catch(function(err) {
+      logger.error(err);
+      res.status(500).json({
+        success: false,
+        message: err.message
+      });
+    });
+};
+
 exports.getInstanceInfo = function(req, res) {
   var instanceID = req.params.instanceID;
   var regionID = req.params.regionID;
