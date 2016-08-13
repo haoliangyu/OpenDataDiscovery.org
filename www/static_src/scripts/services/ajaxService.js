@@ -20,6 +20,18 @@ class ajaxService {
   }
 
   /**
+   * Get a summary of instances
+   * @return {object} response object
+   */
+  getInstanceSummary() {
+    return this.$http
+      .get('/api/instances/summary')
+      .then(result => {
+        return result.data;
+      });
+  }
+
+  /**
    * Get region level list
    * @return {object} response object
    */

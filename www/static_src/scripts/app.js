@@ -6,11 +6,13 @@ import 'angular-material';
 import 'angular-route';
 import 'lodash';
 
+require('../../../node_modules/angular-filter-count-to/src/angular-count-to.js');
 require('../styles/app.less');
 
 angular.module('OpenDataDiscovery', [
   'ngMaterial',
-  'ngRoute'
+  'ngRoute',
+  'countTo'
 ])
 .constant('_', window._)
 .config(function($routeProvider, $locationProvider, $mdThemingProvider) {

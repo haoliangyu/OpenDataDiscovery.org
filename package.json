@@ -65,6 +65,7 @@
     "angular": "^1.5.6",
     "angular-animate": "^1.5.8",
     "angular-aria": "^1.5.8",
+    "angular-filter-count-to": "git+https://github.com/haoliangyu/angular-filter-count-to.git",
     "angular-material": "^1.1.0-rc.5",
     "angular-route": "^1.5.7",
     "bluebird": "^3.4.1",

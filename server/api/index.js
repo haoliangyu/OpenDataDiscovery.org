@@ -30,6 +30,21 @@ exports.attachHandlers = function(router) {
   router.get('/api/instances', info.getInstances);
 
   /**
+   * @api {get} /api/instances/summary Get instance summary
+   * @apiName GetInstanceSummary
+   *
+   * @apiSuccessExample
+   * 	{
+   * 		"success": true,
+   * 		"summary": {
+   * 		   "count": 12
+   * 		}
+   * 	}
+   */
+
+  router.get('/api/instances/summary', info.getInstanceSummary);
+
+  /**
    * @api {get} /api/instance/:id Get instance information
    * @apiName GetInstanceInfo
    *
