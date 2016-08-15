@@ -28,12 +28,6 @@ class toolbarCtrl {
         click: this.showInstanceList.bind(this)
       },
       {
-        name: 'about',
-        tooltip: 'About',
-        icon: 'fa-info',
-        click: this.showAbout.bind(this)
-      },
-      {
         name: 'github',
         tooltip: 'Visite Projec Repository',
         icon: 'fa-github-alt',
