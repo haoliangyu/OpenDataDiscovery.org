@@ -50,8 +50,18 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Edo State Open Data](data.edostate.gov.ng)  | Edo State, Nigeria  | State | |
 | [Environmental Climate Data Sweden](https://ecds.se/)  | Sweden  | Nation | |
 | [London Datastore](http://data.london.gov.uk/)  | London, UK  | City | |
+| [Fortaleza Dados Abertos](http://dados.fortaleza.ce.gov.br/portal/)  | Fortaleza - Ceara, Brazil  | City | |
 
-# Unsupported portals
+# Planned Portals
+
+These are portals in the support plan, but not added.
+
+|  Portal |  Region | Region Level |
+| --- | --- | --- |
+| [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
+| [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
+
+# Unsupported Portals
 
 |  Portal |  Region | Reason |
 | --- | --- | --- | --- |
