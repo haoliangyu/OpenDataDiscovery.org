@@ -51,6 +51,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Environmental Climate Data Sweden](https://ecds.se/)  | Sweden  | Nation | |
 | [London Datastore](http://data.london.gov.uk/)  | London, UK  | City | |
 | [Fortaleza Dados Abertos](http://dados.fortaleza.ce.gov.br/portal/)  | Fortaleza - Ceara, Brazil  | City | |
+| [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
 
 # Planned Portals
 
@@ -60,6 +61,8 @@ These are portals in the support plan, but not added.
 | --- | --- | --- |
 | [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
 | [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
+| [Japan Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
+| [datos.gob.mx](http://datos.gob.mx/) ([API](http://datos.gob.mx/busca/api/3)) | Mexico  | Nation |
 
 # Unsupported Portals
 
@@ -74,7 +77,6 @@ These are portals in the support plan, but not added.
 | [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
 | [data.norge.no](http://data.norge.no/)  | Norway  | not provide standard CKAN APIs |
 | [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
-| [datos.gob.mx](http://datos.gob.mx/)  | Mexico  | API unavailable |
 | [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
 | [ECAI Data Portal](http://ecaidata.org/)  | Worldwide | not region-specific |
 | [Etsin](https://etsin.avointiede.fi/)  | Worldwide | no standard CKAN API provided |
