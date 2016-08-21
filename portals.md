@@ -52,6 +52,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [London Datastore](http://data.london.gov.uk/)  | London, UK  | City | |
 | [Fortaleza Dados Abertos](http://dados.fortaleza.ce.gov.br/portal/)  | Fortaleza - Ceara, Brazil  | City | |
 | [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
+| [Grand Rapids Open Data](http://data.grcity.us/)  | Grand Rapids, MI, USA  | City | |
+| [Greece Open Data Hub](http:http://opendatahub.gr/)  | Greece  | Nation | |
 
 # Planned Portals
 
@@ -75,11 +77,12 @@ These are portals in the support plan, but not added.
 | [DATA CITY Sabae](http://ckan.sabae.jrrk.org/)  | Sabae, Japan  | site unaccessible |
 | [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
 | [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
-| [data.norge.no](http://data.norge.no/)  | Norway  | not provide standard CKAN APIs |
 | [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
 | [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
 | [ECAI Data Portal](http://ecaidata.org/)  | Worldwide | not region-specific |
 | [Etsin](https://etsin.avointiede.fi/)  | Worldwide | no standard CKAN API provided |
 | [Yokohama Open Data Portal](http://data.yokohamaopendata.jp/)  | Yokohama, Japan | site unaccessible |
+| [Going.io](http://gong.io/)  | Wollongong, Australia | site unaccessible |
+| [Graz Open Data](http://data.graz.gv.at/)  | Graz, Austria | no standard CKAN API provided |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
