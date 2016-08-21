@@ -53,7 +53,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Fortaleza Dados Abertos](http://dados.fortaleza.ce.gov.br/portal/)  | Fortaleza - Ceara, Brazil  | City | |
 | [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
 | [Grand Rapids Open Data](http://data.grcity.us/)  | Grand Rapids, MI, USA  | City | |
-| [Greece Open Data Hub](http:http://opendatahub.gr/)  | Greece  | Nation | |
+| [Greek Open Data Hub](http://opendatahub.gr/)  | Greece  | Nation | |
 
 # Planned Portals
 
