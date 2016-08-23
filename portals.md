@@ -54,6 +54,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
 | [Grand Rapids Open Data](http://data.grcity.us/)  | Grand Rapids, MI, USA  | City | |
 | [Greek Open Data Hub](http://opendatahub.gr/)  | Greece  | Nation | |
+| [Houston](http://data.ohouston.org/)  | Houston, TX, usa | City | |
 
 # Planned Portals
 
@@ -84,5 +85,6 @@ These are portals in the support plan, but not added.
 | [Yokohama Open Data Portal](http://data.yokohamaopendata.jp/)  | Yokohama, Japan | site unaccessible |
 | [Going.io](http://gong.io/)  | Wollongong, Australia | site unaccessible |
 | [Graz Open Data](http://data.graz.gv.at/)  | Graz, Austria | no standard CKAN API provided |
+| [HealthData.gov](http://www.healthdata.gov/)  | United States | not CKAN-based |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
