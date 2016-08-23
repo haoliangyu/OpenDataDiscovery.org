@@ -1,8 +1,7 @@
-var _ = require('lodash');
 var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var logger = require('log4js').getLogger('map');
-var ss = require('simple-statistics');
+var geostats = require('geostats');
 var cb = require('colorbrewer');
 
 var params = require('../config/params.js');
@@ -18,22 +17,24 @@ exports.getStyles = function(req, res) {
   ];
 
   var instances = req.body.instances;
-  var classCount = req.body.class || 5;
-  var palette = cb.YlGnBu[classCount];
+  var count = req.body.class || 5;
+  var palette = cb.YlGnBu[count];
 
   if (instances) { sql.push('AND viri.instance_id IN ($1^)'); }
 
   db.one(sql.join(' '), instances ? pgp.as.csv(instances) : undefined)
     .then(function(result) {
-      var groupped = ss.ckmeans(result.counts, classCount);
+      var breaks = getClassBreaks(result.counts, count);
 
-      response.styles = _.map(groupped, function(group, index) {
-        return {
-          fill: palette[index],
-          lowerBound: _.first(group),
-          upperBound: _.last(group)
-        };
-      });
+      response.styles = [];
+
+      for (var i = 0, n = breaks.length - 1; i < n; i++) {
+        response.styles.push({
+          fill: palette[i],
+          lowerBound: breaks[i],
+          upperBound: breaks[i + 1]
+        });
+      }
 
       res.json(response);
     })
@@ -45,3 +46,8 @@ exports.getStyles = function(req, res) {
       });
     });
 };
+
+function getClassBreaks(data, count) {
+  var stats = new geostats(data);
+  return stats.getClassQuantile(count);
+}
