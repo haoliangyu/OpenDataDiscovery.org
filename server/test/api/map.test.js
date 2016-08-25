@@ -1,6 +1,7 @@
 var request = require('supertest');
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var _ = require('lodash');
 
 chai.use(chaiAsPromised);
 var expect = chai.expect;
@@ -23,6 +24,14 @@ describe('API - /api/map_styles', function() {
 
         expect(res.body.success).to.be.true;
         expect(res.body.styles).to.have.lengthOf(5);
+
+        _.forEach(res.body.styles, function(style) {
+          expect(style.fill).to.match(/^#(?:[0-9a-f]{3}){1,2}$/i);
+          expect(style.upperBound).to.be.a('number');
+          expect(style.lowerBound).to.be.a('number');
+          expect(style.percentTile).to.be.a('number');
+        });
+
         done();
       });
   });

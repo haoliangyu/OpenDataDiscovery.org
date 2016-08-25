@@ -21,14 +21,46 @@ map-view {
     left: 20px;
     margin-right: 60px;
     font-size: 35px;
+    font-weight: bold;
   }
 
   .toolbar {
     top: 40px;
     right: 10px;
+
+    .toolbar-button {
+      pointer-events: initial;
+    }
   }
 
-  .toolbar-button {
-    pointer-events: initial;
+  .legend {
+    bottom: 15px;
+    left: 15px;
+    padding: 0 10px 0 10px;
+    background-color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 10px;
+
+    .legend-title {
+      font-weight: bold;
+      font-size: 22px;
+    }
+
+    .style-info {
+      margin-bottom: 5px;
+      list-style-type: none;
+
+      i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+      }
+
+      span {
+
+      }
+    }
   }
 }

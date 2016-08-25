@@ -32,7 +32,8 @@ exports.getStyles = function(req, res) {
         response.styles.push({
           fill: palette[i],
           lowerBound: breaks[i],
-          upperBound: breaks[i + 1]
+          upperBound: breaks[i + 1],
+          percentTile: 1 / n * (i + 1)
         });
       }
 
