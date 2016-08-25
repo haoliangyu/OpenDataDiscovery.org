@@ -14,6 +14,7 @@ class mapService {
     this.ajaxService = ajaxService;
     this.sidebarService = sidebarService;
     this.instances = [];
+    this.styles = [];
 
     this.minZoom = 3;
     this.maxZoom = 10;
@@ -37,12 +38,11 @@ class mapService {
     this.map.addLayer(basemap);
 
     let baseUrl = this.ajaxService.getBaseUrl();
-    let styles;
 
     this.ajaxService
       .getMapStyles(5)
       .then(result => {
-        styles = result.styles;
+        this.styles = result.styles;
         return this.ajaxService.getRegionLevels();
       })
       .then(result => {
@@ -70,7 +70,7 @@ class mapService {
           let layerStyle = {};
           layerStyle[layer.name] = properties => {
             var count = properties.count;
-            let color = _.find(styles, style => {
+            let color = _.find(this.styles, style => {
               return style.lowerBound <= count && count <= style.upperBound;
             }).fill;
 
