@@ -54,7 +54,9 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
 | [Grand Rapids Open Data](http://data.grcity.us/)  | Grand Rapids, MI, USA  | City | |
 | [Greek Open Data Hub](http://opendatahub.gr/)  | Greece  | Nation | |
-| [Houston](http://data.ohouston.org/)  | Houston, TX, usa | City | |
+| [Houston](http://data.ohouston.org/)  | Houston, TX, USA | City | |
+| [Helsinki Region Inforshare](http://www.hri.fi/)  | Helsinki, Finland | City | |
+| [Landcare Research NZ DataStore](http://datastore.landcareresearch.co.nz/)  | New Zealand | Nation | |
 
 # Planned Portals
 
@@ -66,6 +68,9 @@ These are portals in the support plan, but not added.
 | [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
 | [Japan Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
 | [datos.gob.mx](http://datos.gob.mx/) ([API](http://datos.gob.mx/busca/api/3)) | Mexico  | Nation |
+| [The Humanitarian
+Data Exchange](https://data.humdata.org) | | Worldwide |
+| [GovData](https://www.govdata.de/) | Germany | Nation |
 
 # Unsupported Portals
 
@@ -85,6 +90,9 @@ These are portals in the support plan, but not added.
 | [Yokohama Open Data Portal](http://data.yokohamaopendata.jp/)  | Yokohama, Japan | site unaccessible |
 | [Going.io](http://gong.io/)  | Wollongong, Australia | site unaccessible |
 | [Graz Open Data](http://data.graz.gv.at/)  | Graz, Austria | no standard CKAN API provided |
-| [HealthData.gov](http://www.healthdata.gov/)  | United States | not CKAN-based |
+| [II Portale Opendata della Provincia di Roma](http://www.opendata.provincia.roma.it/)  | Province of Rome, Italy | API not working |
+| [Indonesia Data Portal](http://data.go.id/)  | Indonesia | API not working |
+| [Lake Winnipeg Basin Information Network Data Hub](http://130.179.67.140/)  | Canada | |
+| [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
