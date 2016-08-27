@@ -57,6 +57,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Houston](http://data.ohouston.org/)  | Houston, TX, USA | City | |
 | [Helsinki Region Inforshare](http://www.hri.fi/)  | Helsinki, Finland | City | |
 | [Landcare Research NZ DataStore](http://datastore.landcareresearch.co.nz/)  | New Zealand | Nation | |
+| [Minnesota Geospatial Commons](http://gisdata.mn.gov/)  | Minnesota, USA | State | |
 
 # Planned Portals
 
