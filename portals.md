@@ -48,9 +48,32 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Data.go.jp](http://www.data.go.jp/)  | Japan  | Nation | |
 | [datosabiertos.ec](http://datosabiertos.ec/)  | Ecuador  | Nation | |
 | [Edo State Open Data](data.edostate.gov.ng)  | Edo State, Nigeria  | State | |
-| [Environmental Climate Data Sweden](dhttps://ecds.se/)  | Sweden  | Nation | |
+| [Environmental Climate Data Sweden](https://ecds.se/)  | Sweden  | Nation | |
+| [London Datastore](http://data.london.gov.uk/)  | London, UK  | City | |
+| [Fortaleza Dados Abertos](http://dados.fortaleza.ce.gov.br/portal/)  | Fortaleza - Ceara, Brazil  | City | |
+| [Glasgow Open Data](https://data.glasgow.gov.uk/)  | Glasgow, Scotland, UK  | City | |
+| [Grand Rapids Open Data](http://data.grcity.us/)  | Grand Rapids, MI, USA  | City | |
+| [Greek Open Data Hub](http://opendatahub.gr/)  | Greece  | Nation | |
+| [Houston](http://data.ohouston.org/)  | Houston, TX, USA | City | |
+| [Helsinki Region Inforshare](http://www.hri.fi/)  | Helsinki, Finland | City | |
+| [Landcare Research NZ DataStore](http://datastore.landcareresearch.co.nz/)  | New Zealand | Nation | |
+| [Minnesota Geospatial Commons](http://gisdata.mn.gov/)  | Minnesota, USA | State | |
 
-# Unsupported portals
+# Planned Portals
+
+These are portals in the support plan, but not added.
+
+|  Portal |  Region | Region Level |
+| --- | --- | --- |
+| [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
+| [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
+| [Japan Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
+| [datos.gob.mx](http://datos.gob.mx/) ([API](http://datos.gob.mx/busca/api/3)) | Mexico  | Nation |
+| [The Humanitarian
+Data Exchange](https://data.humdata.org) | | Worldwide |
+| [GovData](https://www.govdata.de/) | Germany | Nation |
+
+# Unsupported Portals
 
 |  Portal |  Region | Reason |
 | --- | --- | --- | --- |
@@ -61,11 +84,16 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [DATA CITY Sabae](http://ckan.sabae.jrrk.org/)  | Sabae, Japan  | site unaccessible |
 | [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
 | [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
-| [data.norge.no](http://data.norge.no/)  | Norway  | not provide standard CKAN APIs |
 | [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
-| [datos.gob.mx](http://datos.gob.mx/)  | Mexico  | API unavailable |
 | [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
 | [ECAI Data Portal](http://ecaidata.org/)  | Worldwide | not region-specific |
 | [Etsin](https://etsin.avointiede.fi/)  | Worldwide | no standard CKAN API provided |
+| [Yokohama Open Data Portal](http://data.yokohamaopendata.jp/)  | Yokohama, Japan | site unaccessible |
+| [Going.io](http://gong.io/)  | Wollongong, Australia | site unaccessible |
+| [Graz Open Data](http://data.graz.gv.at/)  | Graz, Austria | no standard CKAN API provided |
+| [II Portale Opendata della Provincia di Roma](http://www.opendata.provincia.roma.it/)  | Province of Rome, Italy | API not working |
+| [Indonesia Data Portal](http://data.go.id/)  | Indonesia | API not working |
+| [Lake Winnipeg Basin Information Network Data Hub](http://130.179.67.140/)  | Canada | |
+| [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
