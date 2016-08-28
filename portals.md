@@ -31,7 +31,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Danube Reference Data And Service Infrastructure](http://drdsi.jrc.ec.europa.eu/)  | Europe  | Continent | |
 | [DadosRS](http://dados.rs.gov.br/)  | Rio Grande do Sul, Brazil  | State | |
 | [Data for Japan](http://dataforjapan.org/)  | Japan  | Nation | |
-| [data.gov.au](https://data.gov.au/)  | Austria  | Nation | |
+| [data.gov.au](https://data.gov.au/)  | Australia  | Nation | |
 | [data.gc.ca](http://open.canada.ca/en/open-data/)  | Canada  | Nation | |
 | [data.gov.ie](https://data.gov.ie/data/)  | Ireland  | Nation | |
 | [data.gov.sk](https://data.gov.sk/)  | Slovakia  | Nation | |
@@ -58,6 +58,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Helsinki Region Inforshare](http://www.hri.fi/)  | Helsinki, Finland | City | |
 | [Landcare Research NZ DataStore](http://datastore.landcareresearch.co.nz/)  | New Zealand | Nation | |
 | [Minnesota Geospatial Commons](http://gisdata.mn.gov/)  | Minnesota, USA | State | |
+| [Montreal Open Data](http://donnees.ville.montreal.qc.ca/)  | Montreal, Canada | City | |
 
 # Planned Portals
 
@@ -68,6 +69,7 @@ These are portals in the support plan, but not added.
 | [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
 | [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
 | [Japan Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
+| [METI](http://datameti.go.jp/data/)  | Japan  | Nation |
 | [datos.gob.mx](http://datos.gob.mx/) ([API](http://datos.gob.mx/busca/api/3)) | Mexico  | Nation |
 | [The Humanitarian
 Data Exchange](https://data.humdata.org) | | Worldwide |
@@ -95,5 +97,6 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [Indonesia Data Portal](http://data.go.id/)  | Indonesia | API not working |
 | [Lake Winnipeg Basin Information Network Data Hub](http://130.179.67.140/)  | Canada | |
 | [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
+| [Linz Open Data](https://www.data.gv.at/suche/?search-term=&top10Filter_Stadt+Linz=on&publisherFilter_Stadt+Linz=on&search-data-only=search-data-only&hideFilters)  | Linz, Austria | it's a page of [data.gv.at](data.gv.at) |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
