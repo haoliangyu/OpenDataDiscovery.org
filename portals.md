@@ -59,6 +59,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Landcare Research NZ DataStore](http://datastore.landcareresearch.co.nz/)  | New Zealand | Nation | |
 | [Minnesota Geospatial Commons](http://gisdata.mn.gov/)  | Minnesota, USA | State | |
 | [Montreal Open Data](http://donnees.ville.montreal.qc.ca/)  | Montreal, Canada | City | |
+| [Nantou City Open Data](http://data.nantou.gov.tw/)  | Nantou, Taiwan, China | City | |
 
 # Planned Portals
 
@@ -98,5 +99,6 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [Lake Winnipeg Basin Information Network Data Hub](http://130.179.67.140/)  | Canada | |
 | [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
 | [Linz Open Data](https://www.data.gv.at/suche/?search-term=&top10Filter_Stadt+Linz=on&publisherFilter_Stadt+Linz=on&search-data-only=search-data-only&hideFilters)  | Linz, Austria | it's a page of [data.gv.at](data.gv.at) |
+| [National Geothermal Data System](http://geothermaldata.org/)  | USA | API not working |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
