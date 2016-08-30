@@ -64,8 +64,11 @@ exports.getInstanceSummary = function(req, res) {
   var db = pgp(params.dbConnStr);
   var sql = [
     'SELECT SUM(viri.count) FROM view_vector_tile_layer AS vvtl',
-    ' LEFT JOIN view_instance_region_info AS viri ON viri.instance_id = vvtl.instance_id',
-    '   AND viri.level = vvtl.level'
+    ' LEFT JOIN view_instance_region_info AS viri',
+    '   ON viri.instance_id = vvtl.instance_id AND viri.level = vvtl.level',
+    ' LEFT JOIN instance_region_level AS irl',
+    '   ON irl.instance_id = viri.instance_id AND irl.level = viri.level',
+    'WHERE irl.active'
   ].join(' ');
 
   db.one(sql)
