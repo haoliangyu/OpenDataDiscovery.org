@@ -60,6 +60,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Minnesota Geospatial Commons](http://gisdata.mn.gov/)  | Minnesota, USA | State | |
 | [Montreal Open Data](http://donnees.ville.montreal.qc.ca/)  | Montreal, Canada | City | |
 | [Nantou City Open Data](http://data.nantou.gov.tw/)  | Nantou, Taiwan, China | City | |
+| [Nosdonnees.fr](http://www.nosdonnees.fr/)  | France | Nation | |
 
 # Planned Portals
 
