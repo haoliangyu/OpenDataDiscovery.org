@@ -61,6 +61,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Montreal Open Data](http://donnees.ville.montreal.qc.ca/)  | Montreal, Canada | City | |
 | [Nantou City Open Data](http://data.nantou.gov.tw/)  | Nantou, Taiwan, China | City | |
 | [Nosdonnees.fr](http://www.nosdonnees.fr/)  | France | Nation | |
+| [OffeneDaten.de](http://offenedaten.de/)  | Germany | Nation | |
 
 # Planned Portals
 
@@ -76,6 +77,7 @@ These are portals in the support plan, but not added.
 | [The Humanitarian
 Data Exchange](https://data.humdata.org) | | Worldwide |
 | [GovData](https://www.govdata.de/) | Germany | Nation |
+| [National Oceanic and Atmospheric Administration](https://www.govdata.de/) | USA | Nation |
 
 # Unsupported Portals
 
