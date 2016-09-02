@@ -63,6 +63,7 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Nosdonnees.fr](http://www.nosdonnees.fr/)  | France | Nation | |
 | [OffeneDaten.de](http://offenedaten.de/)  | Germany | Nation | |
 | [Open Data Aarhus](http://www.odaa.dk/)  | Aarhus, Denmark | City | |
+| [Open Data Gortynia](http://opendatagortynia.gr/)  | Gortynia, Greek | City | |
 
 # Planned Portals
 
@@ -104,6 +105,8 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
 | [Linz Open Data](https://www.data.gv.at/suche/?search-term=&top10Filter_Stadt+Linz=on&publisherFilter_Stadt+Linz=on&search-data-only=search-data-only&hideFilters)  | Linz, Austria | it's a page of [data.gv.at](data.gv.at) |
 | [National Geothermal Data System](http://geothermaldata.org/)  | USA | API not working |
-| [Offene Daten Mettmann](http://www.offene-daten.me/)  | Mettmann, Germany | Site unaccessible |
+| [Offene Daten Mettmann](http://www.offene-daten.me/)  | Mettmann, Germany | Site inaccessible |
+| [Open Data Burkina Faso](http://data.gov.bf/)  | Burkina Faso | Site inaccessible |
+| [Open Canarias](http://opendatacanarias.es/) | Canary Island, Spain | API inaccessible |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
