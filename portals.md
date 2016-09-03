@@ -63,7 +63,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Nosdonnees.fr](http://www.nosdonnees.fr/)  | France | Nation | |
 | [OffeneDaten.de](http://offenedaten.de/)  | Germany | Nation | |
 | [Open Data Aarhus](http://www.odaa.dk/)  | Aarhus, Denmark | City | |
-| [Open Data Gortynia](http://opendatagortynia.gr/)  | Gortynia, Greek | City | |
+| [Open Data Gortynia](http://opendatagortynia.gr/)  | Gortynia, Greece | City | |
+| [Open Data della Regione Toscana](http://dati.toscana.it/)  | Tuscany, Italy | Region | |
 
 # Planned Portals
 
