@@ -65,6 +65,8 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Open Data Aarhus](http://www.odaa.dk/)  | Aarhus, Denmark | City | |
 | [Open Data Gortynia](http://opendatagortynia.gr/)  | Gortynia, Greece | City | |
 | [Open Data della Regione Toscana](http://dati.toscana.it/)  | Tuscany, Italy | Region | |
+| [Open Data in Uganda](http://data.ug/)  | Uganda | Nation | |
+| [Open Data Lazio](https://dati.lazio.it/)  | Lazio, Italy | Region | |
 
 # Planned Portals
 
@@ -109,5 +111,6 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [Offene Daten Mettmann](http://www.offene-daten.me/)  | Mettmann, Germany | Site inaccessible |
 | [Open Data Burkina Faso](http://data.gov.bf/)  | Burkina Faso | Site inaccessible |
 | [Open Canarias](http://opendatacanarias.es/) | Canary Island, Spain | API inaccessible |
+| [Open Data Hub Italy](http://www.sciamlab.com/opendatahub/) | Italy | standard API inaccessible |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
