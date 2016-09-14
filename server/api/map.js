@@ -3,28 +3,20 @@ var pgp = require('pg-promise')({ promiseLib: Promise });
 var logger = require('log4js').getLogger('map');
 var geostats = require('geostats');
 var cb = require('colorbrewer');
+var _ = require('lodash');
 
 var params = require('../config/params.js');
 
 exports.getStyles = function(req, res) {
   var response = { success: true };
   var db = pgp(params.dbConnStr);
-  var sql = [
-    'SELECT array_agg(viri.count ORDER BY viri.count) AS counts FROM view_instance_region_info AS viri',
-    'LEFT JOIN instance_region_xref AS irx ON irx.instance_id = viri.instance_id AND viri.region_id = irx.region_id',
-    'LEFT JOIN instance_region_level AS irl ON irl.id = irx.instance_region_level_id',
-    'WHERE irl.active AND viri.count IS NOT NULL'
-  ];
-
-  var instances = req.body.instances;
-  var count = req.body.class || 5;
+  var count = req.params.count;
   var palette = cb.YlGnBu[count];
 
-  if (instances) { sql.push('AND viri.instance_id IN ($1^)'); }
-
-  db.one(sql.join(' '), instances ? pgp.as.csv(instances) : undefined)
-    .then(function(result) {
-      var breaks = getClassBreaks(result.counts, count);
+  db.any('SELECT SUM(count)::integer AS count FROM view_instance_region_info GROUP BY region_id')
+    .then(function(results) {
+      var counts = _.map(results, 'count');
+      var breaks = getClassBreaks(counts, count);
 
       response.styles = [];
 

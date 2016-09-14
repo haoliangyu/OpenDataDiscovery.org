@@ -4,5 +4,3 @@ exports.port = {
   production: 8088,
   development: 8086
 };
-
-exports.vtRequestUrl = '/vt/%s/{z}/{x}/{y}.pbf';

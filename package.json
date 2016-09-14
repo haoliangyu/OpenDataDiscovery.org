@@ -68,6 +68,7 @@
     "angular-aria": "^1.5.8",
     "angular-filter-count-to": "git+https://github.com/haoliangyu/angular-filter-count-to.git",
     "angular-material": "^1.1.0-rc.5",
+    "angular-material-data-table": "^0.10.9",
     "angular-route": "^1.5.7",
     "bluebird": "^3.4.1",
     "body-parser": "^1.15.2",

@@ -1,14 +1,11 @@
 <md-content class="instance-list" >
-  <md-checkbox ng-checked="instanceList.isAllSelected()"
-               md-indeterminate="instanceList.isIndeterminate()"
-               ng-click="instanceList.toggleAllInstances()">
-    <span ng-if="instanceList.isAllSelected()">Un-</span>Select All
-  </md-checkbox>
-  <div layout="row" ng-repeat="instance in instanceList.instances" flex>
-    <md-checkbox class="md-align-top-left checkbox-group-item"
-                 ng-model="instance.visible"
-                 ng-click="instanceList.toggleInstance(instance)">
-      {{ instance.name }}
-    </md-checkbox>
-  </div>
+  <md-list ng-cloak>
+    <md-subheader class="md-no-sticky">{{ instanceList.instances.length }} CKAN Data Portals</md-subheader>
+    <md-list-item class="secondary-button-padding"
+                  ng-repeat="instance in instanceList.instances | orderBy: 'name'"
+                  ng-click="instanceList.zoomTo(instance)">
+      <span class="instance-list-name">{{ instance.name }}</span>
+      <md-button class="md-secondary" ng-click="instanceList.seeDetail(instance)">More Info</md-button>
+    </md-list-item>
+  </md-list>
 </md-content>

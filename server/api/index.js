@@ -70,30 +70,13 @@ exports.attachHandlers = function(router) {
    * 		]
    * 	}
    */
-  router.get('/api/instance/:instanceID/:regionID', info.getInstanceInfo);
-
-  /**
-   * @api {get} /api/region_levels Get region levels
-   * @apiName GetRegionLevels
-   *
-   * @apiSuccessExample {json} Response
-   * 	{
-   * 		"success": true,
-   * 		"instances": [
-   *   		{ "level": 0, "name": "continent" },
-   *   		{ "level": 1, "name": "nation" }
-   * 		]
-   * 	}
-   */
-
-  router.get('/api/region_levels', info.getRegionLevels);
+  router.get('/api/instance/:instanceID', info.getInstanceInfo);
 
   /**
    * @api {post} /api/map_styles Get map styles
    * @apiName GetMapStyles
    *
-   * @apiParam {integer}    [class=5]     Number of data classes, range from 3 to 11. Default: 5
-   * @apiParam {integer[]}  [instances]   A list of instance IDs to calculate. If not provided, all instances will be in the calculation.
+   * @apiParam {integer}    [count=5]     Number of data classes, range from 3 to 11. Default: 5
    *
    * @apiSuccessExample {json} Response
    * 	{
@@ -106,6 +89,6 @@ exports.attachHandlers = function(router) {
    * 	}
    */
 
-  router.post('/api/map_styles', bodyParser.json(), map.getStyles);
+  router.get('/api/map_styles/:count', bodyParser.json(), map.getStyles);
 
 };

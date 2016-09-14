@@ -6,22 +6,21 @@ CREATE TABLE instance (
   url text,
   location text,
   description text,
-  crawl_schedule text,
-  georeferenced boolean DEFAULT false
+  active boolean DEFAULT true
 );
 
 CREATE TABLE region (
   id serial PRIMARY KEY,
   name text,
   geom geometry(MULTIPOLYGON, 4326),
-  bbox geometry(POLYGON, 4326)
+  bbox geometry(POLYGON, 4326),
+  region_level_id integer
 );
 
 CREATE TABLE instance_region_xref (
   id serial PRIMARY KEY,
   instance_id integer,
-  region_id integer,
-  instance_region_level_id integer
+  region_id integer
 );
 
 CREATE TABLE region_level (
@@ -37,14 +36,6 @@ INSERT INTO region_level (id, name) VALUES
 (2, 'Provice/State'),
 (3, 'Megalopolis'),
 (4, 'City');
-
-CREATE TABLE instance_region_level (
-  id serial PRIMARY KEY,
-  instance_id integer references instance(id),
-  level integer references region_level(id),
-  layer_name text,
-  active boolean DEFAULT true
-);
 
 CREATE TABLE region_data (
   id serial PRIMARY KEY,
@@ -129,24 +120,11 @@ CREATE TABLE organization_data (
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 CREATE INDEX organization_data_xref_id_idx ON organization_data (instance_region_organization_xref_id);
 
-CREATE OR REPLACE VIEW public.view_vector_tile_layer AS
- SELECT i.id AS instance_id,
-    i.name AS instance_name,
-    irl.level,
-    rl.name AS level_name,
-    irl.layer_name,
-    irl.active,
-    rl.min_tile_zoom,
-    rl.max_tile_zoom
-   FROM instance_region_level irl
-     LEFT JOIN region_level rl ON rl.id = irl.level
-     LEFT JOIN instance i ON i.id = irl.instance_id;
-
 CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT
     r.id AS region_id,
     r.name AS region_name,
-    irl.level AS level,
+    rl.id AS level,
     rl.name AS level_name,
     i.id AS instance_id,
     i.name AS instance_name,
@@ -155,8 +133,7 @@ CREATE MATERIALIZED VIEW view_instance_region AS
   FROM instance AS i
   RIGHT JOIN instance_region_xref AS irx ON i.id = irx.instance_id
   LEFT JOIN region AS r ON r.id = irx.region_id
-  LEFT JOIN instance_region_level AS irl ON irl.id = irx.instance_region_level_id
-  LEFT JOIN region_level AS rl ON rl.id = irl.level
+  LEFT JOIN region_level AS rl ON rl.id = r.region_level_id
   WHERE r.geom IS NOT NULL;
 
 CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom);
@@ -265,7 +242,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
     i.name AS instance_name,
   	r.id AS region_id,
   	r.name AS region_name,
-  	irl.level,
+  	rl.id AS level,
     rl.name AS level_name,
     ld.count,
     ld.update_date,
@@ -275,8 +252,7 @@ CREATE MATERIALIZED VIEW view_instance_region_info AS
   FROM region AS r
   RIGHT JOIN instance_region_xref AS irx ON irx.region_id = r.id
   LEFT JOIN instance AS i ON irx.instance_id = i.id
-  LEFT JOIN instance_region_level AS irl ON irx.instance_region_level_id = irl.id
-  LEFT JOIN region_level AS rl ON irl.level = rl.id
+  LEFT JOIN region_level AS rl ON r.region_level_id = rl.id
   LEFT JOIN latest_data AS ld ON ld.region_id = r.id AND ld.instance_id = i.id
   LEFT JOIN latest_category AS lc ON lc.region_id = r.id AND lc.instance_id = i.id
   LEFT JOIN latest_tag AS lt ON lt.region_id = r.id AND lt.instance_id = i.id

@@ -1,11 +1,7 @@
 exports.dbConnStr = 'postgres://odd_admin:Bko9tu39@localhost:5432/odd';
 
-exports.tempDir = './temp';
+exports.tempDir = './';
 
-exports.tileDir = '../tile-server/tiles';
+exports.tileDir = '../tile-server';
 
-exports.tileBaseUrl = '/vt/';
-
-exports.maxZoom = 10;
-
-exports.minZoom = 3;
+exports.tileUrl = '/vt/regions';

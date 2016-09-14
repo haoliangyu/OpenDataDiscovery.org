@@ -1,125 +1,103 @@
 var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
-var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var sprintf = require('sprintf-js').sprintf;
-var writeFile = Promise.promisify(require('fs').writeFile);
 var exec = require('child-process-promise').exec;
+var QueryStream = require('pg-query-stream');
+var JSONStream = require('JSONStream');
 
 var params = require('./params.js');
-var tempDir = path.resolve(__dirname, params.tempDir);
-var tileDir = path.resolve(__dirname, params.tileDir);
+var db = pgp(params.dbConnStr);
+var source = sprintf('%s/regions.geojson', path.resolve(__dirname, params.tempDir));
+var target = sprintf('%s/regions.mbtiles', path.resolve(__dirname, params.tileDir));
 
-exports.preseed = function(instanceID, db) {
-  db = db || pgp(params.dbConnStr);
+var sql = [
+  'WITH info AS (',
+  ' SELECT',
+  '   viri.region_id AS id,',
+  '   array_agg(json_build_object(',
+  '     \'id\', viri.instance_id,',
+  '     \'name\', viri.instance_name,',
+  '     \'count\', viri.count,',
+  '     \'update\', viri.update_date,',
+  '     \'topTag\', viri.tags[1],',
+  '     \'topOrganization\', viri.organizations[1],',
+  '     \'topCategory\', viri.categories[1]',
+  '   )) AS instances',
+  ' FROM instance_region_xref AS irx',
+  '   LEFT JOIN view_instance_region_info as viri',
+  '     ON viri.instance_id = irx.instance_id AND viri.region_id = irx.region_id',
+  '   LEFT JOIN instance AS i ON i.id = irx.instance_id',
+  ' WHERE i.active',
+  ' GROUP BY viri.region_name, viri.region_id',
+  ')',
+  'SELECT',
+  ' \'Feature\' AS type,',
+  ' json_build_object(\'maxzoom\', rl.max_tile_zoom, \'minzoom\', rl.min_tile_zoom) AS tippecanoe,',
+  ' ST_AsGeoJSON(ST_Simplify(r.geom, 0.001), 3)::json AS geometry,',
+  ' json_build_object(',
+  '   \'id\', r.id,',
+  '   \'name\', r.name,',
+  '   \'instances\', info.instances',
+  ' ) AS properties',
+  'FROM info, region AS r',
+  ' LEFT JOIN instance_region_xref AS irx ON irx.region_id = r.id',
+  ' LEFT JOIN region_level AS rl ON rl.id = r.region_level_id',
+  'WHERE r.id = info.id AND r.geom IS NOT NULL'
+].join(' ');
 
-  var sql = [
-    'SELECT instance_id, level, layer_name FROM view_vector_tile_layer',
-    'WHERE layer_name IS NOT NULL AND active'
-  ];
+var qs = new QueryStream(sql);
 
-  if (instanceID) {
-    sql.push('AND instance_id = $1');
-  }
+db.stream(qs, function(s) {
 
-  return db.any(sql.join(' '), instanceID)
-    .then(function(layers) {
-      // get GeoJSON for each layer
-      var tasks = [];
+  var jsonStart = '{"type": "FeatureCollection", "features": [';
+  var jsonEnd = ']}';
+  var separator = ',';
+  var writeStream = fs.createWriteStream(source);
 
-      sql = [
-        'SELECT ST_AsGeoJSON(vir.geom, 3) AS geom,',
-        'viri.instance_id, viri.instance_name, viri.level, viri.level_name, viri.count, viri.update_date,',
-        'viri.region_id, viri.region_name,',
-        'viri.tags[1] AS top_tag, viri.categories[1] AS top_category, viri.organizations[1] AS top_organization',
-        'FROM view_instance_region_info AS viri',
-        'LEFT JOIN view_instance_region AS vir',
-        '  ON vir.instance_id = viri.instance_id AND vir.region_id = viri.region_id',
-        'WHERE viri.instance_id = $1 AND viri.level = $2 AND vir.geom IS NOT NULL'
-      ].join(' ');
+  s.pipe(JSONStream.stringify(jsonStart, separator, jsonEnd)).pipe(writeStream);
 
-      _.forEach(layers, function(layer) {
-        var promise = db.any(sql, [layer.instance_id, layer.level])
-          .then(function(results) {
-            var features = _.map(results, function(feature) {
-              return {
-                type: 'Feature',
-                geometry: JSON.parse(feature.geom),
-                properties: _.omit(feature, 'geom')
-              };
-            });
+  return streamToPromise(s);
+})
+  .then(function() {
+    var command = [
+      'cat ' + source + ' |',
+      'tippecanoe',
+      '--output=' + target,
+      '--simplification=10',
+      '--gamma=2',
+      '--force',
+      '--drop-polygons',
+      '--no-polygon-splitting',
+      '--reverse;'
+    ].join(' ');
 
-            if (!fs.existsSync(tempDir)){
-              fs.mkdirSync(tempDir);
-            }
+    return exec(command);
+  })
+  .then(function() {
+    var configPath = path.resolve(__dirname, '../tile-server/config.json');
+    var serverConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
-            var geoJSON = { type: 'FeatureCollection', features: features };
-            var fileName = sprintf('%s/%s.geojson', tempDir, layer.layer_name);
-            return writeFile(fileName, JSON.stringify(geoJSON));
-          })
-          .then(function() {
-            return layer.layer_name;
-          });
+    serverConfig = {};
+    serverConfig[params.tileUrl] = 'mbtiles://./tile-server/regions.mbtiles';
 
-        tasks.push(promise);
-      });
-
-      return Promise.all(tasks);
-    })
-    .then(function(results) {
-      // create .mbtiles file
-
-      if (!fs.existsSync(tileDir)){
-        fs.mkdirSync(tileDir);
-      }
-
-      var commands = [];
-
-      _.forEach(results, function(layer) {
-        var source = sprintf('%s/%s.geojson', tempDir, layer);
-        var target = sprintf('%s/%s.mbtiles', tileDir, layer);
-        var command = [
-          'cat ' + source + ' |',
-          'tippecanoe',
-          '--output=' + target,
-          '--layer=' + layer,
-          '--maximum-zoom=' + params.maxZoom,
-          '--minimum-zoom=' + params.minZoom,
-          '--force',
-          '--drop-polygons',
-          '--no-polygon-splitting',
-          '--reverse;'
-        ].join(' ');
-
-        commands.push(command);
-      });
-
-      return exec(commands.join('')).then(function() { return results; });
-    })
-    .then(function(layers) {
-      // update tile-server config
-      var configPath = path.resolve(__dirname, '../tile-server/config.json');
-      var serverConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-
-      _.forEach(layers, function(layer) {
-        var url = params.tileBaseUrl + layer;
-        var filePath = sprintf('./tile-server/tiles/%s.mbtiles', layer);
-        serverConfig[url] = 'mbtiles://' + filePath;
-      });
-
-      fs.writeFileSync(configPath, JSON.stringify(serverConfig));
-      cleanup();
-    })
-    .catch(function(err) {
-      cleanup();
-      return Promise.reject(err);
+    fs.writeFileSync(configPath, JSON.stringify(serverConfig));
+  })
+  .catch(function(err) {
+    console.error(err);
+    process.exit();
+  })
+  .finally(function() {
+    fs.access(source, function() {
+      fs.unlink(source);
     });
-};
+  });
 
-function cleanup() {
-  var files = fs.readdirSync(tempDir);
-  _.forEach(files, function(file) {
-    if (file.endsWith('.geojson')) { fs.unlinkSync(path.resolve(tempDir, file)); }
+function streamToPromise(stream) {
+  return new Promise(function(resolve, reject) {
+    stream.on('end', resolve);
+    stream.on('error', reject);
+    stream.resume();
   });
 }

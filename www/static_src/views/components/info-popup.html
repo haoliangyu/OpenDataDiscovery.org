@@ -1,52 +1,18 @@
-<div class="portal-name">
-  {{ properties.instance_name }}
-</div>
+<h3>
+  {{ region.name }}
+</h3>
 
-<div class="portal-location">
-  {{ properties.region_name }}
-</div>
-
-<table class="popup-info-table">
-  <tr>
-    <td>
-      <span class="row-name">Datasets</span>
-    </td>
-    <td>
-      <span>{{ properties.count }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <span class="row-name">Top Tag</span>
-    </td>
-    <td>
-      <span class="portal-info" ng-if="properties.top_tag">{{ properties.top_tag.name }} ({{ properties.top_tag.count }})</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <span class="row-name">Top Category</span>
-    </td>
-    <td>
-      <span class="portal-info" ng-if="properties.top_category">{{ properties.top_category.name }} ({{ properties.top_category.count }})</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <span class="row-name">Top Organization</span>
-    </td>
-    <td>
-      <span class="portal-info" ng-if="properties.top_organization">{{ properties.top_organization.name }} ({{ properties.top_organization.count }})</span>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <span class="row-name">Update Date</span>
-    </td>
-    <td>
-      <span class="portal-info">{{ properties.update_date | date: 'yyyy-MM-dd' }}</span>
-    </td>
-  </tr>
-</table>
-
-(Click for more detail)
+<md-table-container>
+  <table md-table>
+    <thead md-head>
+      <th md-column>Data Portals</th>
+      <th md-column md-numeric>Datasets</th>
+    </thead>
+    <tbody md-body>
+      <tr md-row ng-repeat="instance in region.instances track by instance.id">
+        <td md-cell>{{ instance.name }}</td>
+        <td md-cell>{{ instance.count }}</td>
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>
