@@ -39,6 +39,7 @@ var sql = [
   ' json_build_object(',
   '   \'id\', r.id,',
   '   \'name\', r.name,',
+  '   \'bbox\', ST_AsGeoJSON(r.bbox, 3),',
   '   \'instances\', info.instances',
   ' ) AS properties',
   'FROM info, region AS r',

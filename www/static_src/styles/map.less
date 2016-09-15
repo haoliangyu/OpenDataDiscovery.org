@@ -29,13 +29,34 @@ map-view {
     }
   }
 
+  .region-info {
+    top: 15px;
+    left: 15px;
+    width: 250px;
+
+    .region-name {
+      line-height: 35px;
+      padding: auto;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 2px solid #616161;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 10px;
+      font-size: 14px;
+    }
+  }
+
   .legend {
     bottom: 15px;
     left: 15px;
     padding: 0 10px 0 10px;
     background-color: #ffffff;
     border: 2px solid transparent;
-    border-radius: 10px;
+    border-radius: 5px;
 
     .legend-title {
       font-weight: bold;
@@ -52,10 +73,6 @@ map-view {
         float: left;
         margin-right: 8px;
         opacity: 0.7;
-      }
-
-      span {
-
       }
     }
   }

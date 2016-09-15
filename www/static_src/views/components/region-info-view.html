@@ -1,0 +1,14 @@
+<md-content>
+  <div class="region-name">
+    <span ng-if="!regionInfo.showRegionInfo">Worldwide</span>
+    <span ng-if="regionInfo.showRegionInfo">{{ regionInfo.name }}</span>
+  </div>
+  <div ng-show="regionInfo.showRegionInfo">
+    <ul>
+      <li ng-repeat="instance in regionInfo.instances | orderBy: 'count'">
+        <i class="fa fa-square" ng-style="{ color: regionInfo.getSquareColor(instance.count)}"></i>
+        {{ instance.name }} ({{ instance.count }})
+      </li>
+    </ul>
+  </div>
+</md-content>

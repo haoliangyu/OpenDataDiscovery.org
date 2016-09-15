@@ -67,7 +67,7 @@ class mapService {
           vectorTileLayerStyles: layerStyle,
           onMouseOver: this._onMouseOver.bind(this),
           onMouseOut: this._onMouseOut.bind(this),
-          onMouseMove: this._onMouseMove.bind(this)
+          onClick: this._onClick.bind(this)
         });
 
         this.map.addLayer(instanceLayer);
@@ -77,49 +77,42 @@ class mapService {
       });
   }
 
-  zoomTo(bbox) {
-    const latLngs = _.map(bbox.coordinates[0], coord => {
+  zoomTo(geometry) {
+    const latLngs = _.map(geometry.coordinates[0], coord => {
       return L.latLng(coord[1], coord[0]);
     });
 
     this.map.fitBounds(L.latLngBounds(latLngs));
   }
 
-  _onMouseOver(e) {
-    this.map.closePopup();
-
+  _onClick(e) {
     // get data from the tile
     const coords = e.target.getCoords();
     const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
 
-    const content = angular.element('<info-popup></info-popup>');
-    const scope = this.$rootScope.$new(true);
+    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(geojson.properties.instances, 'id'));
+
+    if (_.isString(geojson.properties.bbox)) {
+      geojson.properties.bbox = JSON.parse(geojson.properties.bbox);
+    }
+
+    this.zoomTo(geojson.properties.bbox);
+  }
+
+  _onMouseOver(e) {
+    // get data from the tile
+    const coords = e.target.getCoords();
+    const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
 
     if (_.isString(geojson.properties.instances)) {
       geojson.properties.instances = JSON.parse(geojson.properties.instances);
     }
 
-    scope.region = geojson.properties;
-
-    this.currentPopup = L.popup({
-      offset: L.point(0, -1),
-      closeButton: false,
-      minWidth: 250
-    })
-    .setContent(this.$compile(content)(scope)[0])
-    .setLatLng(e.latlng)
-    .openOn(this.map);
+    this.$rootScope.$broadcast('map:inFeature', _.omit(geojson.properties, 'bbox'));
   }
 
   _onMouseOut() {
-    this.map.closePopup();
-    delete this.currentPopup;
-  }
-
-  _onMouseMove(e) {
-    if (this.currentPopup) {
-      this.currentPopup.setLatLng(e.latlng);
-    }
+    this.$rootScope.$broadcast('map:outFeature');
   }
 }
 
