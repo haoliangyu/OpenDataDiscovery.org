@@ -1,11 +1,13 @@
 <md-content class="instance-list" >
   <md-list ng-cloak>
     <md-subheader class="md-no-sticky">{{ instanceList.instances.length }} CKAN Data Portals</md-subheader>
-    <md-list-item class="secondary-button-padding"
+    <md-list-item class="md-2-line"
                   ng-repeat="instance in instanceList.instances | orderBy: 'name'"
-                  ng-click="instanceList.zoomTo(instance)">
-      <span class="instance-list-name">{{ instance.name }}</span>
-      <md-button class="md-secondary" ng-click="instanceList.seeDetail(instance)">More Info</md-button>
+                  ng-click="instanceList.seeDetail(instance)">
+      <div class="md-list-item-text">
+        <h3>{{ instance.name }}</h3>
+        <p>{{ instance.location }}</p>
+      </div>
     </md-list-item>
   </md-list>
 </md-content>

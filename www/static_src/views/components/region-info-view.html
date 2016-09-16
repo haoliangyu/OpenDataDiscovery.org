@@ -5,7 +5,7 @@
   </div>
   <div ng-show="regionInfo.showRegionInfo">
     <ul>
-      <li ng-repeat="instance in regionInfo.instances | orderBy: 'count'">
+      <li ng-repeat="instance in regionInfo.instances | orderBy: 'name'">
         <i class="fa fa-square" ng-style="{ color: regionInfo.getSquareColor(instance.count)}"></i>
         {{ instance.name }} ({{ instance.count }})
       </li>
