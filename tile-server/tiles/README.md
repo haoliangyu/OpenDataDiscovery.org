@@ -1,1 +1,0 @@
-Vector Tiles Folder

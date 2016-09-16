@@ -22,10 +22,10 @@ class toolbarCtrl {
         click: this.mapZoomOut.bind(this)
       },
       {
-        name: 'instance list',
-        tooltip: 'Open Instance List',
-        icon: 'fa-bars',
-        click: this.showInstanceList.bind(this)
+        name: 'world',
+        tooltip: 'Show the World',
+        icon: 'fa-globe',
+        click: this.maxMap.bind(this)
       },
       {
         name: 'github',
@@ -44,12 +44,8 @@ class toolbarCtrl {
     this.mapService.map.zoomOut();
   }
 
-  showInstanceList() {
-    this.$rootScope.$broadcast('sidebar:open', 'Instance List');
-  }
-
-  showAbout() {
-
+  maxMap() {
+    this.mapService.map.fitWorld();
   }
 
   showProjectRepo() {

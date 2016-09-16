@@ -10,12 +10,12 @@ class mapCtrl {
 
     $scope.$on('map:ready', () => {
       this.showLegend = true;
-
-      ajaxService.getInstanceSummary()
-        .then(result => {
-          this.datasets = result.summary.count;
-        });
     });
+
+    ajaxService.getInstanceSummary()
+      .then(result => {
+        this.datasets = result.summary.count;
+      });
 
     mapService.initialize();
   }

@@ -5,14 +5,21 @@ import angular from 'angular';
 import 'angular-material';
 import 'angular-route';
 import 'lodash';
+import 'angular-material-data-table';
 
 require('../../../node_modules/angular-filter-count-to/src/angular-count-to.js');
+
 require('../styles/app.less');
+require('../../../node_modules/angular-material-data-table/dist/md-data-table.css');
+require('../../../node_modules/angular-material/angular-material.css');
+require('../../../node_modules/font-awesome/css/font-awesome.css');
+require('../../../node_modules/leaflet/dist/leaflet.css');
 
 angular.module('OpenDataDiscovery', [
   'ngMaterial',
   'ngRoute',
-  'countTo'
+  'countTo',
+  'md.data.table'
 ])
 .constant('_', window._)
 .config(function($routeProvider, $locationProvider, $mdThemingProvider) {
