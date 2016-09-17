@@ -3,6 +3,7 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 var srcDir = 'static_src';
 var outputDir = 'static';
@@ -15,9 +16,8 @@ module.exports = {
   },
   output: {
     path: outputDir,
-    filename: '[name].bundle.js',
-    sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js'
+    filename: '[name].[hash].bundle.js',
+    sourceMapFilename: '[name].[hash].map'
   },
   resolve: {
     extensions: ['', '.js', '.less', '.css', '.html']
@@ -64,13 +64,14 @@ module.exports = {
       'geojsonvt': 'geojson-vt',
       'SphericalMercator': 'sphericalmercator'
     }),
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
       template: path.resolve(srcDir, 'views/index.html'),
       inject: true
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer'
-    })
+    }),
+    new WebpackCleanupPlugin()
   ]
 };
