@@ -4,6 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+var OptimizeJsPlugin = require("optimize-js-plugin");
 
 var srcDir = 'static_src';
 var outputDir = 'static';
@@ -66,6 +67,9 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer'
     }),
-    new WebpackCleanupPlugin()
+    new WebpackCleanupPlugin(),
+    new OptimizeJsPlugin({
+      sourceMap: true
+    })
   ]
 };
