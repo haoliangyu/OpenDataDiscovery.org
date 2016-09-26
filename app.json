@@ -1,15 +1,6 @@
 {
   "apps": [
     {
-      "name": "odd.preseeding",
-      "script": "./scheduled.js",
-      "watch": ["./crawler", "./generator"],
-      "ignore_watch": ["./crawler/test", "./generator/temp"],
-      "watch_options": {
-        "usePolling": true
-      }
-    },
-    {
       "name": "odd.server",
       "script": "./server/server.js",
       "watch": "./server",
@@ -22,6 +13,14 @@
       },
       "env_production": {
         "NODE_ENV": "production"
+      }
+    },
+    {
+      "name": "odd.server-404",
+      "script": "./server/server.404.js",
+      "watch": "./server/server.404.js",
+      "watch_options": {
+        "usePolling": true
       }
     },
     {
