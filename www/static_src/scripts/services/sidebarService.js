@@ -2,14 +2,19 @@ import angular from 'angular';
 
 class sidebarService {
 
-  constructor() {
+  constructor($rootScope) {
     'ngInject';
-    this.visible = false;
+
+    this.$rootScope = $rootScope;
+  }
+
+  switchTo(view, instance) {
+    this.$rootScope.$broadcast('sidebar:switch', view, instance);
   }
 
 }
 
-sidebarService.$inject = [];
+sidebarService.$inject = ['$rootScope'];
 
 angular.module('OpenDataDiscovery').service('sidebarService', sidebarService);
 

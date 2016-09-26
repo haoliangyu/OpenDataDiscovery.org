@@ -1,50 +1,61 @@
-<md-content ng-hide="instanceInfo.instance" class="sidebar-notification">
+<md-content ng-hide="instanceInfo.instances" class="sidebar-notification">
   Click on a portal for more detail!
 </md-content>
 
-<md-content class="instance-info" ng-show="instanceInfo.instance">
-  <h4>{{ instanceInfo.instance.name }}</h4>
-
-  <table class="instance-info-table">
-    <tr>
-      <td>
-        <span class="row-name">Location</span>
-      </td>
-      <td>
-        <span>{{ instanceInfo.instance.location }}</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="row-name">Website</span>
-      </td>
-      <td>
-        <a ng-href="{{instanceInfo.instance.url}}" target="_blank">visit the portal</a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="row-name">Datasets</span>
-      </td>
-      <td>
-        <span>{{ instanceInfo.instance.count }}</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="row-name">Update</span>
-      </td>
-      <td>
-        <span>{{ instanceInfo.instance.updateDate | date: 'yyyy-MM-dd' }}</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="row-name">Description</span>
-      </td>
-      <td>
-        <span>{{ instanceInfo.instance.description }}</span>
-      </td>
-    </tr>
-  </table>
+<md-content class="instance-info-list" layout="column" ng-show="instanceInfo.instances">
+  <md-card theme="default" ng-repeat="instance in instanceInfo.instances">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ instance.name }}</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-table-container>
+      <table md-table>
+        <tbody md-body>
+          <tr md-row>
+            <td md-cell>
+              <span class="row-name">Location</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.location }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="row-name">Website</span>
+            </td>
+            <td md-cell>
+              <a ng-href="{{instance.url}}" target="_blank">visit the portal</a>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="row-name">Datasets</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.count }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="row-name">Update</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.updateDate | date: 'yyyy-MM-dd' }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="row-name">Description</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.description }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+    <md-card-actions>
+    </md-card-actions>
+  </md-card>
 </md-content>

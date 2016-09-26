@@ -13,7 +13,6 @@ class mapService {
     this.$compile = $compile;
     this.ajaxService = ajaxService;
     this.sidebarService = sidebarService;
-    this.instances = [];
     this.styles = [];
 
     this.minZoom = 3;
@@ -37,134 +36,83 @@ class mapService {
 
     this.map.addLayer(basemap);
 
-    let baseUrl = this.ajaxService.getBaseUrl();
-
     this.ajaxService
       .getMapStyles(5)
       .then(result => {
         this.styles = result.styles;
-        return this.ajaxService.getRegionLevels();
-      })
-      .then(result => {
-        _.forEach(result.levels, (level, index) => {
-          this.map.createPane(level.name);
-          this.map.getPane(level.name).style.pointerEvents = 'none';
 
-          // just make them a bit higher than the tileLayer pane
-          this.map.getPane(level.name).style.zIndex = 210 + index * 10;
-        });
+        const layerStyle = properties => {
+          if (_.isString(properties.instances)) {
+            properties.instances = JSON.parse(properties.instances);
+          }
 
-        return this.ajaxService.getInstances();
-      })
-      .then(result => {
-        this.instances = result.instances;
+          const totalCount = _.reduce(properties.instances, (count, instance) => {
+            return count + instance.count;
+          }, 0);
 
-        _.forEach(result.instances, instance => {
-          instance.visible = true;
+          const color = _.find(this.styles, style => {
+            return style.lowerBound <= totalCount && totalCount <= style.upperBound;
+          }).fill;
 
-          let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
-
-          // only show the upper region level initially
-          let layer = instance.layers[0];
-
-          let layerStyle = {};
-          layerStyle[layer.name] = properties => {
-            var count = properties.count;
-            let color = _.find(this.styles, style => {
-              return style.lowerBound <= count && count <= style.upperBound;
-            }).fill;
-
-            return {
-              color: '#6c7069',
-              weight: 1,
-              fill: true,
-              fillColor: color,
-              fillOpacity: 0.7
-            };
+          return {
+            color: '#6c7069',
+            weight: 1,
+            fill: true,
+            fillColor: color,
+            fillOpacity: 0.7
           };
+        };
 
-          instance.currentMapLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
-            pane: layer.level,
-            bbox: L.latLngBounds(latLngs),
-            maxTileZoom: layer.maxTileZoom,
-            minTileZoom: layer.minTileZoom,
-            vectorTileLayerStyles: layerStyle,
-            onMouseOver: this._onMouseOver.bind(this),
-            onMouseOut: this._onMouseOut.bind(this),
-            onMouseMove: this._onMouseMove.bind(this),
-            onClick: this._onMouseClick.bind(this)
-          });
-
-          this.map.addLayer(instance.currentMapLayer);
+        const instanceLayer = L.vectorGrid.protobuf(location.origin + '/vt/regions/{z}/{x}/{y}.pbf', {
+          vectorTileLayerStyles: layerStyle,
+          onMouseOver: this._onMouseOver.bind(this),
+          onMouseOut: this._onMouseOut.bind(this),
+          onClick: this._onClick.bind(this)
         });
+
+        this.map.addLayer(instanceLayer);
+        this.map.invalidateSize();
 
         this.$rootScope.$broadcast('map:ready');
       });
   }
 
-  toggleInstance(instance) {
-    if (!instance.visible) {
-      this.map.addLayer(instance.currentMapLayer);
-    } else {
-      this.map.removeLayer(instance.currentMapLayer);
-    }
+  zoomTo(geometry) {
+    const latLngs = _.map(geometry.coordinates[0], coord => {
+      return L.latLng(coord[1], coord[0]);
+    });
+
+    this.map.fitBounds(L.latLngBounds(latLngs));
   }
 
-  _onMouseClick(e) {
-    let coords = e.target.getCoords();
-    let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
-    let properties = geojson.properties;
+  _onClick(e) {
+    // get data from the tile
+    const coords = e.target.getCoords();
+    const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
 
-    this.ajaxService
-      .getInstanceInfo(properties.instance_id, properties.region_id)
-      .then(data => {
-        this.$rootScope.$broadcast('sidebar:open', 'Instance Info', data.instance);
-      });
+    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(geojson.properties.instances, 'id'));
+
+    if (_.isString(geojson.properties.bbox)) {
+      geojson.properties.bbox = JSON.parse(geojson.properties.bbox);
+    }
+
+    this.zoomTo(geojson.properties.bbox);
   }
 
   _onMouseOver(e) {
-    this.map.closePopup();
-
     // get data from the tile
-    let coords = e.target.getCoords();
-    let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+    const coords = e.target.getCoords();
+    const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
 
-    let content = angular.element('<info-popup></info-popup>');
-    let scope = this.$rootScope.$new(true);
-
-    if (typeof geojson.properties.top_tag === 'string') {
-      geojson.properties.top_tag = JSON.parse(geojson.properties.top_tag);
+    if (_.isString(geojson.properties.instances)) {
+      geojson.properties.instances = JSON.parse(geojson.properties.instances);
     }
 
-    if (typeof geojson.properties.top_category === 'string') {
-      geojson.properties.top_category = JSON.parse(geojson.properties.top_category);
-    }
-
-    if (typeof geojson.properties.top_organization === 'string') {
-      geojson.properties.top_organization = JSON.parse(geojson.properties.top_organization);
-    }
-
-    scope.properties = geojson.properties;
-
-    this.currentPopup = L.popup({
-      offset: L.point(0, -1),
-      closeButton: false,
-      minWidth: 250
-    })
-    .setContent(this.$compile(content)(scope)[0])
-    .setLatLng(e.latlng)
-    .openOn(this.map);
+    this.$rootScope.$broadcast('map:inFeature', _.omit(geojson.properties, 'bbox'));
   }
 
   _onMouseOut() {
-    this.map.closePopup();
-    delete this.currentPopup;
-  }
-
-  _onMouseMove(e) {
-    if (this.currentPopup) {
-      this.currentPopup.setLatLng(e.latlng);
-    }
+    this.$rootScope.$broadcast('map:outFeature');
   }
 }
 

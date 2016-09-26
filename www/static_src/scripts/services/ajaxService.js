@@ -32,26 +32,13 @@ class ajaxService {
   }
 
   /**
-   * Get region level list
-   * @return {object} response object
-   */
-  getRegionLevels() {
-    return this.$http
-      .get('/api/region_levels')
-      .then(result => {
-        return result.data;
-      });
-  }
-
-  /**
    * Get style definition.
-   * @param  {integer} classCount   number of style classes
+   * @param  {integer} count   number of style classes
    * @return {object[]}             styles
    */
-  getMapStyles(classCount) {
-    classCount |= 5;
+  getMapStyles(count) {
     return this.$http
-      .post('/api/map_styles', { class: classCount })
+      .get(`/api/map_styles/${count}`)
       .then(result => {
         return result.data;
       });
@@ -60,27 +47,17 @@ class ajaxService {
   /**
    * [getInstanceInfo description]
    * @param  {integer} instanceID instance ID
-   * @param  {integer} regionID   region ID
    * @return {object}             instance info
    */
-  getInstanceInfo(instanceID, regionID) {
+  getInstanceInfo(instanceID) {
     return this.$http
-      .get(`/api/instance/${instanceID}/${regionID}`, {
+      .get(`/api/instance/${instanceID}`, {
         cache: true
       })
       .then(result => {
         return result.data;
       });
   }
-
-  /**
-   * Get the current base url;.
-   * @return {string} base url
-   */
-  getBaseUrl() {
-    return location.origin;
-  }
-
 }
 
 ajaxService.$inject = ['$http'];
