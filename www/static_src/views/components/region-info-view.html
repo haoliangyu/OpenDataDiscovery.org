@@ -1,13 +1,13 @@
-<md-content>
-  <div class="region-name">
+<md-content md-whiteframe="9">
+  <div class="region-name md-title">
     <span ng-if="!regionInfo.showRegionInfo">Worldwide</span>
     <span ng-if="regionInfo.showRegionInfo">{{ regionInfo.name }}</span>
   </div>
-  <div ng-show="regionInfo.showRegionInfo">
+  <div ng-show="regionInfo.showRegionInfo" class="md-body-1">
     <ul>
       <li ng-repeat="instance in regionInfo.instances | orderBy: 'name'">
         <i class="fa fa-square" ng-style="{ color: regionInfo.getSquareColor(instance.count)}"></i>
-        {{ instance.name }} ({{ instance.count }})
+        {{ instance.name }} ({{ instance.count | number: 0 }})
       </li>
     </ul>
   </div>
