@@ -1,8 +1,11 @@
-<span class="legend-title">Dataset Number</span>
-
-<ul style="padding: 0">
-  <li class="style-info" ng-repeat="style in legend.styles">
-    <i ng-style="{ 'background-color': '{{ style.fill }}' }"></i>
-    <span>{{ style.lowerBound | number:0 }}</span> - <span>{{ style.upperBound | number:0 }}</span> ({{ (style.percentTile * 100) | number: 0}}%)
-  </li>
-</ul>
+<md-content md-whiteframe="9">
+  <div class="legend-wrapper">
+    <span class="md-title">Dataset Number</span>
+    <ul style="padding: 0">
+      <li class="style-info" ng-repeat="style in legend.styles">
+        <i ng-style="{ 'background-color': '{{ style.fill }}' }"></i>
+        <span>{{ style.lowerBound | number:0 }}</span> - <span>{{ style.upperBound | number:0 }}</span> ({{ (style.percentTile * 100) | number: 0}}%)
+      </li>
+    </ul>
+  </div>
+</md-content>
