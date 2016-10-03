@@ -2,11 +2,13 @@ import angular from 'angular';
 
 class sidebarCtrl {
 
-  constructor($scope, sidebarService) {
+  constructor($scope, mapService, sidebarService) {
     'ngInject';
 
     this.sidebarService = sidebarService;
     this.tabs = ['Instance List', 'Instance Info'];
+
+    mapService.disableEventPropagation('instance-sidebar');
 
     /**
      * Sidebar Events
@@ -23,7 +25,7 @@ class sidebarCtrl {
   }
 }
 
-sidebarCtrl.$inject = ['$scope', 'sidebarService'];
+sidebarCtrl.$inject = ['$scope', 'mapService', 'sidebarService'];
 
 angular.module('OpenDataDiscovery').controller('sidebarCtrl', sidebarCtrl);
 
