@@ -1,7 +1,6 @@
 node_modules
 coverage
 /scripts/*
-/tile-server/config.json
 /tile-server/*.mbtiles
 /tile-server/*.mbtiles-journal
 bootstrap/bootstrap_aws.sh

@@ -27,7 +27,6 @@
       "name": "odd.tile-server",
       "script": "./tile-server/server.sh",
       "watch": ["./tile-server"],
-      "ignore_watch": ["./tile-server/tiles"],
       "watch_options": {
         "usePolling": true
       }
