@@ -73,7 +73,9 @@ module.exports = {
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer'
     }),
-    new WebpackCleanupPlugin(),
+    new WebpackCleanupPlugin({
+      exclude: 'index.html'
+    }),
     new OptimizeJsPlugin({
       sourceMap: false
     })

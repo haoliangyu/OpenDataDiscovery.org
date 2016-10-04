@@ -77,6 +77,11 @@ class mapService {
       });
   }
 
+  disableEventPropagation(elementID) {
+    var dom = L.DomUtil.get(elementID);
+    L.DomEvent.disableClickPropagation(dom);
+  }
+
   zoomTo(geometry) {
     const latLngs = _.map(geometry.coordinates[0], coord => {
       return L.latLng(coord[1], coord[0]);

@@ -43,9 +43,6 @@ DELETE FROM instance_region_xref WHERE region_id IN (
   SELECT id FROM region WHERE name = 'test region'
 );
 
---Clear test level
-DELETE FROM instance_region_level WHERE name = 'test level';
-
 -- Clear region
 DELETE FROM region WHERE name = 'test region';
 

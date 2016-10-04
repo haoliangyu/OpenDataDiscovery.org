@@ -1,19 +1,15 @@
 -- test instance and region
 INSERT INTO instance (name) VALUES ('test instance');
-INSERT INTO region (name, bbox, geom) VALUES ('test region', ST_SetSRID(ST_GeomFromGeoJSON('{"type":"Polygon","coordinates":[[[-191.95312499999997,-78.97138592818217],[-191.95312499999997,84.05256097843035],[185.625,84.05256097843035],[185.625,-78.97138592818217],[-191.95312499999997,-78.97138592818217]]]}'), 4326), ST_SetSRID(ST_GeomFromGeoJSON('{"type":"MultiPolygon","coordinates":[[[[-191.95312499999997,-78.97138592818217],[-191.95312499999997,84.05256097843035],[185.625,84.05256097843035],[185.625,-78.97138592818217],[-191.95312499999997,-78.97138592818217]]]]}'), 4326));
-INSERT INTO instance_region_level (instance_id, level, name) (
-  SELECT id, 0, 'test level' FROM instance WHERE name = 'test instance'
-);
+INSERT INTO region (name, region_level_id, bbox, geom) VALUES ('test region', 0, ST_SetSRID(ST_GeomFromGeoJSON('{"type":"Polygon","coordinates":[[[-191.95312499999997,-78.97138592818217],[-191.95312499999997,84.05256097843035],[185.625,84.05256097843035],[185.625,-78.97138592818217],[-191.95312499999997,-78.97138592818217]]]}'), 4326), ST_SetSRID(ST_GeomFromGeoJSON('{"type":"MultiPolygon","coordinates":[[[[-191.95312499999997,-78.97138592818217],[-191.95312499999997,84.05256097843035],[185.625,84.05256097843035],[185.625,-78.97138592818217],[-191.95312499999997,-78.97138592818217]]]]}'), 4326));
 
 -- test tag
 WITH new_tag AS (
   INSERT INTO tag (name) VALUES ('test tag') RETURNING id
 ), new_xref AS (
-  INSERT INTO instance_region_xref (instance_id, region_id, instance_region_level_id) (
-    SELECT i.id, r.id, irl.id FROM
+  INSERT INTO instance_region_xref (instance_id, region_id) (
+    SELECT i.id, r.id FROM
       (SELECT id FROM instance WHERE name = 'test instance') AS i,
-      (SELECT id FROM region WHERE name = 'test region') AS r,
-      (SELECT id FROM instance_region_level WHERE name = 'test level') AS irl
+      (SELECT id FROM region WHERE name = 'test region') AS r
   ) RETURNING id
 )
 INSERT INTO instance_region_tag_xref (tag_id, instance_region_xref_id) (
