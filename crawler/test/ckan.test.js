@@ -1,6 +1,6 @@
 var logger = require('log4js').getLogger('test_ckan');
 var params = require('../src/params.js');
-var worker = require('../src/worker.js');
+var ckan = require('../src/ckan.js');
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
@@ -20,7 +20,7 @@ describe('Get Data', function() {
   this.timeout(params.maxTimeout);
 
   it('It should return data from data.gov', function(done) {
-    return worker.getRegionData('http://catalog.data.gov', {
+    return ckan.getFullMetadata('http://catalog.data.gov', {
       extras: { ext_bbox: [] }
     })
     .then(function(data) {
