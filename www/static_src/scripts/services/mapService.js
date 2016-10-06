@@ -80,6 +80,7 @@ class mapService {
   disableEventPropagation(elementID) {
     var dom = L.DomUtil.get(elementID);
     L.DomEvent.disableClickPropagation(dom);
+    L.DomEvent.on(dom, 'mousewheel', L.DomEvent.stopPropagation);
   }
 
   zoomTo(geometry) {

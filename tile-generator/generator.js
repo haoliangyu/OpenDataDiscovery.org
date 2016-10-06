@@ -66,10 +66,7 @@ db.stream(qs, function(s) {
       'cat ' + source + ' |',
       'tippecanoe',
       '--output=' + target,
-      '--simplification=10',
-      '--gamma=2',
       '--force',
-      '--drop-polygons',
       '--no-polygon-splitting',
       '--reverse;'
     ].join(' ');
