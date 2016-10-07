@@ -11,7 +11,7 @@ exports.getStyles = function(req, res) {
   var response = { success: true };
   var db = pgp(params.dbConnStr);
   var count = req.params.count;
-  var palette = cb.YlGnBu[count];
+  var palette = cb.RdYlBu[count];
 
   db.any('SELECT SUM(count)::integer AS count FROM view_instance_region_info GROUP BY region_id')
     .then(function(results) {

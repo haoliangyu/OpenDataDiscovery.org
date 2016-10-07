@@ -29,7 +29,7 @@ class mapService {
       zoomControl: false
     });
 
-    let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
       subdomains: 'abcd'
     });
@@ -55,11 +55,11 @@ class mapService {
           }).fill;
 
           return {
-            color: '#6c7069',
-            weight: 1,
+            color: '#ececec',
+            weight: 0.5,
             fill: true,
             fillColor: color,
-            fillOpacity: 0.7
+            fillOpacity: 1
           };
         };
 
@@ -74,6 +74,15 @@ class mapService {
         this.map.invalidateSize();
 
         this.$rootScope.$broadcast('map:ready');
+      })
+      .then(() => {
+        let label = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.{ext}', {
+          attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          subdomains: 'abcd',
+          ext: 'png'
+        });
+
+        this.map.addLayer(label);
       });
   }
 

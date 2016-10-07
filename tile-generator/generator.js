@@ -47,7 +47,7 @@ var sql = [
   ' LEFT JOIN instance_region_xref AS irx ON irx.region_id = r.id',
   ' LEFT JOIN region_level AS rl ON rl.id = r.region_level_id',
   'WHERE r.id = info.id AND r.geom IS NOT NULL',
-  'ORDER BY rl.id DESC'
+  'ORDER BY rl.id'
 ].join(' ');
 
 var qs = new QueryStream(sql);
