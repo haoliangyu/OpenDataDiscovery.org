@@ -7,6 +7,7 @@ var exec = require('child-process-promise').exec;
 var QueryStream = require('pg-query-stream');
 var JSONStream = require('JSONStream');
 
+var crawler = require('../crawler/crawler.js');
 var params = require('./params.js');
 var db = pgp(params.dbConnStr);
 var source = sprintf('%s/regions.geojson', path.resolve(__dirname, params.tempDir));
@@ -45,27 +46,33 @@ var sql = [
   'FROM info, region AS r',
   ' LEFT JOIN instance_region_xref AS irx ON irx.region_id = r.id',
   ' LEFT JOIN region_level AS rl ON rl.id = r.region_level_id',
-  'WHERE r.id = info.id AND r.geom IS NOT NULL'
+  'WHERE r.id = info.id AND r.geom IS NOT NULL',
+  'ORDER BY rl.id DESC'
 ].join(' ');
 
 var qs = new QueryStream(sql);
 
-db.stream(qs, function(s) {
+crawler.harvestAll(db)
+  .then(function() {
+    return db.stream(qs, function(s) {
 
-  var jsonStart = '{"type": "FeatureCollection", "features": [';
-  var jsonEnd = ']}';
-  var separator = ',';
-  var writeStream = fs.createWriteStream(source);
+      var jsonStart = '{"type": "FeatureCollection", "features": [';
+      var jsonEnd = ']}';
+      var separator = ',';
+      var writeStream = fs.createWriteStream(source);
 
-  s.pipe(JSONStream.stringify(jsonStart, separator, jsonEnd)).pipe(writeStream);
+      s.pipe(JSONStream.stringify(jsonStart, separator, jsonEnd)).pipe(writeStream);
 
-  return streamToPromise(s);
-})
+      return streamToPromise(s);
+    });
+  })
   .then(function() {
     var command = [
       'cat ' + source + ' |',
       'tippecanoe',
       '--output=' + target,
+      '--preserve-input-order',
+      '--simplification=8',
       '--force',
       '--no-polygon-splitting',
       '--reverse;'
