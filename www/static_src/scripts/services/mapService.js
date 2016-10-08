@@ -46,12 +46,8 @@ class mapService {
             properties.instances = JSON.parse(properties.instances);
           }
 
-          const totalCount = _.reduce(properties.instances, (count, instance) => {
-            return count + instance.count;
-          }, 0);
-
           const color = _.find(this.styles, style => {
-            return style.lowerBound <= totalCount && totalCount <= style.upperBound;
+            return style.lowerBound <= properties.count && properties.count <= style.upperBound;
           }).fill;
 
           return {
