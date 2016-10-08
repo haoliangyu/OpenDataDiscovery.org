@@ -16,7 +16,7 @@ echo -e "\n######## running apt-get update... ########\n"
 sudo apt-get update
 
 echo -e "\n######## installing some tools... ########\n"
-sudo apt-get -y install unzip
+sudo apt-get -y install gzip
 sudo apt-get -y install git
 sudo apt-get -y install curl
 
@@ -77,8 +77,8 @@ cd /vagrant
 sudo npm install
 
 echo -e "\n######## set up database... ########\n"
-curl -o /vagrant/bootstrap_data.sql.tar.gz https://s3.amazonaws.com/open.data.discovery.org/bootstrap_data.sql.tar.gz
-tar zxvf /vagrant/bootstrap_data.sql.tar.gz -C /vagrant
+curl -o odd_dev_database.gz https://s3.amazonaws.com/open.data.discovery.org/odd_dev_database.gz
+gzip -d odd_dev_database.gz
 
 DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
@@ -89,12 +89,10 @@ sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;"
 export PGPASSWORD=$DB_PASSWORD
 createdb -h localhost -U $DB_USER odd
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;"
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/sql/db_schema.sql
-psql -h localhost -U $DB_USER -d odd -f /vagrant/bootstrap_data.sql
+psql -h localhost -U $DB_USER -d odd -f odd_dev_database
 psql -h localhost -U $DB_USER -d odd -c "REFRESH MATERIALIZED VIEW view_instance_region;"
 
-rm /vagrant/bootstrap_data.sql.tar.gz
-rm /vagrant/bootstrap_data.sql
+rm odd_dev_database
 
 echo -e "\n######## generate static files... ########\n"
 cd www
