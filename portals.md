@@ -94,6 +94,16 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [Taijiang Research Data Repository](http://taijiang.tw/) | Tainan, Taiwan, China | City |
 | [Swiss Open Government Data](https://opendata.swiss/) | Switzerland | Nation |
 | [Ukraine open data community](http://data-gov-ua.org/) | Ukraine | Nation |
+| [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
+| [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
+| [Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
+| [Open Data METI](http://datameti.go.jp/data/)  | Japan  | Nation |
+| [datos.gob.mx](http://datos.gob.mx/busca/) | Mexico  | Nation |
+| [National Oceanic and Atmospheric Administration](https://data.noaa.gov/dataset/) | United States | Nation |
+| [Opendata Lisra](http://opendata.lisra.jp/) | Japan | Nation |
+| [OpenDataBC](https://www.opendatabc.ca/) | British Columbia, Canada | Province |
+| [Tainan City Open Data](http://data.tainan.gov.tw/) | Tainan, Taiwan, China | City |
+| [Oppna Data](http://oppnadata.se/) | Sweden | Nation |
 
 # Planned Portals
 
@@ -101,28 +111,17 @@ These are portals in the support plan, but not added.
 
 |  Portal |  Region | Region Level |
 | --- | --- | --- |
-| [Energy Data eXchange](https://edx.netl.doe.gov/)  | United States  | Nation |
-| [EU Open Data Portal](http://data.europa.eu/euodp/en/data)  | European Union  | Continent |
-| [Japan Geospatial Information Clearninghouse](http://ckan.gsi.go.jp/)  | Japan  | Nation |
-| [METI](http://datameti.go.jp/data/)  | Japan  | Nation |
-| [datos.gob.mx](http://datos.gob.mx/) ([API](http://datos.gob.mx/busca/api/3)) | Mexico  | Nation |
 | [The Humanitarian
 Data Exchange](https://data.humdata.org) | | Worldwide |
-| [GovData](https://www.govdata.de/) | Germany | Nation |
-| [National Oceanic and Atmospheric Administration](https://www.govdata.de/) | USA | Nation |
-| [Opendata Lisra](http://opendata.lisra.jp/) | Japan | Nation |
-| [OpenData@WU](http://data.wu.ac.at/) | Austria | Nation |
-| [OpenDataBC](https://www.opendatabc.ca/) | British Columbus, Canada | Province |
-| [Tainan City Open Data](http://data.tainan.gov.tw/) | Tainan, Taiwan, China | City |
-| [The Brazilian Senate](http://dadosabertos.senado.gov.br/) | Brazil | Nation |
 | [The Datahub](http://datahub.io/) | Worldwide | |
 | [The International Aid Transparency Initiative](http://iatiregistry.org/) | Worldwide | |
-| [Oppna Data](http://oppnadata.se/) | Sweden | Nation |
 
 # Unsupported Portals
 
 |  Portal |  Region | Reason |
 | --- | --- | --- | --- |
+| [OpenData@WU](http://data.wu.ac.at/) | Austria | site unavailable |
+| [GovData](https://www.govdata.de/) | Germany | API base url unknown |
 | [Berlin Open Data](http://daten.berlin.de/)  | Berlin, Germany  | API unavailable |
 | [cities open data hub](http://cities.opendatahub.gr/)  | Greece  | site unaccessible |
 | [CivicData](http://www.civicdata.io/)  | United States  | non-governmental site |
@@ -152,5 +151,6 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [Santa Cruz Open Data](http://data.cityofsantacruz.com/) | Santa Cruz, CA, USA | Site inaccessible |
 | [publicdata.eu](http://publicdata.eu/) | EU | API inaccessible |
 | [Ressourcerie Datalocale](http://catalogue.datalocale.fr/) | France | API at version 1.7 |
+| [The Brazilian Senate](http://dadosabertos.senado.gov.br/) | Brazil | API at version 1.7 |
 
 For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
