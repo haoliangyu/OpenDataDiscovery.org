@@ -1,4 +1,4 @@
-# OpenDataDiscovery.ORG
+# OpenDataDiscovery.org
 
 [**OpenDataDiscovery.org**](http://www.opendatadiscovery.org) aims at presenting the current and history status of data opening worldwide by constantly collecting, analyzing, and visualizing over 90+ governmental data portals worldwide.
 
