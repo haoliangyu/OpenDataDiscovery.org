@@ -1,42 +1,60 @@
-# OpenDataDiscovery.org
+# OpenDataDiscovery.ORG
 
-Currently working in progress. See the [**demo site**](http://ec2-52-87-229-42.compute-1.amazonaws.com/).
+[**OpenDataDiscovery.org**](http://www.opendatadiscovery.org) aims at presenting the current and history status of data opening worldwide by constantly collecting, analyzing, and visualizing over 90+ governmental data portals worldwide.
 
-**OpenDataDiscovery.org** is a map of open data portals based on CKAN platforms and their state of data opening. This is a project to gain more understanding of the open world as a whole, not just pieces of it.
+## Why do we start this project?
+
+Because the world of open data is highly fragmented. As data in the world is owned by numerous governments and institutes, the effort of data opening spreads widely across the Internet as well as the world. This fact makes it uneasy to generate a precise overview of the movement of open data and even the answer to the simplest question is still very ambiguous:
+
+> How many datasets haven open on earth?
+
+The website is a step further to figure out question like this.
 
 ## How does it work?
 
-A large number of [governments and organizations](http://ckan.org/instances/#) are using [CKAN](http://ckan.org/) to build their open data portals. As CKAN provides a full set of APIs for data searching, it is possible to build an application to collect information from all CKAN-bases portals.
+Fortunately, the open data community is forming the standards and good practices. There are several major open data platforms that have been adopted by many governments and institutes. As most of them open the API for searching, this makes it possible for developers to perform data harvesting and conduct analysis based on the information.
 
-Specially, we are collecting information about the state of data opening, including
+Just take [CKAN](http://ckan.org/), one of the most widely used open data platform, as example.
 
-* total number of opened datasets
+If a government chooses CKAN to developer its data portal, it will also expose the standard CKAN API. Particularly, we are able to search the following information:
 
-* popular tags used by datasets
+* datasets number
+
+* datasets tags
 
 * dataset categories
 
-* organizations that publish datasets
+* dataset publishers
 
-A program is setup to collect this information weekly for each portals. Check the [list of supported portals](https://github.com/OpenDataDiscovery/OpenDataDiscovery.org/blob/master/portals.md).
+As all CKAN-based portals open their APIs a similar manner. We are able to get the information for the whole CKAN network by looping the API searching for each portal.
 
-## How to Contribute?
+By looping the procedure for all major data portal network and harmonizing the information, we should be able to have a more precise picture of the world of open data.
 
-Though this is largely a personal project, all contribution is welcomed. To set up your local instance, please
+If we keep track with this information, it would be possible to provide a view of the progress of the open data movement.
+
+## So what is your progress?
+
+OpenDataDiscovery.org now have supported:
+
+* CKAN (101 portals)
+
+For more detail, see [portal list](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/master/portals.md).
+
+## How to setup and contribute?
+
+This project is built on [Node.js](https://nodejs.org/en/), [AngularJS](https://angularjs.org/), and [Leaflet](http://leafletjs.com/).
 
 * install [virtual box](https://www.virtualbox.org/wiki/Downloads) and [vagrant](https://www.vagrantup.com/docs/installation/)
 
 * run `vagrant up` to set up vagrant machine. By default it has 2 CPU and 2 GB memory, change it [here](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/development/Vagrantfile#L51) if needed.
 
-* download the bootstrap [data]() (with 5 layers) and restore it. You could access the database at `localhost:6060` with the [credential](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/master/bootstrap/bootstrap.sh#L82)
+* run `node /vagrant/opendatadiscovery.org/tile-generator/generator.js` **inside the vagrant machine** to download data and generate map tiles.
 
-* run `/vagrant/update.js` **inside the vagrant machine** to fetch data and generate tiles.
+* run `npm run webpack-watch` to build the application
 
 * Open the app at `localhost:8086`
 
-See the [to-do list](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/development/todo.md) for actively developing features and submit PR to **developing** branch.
-
-
+Please feel free to open an issue if you have any question or suggestion.
 
 ## Thanks to these awesome people
 
