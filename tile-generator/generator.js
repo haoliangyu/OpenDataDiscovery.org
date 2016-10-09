@@ -13,42 +13,43 @@ var db = pgp(params.dbConnStr);
 var source = sprintf('%s/regions.geojson', path.resolve(__dirname, params.tempDir));
 var target = sprintf('%s/regions.mbtiles', path.resolve(__dirname, params.tileDir));
 
-var sql = [
-  'WITH info AS (',
-  ' SELECT',
-  '   viri.region_id AS id,',
-  '   array_agg(json_build_object(',
-  '     \'id\', viri.instance_id,',
-  '     \'name\', viri.instance_name,',
-  '     \'count\', viri.count,',
-  '     \'update\', viri.update_date,',
-  '     \'topTag\', viri.tags[1],',
-  '     \'topOrganization\', viri.organizations[1],',
-  '     \'topCategory\', viri.categories[1]',
-  '   )) AS instances',
-  ' FROM instance_region_xref AS irx',
-  '   LEFT JOIN view_instance_region_info as viri',
-  '     ON viri.instance_id = irx.instance_id AND viri.region_id = irx.region_id',
-  '   LEFT JOIN instance AS i ON i.id = irx.instance_id',
-  ' WHERE i.active',
-  ' GROUP BY viri.region_name, viri.region_id',
-  ')',
-  'SELECT',
-  ' \'Feature\' AS type,',
-  ' json_build_object(\'maxzoom\', rl.max_tile_zoom, \'minzoom\', rl.min_tile_zoom) AS tippecanoe,',
-  ' ST_AsGeoJSON(ST_Simplify(r.geom, 0.001), 3)::json AS geometry,',
-  ' json_build_object(',
-  '   \'id\', r.id,',
-  '   \'name\', r.name,',
-  '   \'bbox\', ST_AsGeoJSON(r.bbox, 3),',
-  '   \'instances\', info.instances',
-  ' ) AS properties',
-  'FROM info, region AS r',
-  ' LEFT JOIN instance_region_xref AS irx ON irx.region_id = r.id',
-  ' LEFT JOIN region_level AS rl ON rl.id = r.region_level_id',
-  'WHERE r.id = info.id AND r.geom IS NOT NULL',
-  'ORDER BY rl.id'
-].join(' ');
+var sql = `
+  WITH info AS (
+   SELECT
+     viri.region_id AS id,
+     SUM(viri.count) AS count,
+     array_agg(json_build_object(
+       'id', viri.instance_id,
+       'name', viri.instance_name,
+       'count', viri.count,
+       'update', viri.update_date,
+       'topTag', viri.tags[1],
+       'topOrganization', viri.organizations[1],
+       'topCategory', viri.categories[1]
+     )) AS instances
+   FROM instance_region_xref AS irx
+     LEFT JOIN view_instance_region_info as viri
+       ON viri.instance_id = irx.instance_id AND viri.region_id = irx.region_id
+     LEFT JOIN instance AS i ON i.id = irx.instance_id
+   WHERE i.active
+   GROUP BY viri.region_name, viri.region_id
+  )
+  SELECT
+   'Feature' AS type,
+   json_build_object('maxzoom', rl.max_tile_zoom, 'minzoom', rl.min_tile_zoom) AS tippecanoe,
+   ST_AsGeoJSON(ST_Simplify(r.geom, 0.001), 3)::json AS geometry,
+   json_build_object(
+     'id', r.id,
+     'name', r.name,
+     'bbox', ST_AsGeoJSON(r.bbox, 3),
+     'count', info.count,
+     'instances', info.instances
+   ) AS properties
+  FROM info, region AS r
+   LEFT JOIN region_level AS rl ON rl.id = r.region_level_id
+  WHERE r.id = info.id AND r.geom IS NOT NULL
+  ORDER BY rl.id
+`;
 
 var qs = new QueryStream(sql);
 

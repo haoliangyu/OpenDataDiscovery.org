@@ -16,6 +16,7 @@ class regionInfoCtrl {
         this.showRegionInfo = true;
         this.instances = properties.instances;
         this.name = properties.name;
+        this.count = properties.count;
       });
     });
 

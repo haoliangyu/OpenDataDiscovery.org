@@ -64,6 +64,7 @@
     "webworkify-webpack": "^1.1.0"
   },
   "dependencies": {
+    "@turf/turf": "^3.5.2",
     "JSONStream": "^1.1.4",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
@@ -94,7 +95,6 @@
     "request-promise": "^3.0.0",
     "sprintf-js": "^1.0.3",
     "topojson": "^1.6.26",
-    "turf": "^2.0.2",
     "vector-tile": "^1.2.1",
     "yargs": "^4.7.1"
   }
