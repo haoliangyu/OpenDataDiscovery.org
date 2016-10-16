@@ -9,12 +9,13 @@
         <span class="md-headline">{{ instance.name }}</span>
       </md-card-title-text>
     </md-card-title>
+
     <md-table-container>
       <table md-table>
         <tbody md-body>
           <tr md-row>
             <td md-cell>
-              <span class="row-name">Location</span>
+              <span class="list-item-name">Location</span>
             </td>
             <td md-cell>
               <span>{{ instance.location }}</span>
@@ -22,7 +23,7 @@
           </tr>
           <tr md-row>
             <td md-cell>
-              <span class="row-name">Website</span>
+              <span class="list-item-name">Website</span>
             </td>
             <td md-cell>
               <a ng-href="{{instance.url}}" target="_blank">visit the portal</a>
@@ -30,7 +31,7 @@
           </tr>
           <tr md-row>
             <td md-cell>
-              <span class="row-name">Datasets</span>
+              <span class="list-item-name">Datasets</span>
             </td>
             <td md-cell>
               <span>{{ instance.count | number: 0 }}</span>
@@ -38,7 +39,7 @@
           </tr>
           <tr md-row>
             <td md-cell>
-              <span class="row-name">Update</span>
+              <span class="list-item-name">Update</span>
             </td>
             <td md-cell>
               <span>{{ instance.updateDate | date: 'yyyy-MM-dd' }}</span>
@@ -46,7 +47,7 @@
           </tr>
           <tr md-row>
             <td md-cell>
-              <span class="row-name">Description</span>
+              <span class="list-item-name">Description</span>
             </td>
             <td md-cell>
               <span>{{ instance.description }}</span>
@@ -55,7 +56,30 @@
         </tbody>
       </table>
     </md-table-container>
-    <md-card-actions>
-    </md-card-actions>
+
+    <md-divider></md-divider>
+
+    <md-sidemenu>
+      <md-sidemenu-group>
+        <md-sidemenu-content md-heading="Details" md-arrow="true">
+          <div>
+            <div ng-if="instance.tags.length > 0">
+              <span class="chart-title">Most Used Tags of Dataset</span>
+              <instance-info-chart detail-items="instance.tags" bar-color="#62cdee"></instance-info-chart>
+            </div>
+            <div ng-if="instance.categories.length > 0">
+              <md-divider></md-divider>
+              <span class="chart-title">Most Used Categories of Dataset</span>
+              <instance-info-chart detail-items="instance.categories" bar-color="#ae6bdd"></instance-info-chart>
+            </div>
+            <div ng-if="instance.organizations.length > 0">
+              <md-divider></md-divider>
+              <span class="chart-title">Top Dataset Publisher</span>
+              <instance-info-chart detail-items="instance.organizations" bar-color="#63dba3"></instance-info-chart>
+            </div>
+          </div>
+        </md-sidemenu-content>
+      </md-sidemenu-group>
+    </md-sidemenu>
   </md-card>
 </md-content>

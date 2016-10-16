@@ -1,7 +1,6 @@
-var bodyParser = require('body-parser');
-
-var info = require('./info.js');
-var map = require('./map.js');
+const info = require('./info.js');
+const map = require('./map.js');
+const ex = require('./export.js');
 
 exports.attachHandlers = function(router) {
 
@@ -73,7 +72,7 @@ exports.attachHandlers = function(router) {
   router.get('/api/instance/:instanceID', info.getInstanceInfo);
 
   /**
-   * @api {post} /api/map_styles Get map styles
+   * @api {get} /api/map_styles Get map styles
    * @apiName GetMapStyles
    *
    * @apiParam {integer}    [count=5]     Number of data classes, range from 3 to 11. Default: 5
@@ -89,6 +88,30 @@ exports.attachHandlers = function(router) {
    * 	}
    */
 
-  router.get('/api/map_styles/:count', bodyParser.json(), map.getStyles);
+  router.get('/api/map_styles/:count', map.getStyles);
 
+  /**
+   * @api {get} /api/export Export portal data
+   * @apiName ExportData
+   *
+   * @apiSuccessExample {json} Response
+   *  [
+   *    {
+   *        "name": "data.gov",
+   *        "location": "USA",
+   *        "count": 321973,
+   *        "updateDate": "2016-02-07",
+   *        "tags": [
+   *          { "name": "GIS", "count": 2371, "updateData": "2016-01-23" }
+   *        ],
+   *        "categories": [
+   *          { "name": "Economic", "count": 2321, "updateData": "2016-01-23" }
+   *        ],
+   *        "organizations": [
+   *          { "name": "NOAA", "count": 2962, "updateData": "2016-01-23" }
+   *        ]
+   *    }
+   *  ]
+   */
+  router.get('/api/export', ex.exportData)
 };
