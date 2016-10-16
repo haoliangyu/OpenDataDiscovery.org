@@ -35,7 +35,7 @@ class instanceInfoChart {
                       .attr('width', charWidth)
                       .attr('height', (barHeight + textHeight) * items.length);
 
-        const scale = d3.scale.linear()
+        const scale = d3.scaleLinear()
                         .domain([minValue, maxValue])
                         .range([minBarWidth, maxBarWidth]);
 
