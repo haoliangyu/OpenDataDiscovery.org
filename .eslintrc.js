@@ -5,16 +5,15 @@ module.exports = {
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true,
+    "es6": true
   },
   "globals": {
-    "describe": true,
-    "it": true,
-    "after": true,
-    "before": true,
     "mapboxgl": true,
     "_": true,
-    "L": true
+    "L": true,
+    "d3": true
   },
   "plugins": [
     "json",
