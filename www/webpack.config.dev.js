@@ -65,7 +65,8 @@ module.exports = {
       geojsonvt: 'geojson-vt',
       SphericalMercator: 'sphericalmercator',
       d3: 'd3',
-      '_': 'lodash'
+      '_': 'lodash',
+      '$': 'jquery'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
