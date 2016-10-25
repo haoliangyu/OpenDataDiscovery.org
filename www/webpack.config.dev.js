@@ -77,7 +77,7 @@ module.exports = {
       defaultAttribute: 'defer'
     }),
     new WebpackCleanupPlugin({
-      exclude: 'index.html'
+      exclude: ['index.html']
     }),
     new OptimizeJsPlugin({
       sourceMap: false

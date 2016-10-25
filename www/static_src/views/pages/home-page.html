@@ -1,0 +1,28 @@
+<md-content layout="column">
+  <div flex="70" layout="column" layout-align="center none">
+    <div>
+      <div>
+        <div class="">
+          Discovering <span count-to="{{ homepage.datasetCount }}" value="0" duration="2" filter="number"></span> datasets
+        </div>
+        <div class="">from {{ homepage.portalCount }} portals</div>
+      </div>
+      <div layout="row" layout-align="center center">
+        <md-button class="md-raised" data-menuanchor="map-page">
+          <i class="fa fa-globe "></i> Map View
+        </md-button>
+        <md-button class="md-raised" data-menuanchor="export-page ">
+          <i class="fa fa-download"></i> Export Data
+        </md-button>
+        <md-button class="md-raised" ng-click="homepage.jumpToRepo()">
+          <i class="fa fa-github "></i> Star Me!
+        </md-button>
+      </div>
+    </div>
+  </div>
+  <div flex="30">
+    <span>We are gathering information from</span>
+    <div layout="row" layout-align="center center">
+    </div>
+  </div>
+</md-content>

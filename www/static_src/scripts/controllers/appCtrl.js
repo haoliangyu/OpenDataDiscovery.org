@@ -8,7 +8,8 @@ class appCtrl {
     this.pageOptions = {
       navigation: true,
       navigationPosition: 'left',
-      scrollingSpeed: 1000
+      scrollingSpeed: 1000,
+      anchors: ['home-page', 'map-page', 'export-page']
     };
   }
 }
