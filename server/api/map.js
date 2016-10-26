@@ -13,7 +13,7 @@ exports.getStyles = function(req, res) {
   var count = req.params.count;
   var palette = cb.RdYlBu[count];
 
-  db.any('SELECT SUM(count)::integer AS count FROM view_instance_region_info GROUP BY region_id')
+  db.any('SELECT SUM(count)::integer AS count FROM view_instance_info GROUP BY region_id')
     .then(function(results) {
       var counts = _.map(results, 'count');
       var breaks = getClassBreaks(counts, count);

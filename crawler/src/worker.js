@@ -22,13 +22,12 @@ exports.spatialCrawl = function(db, instanceID, instanceName, instanceUrl) {
       })
       .then(function(data) {
         return db.tx(function(t) {
-          return database.saveData(t, instanceID, region.region_id, data);
+          return database.saveData(t, instanceID, data);
         });
       });
     })
     .catch(function(err) {
       logger.error(err);
-      return Promise.resolve();
     });
 };
 
@@ -38,20 +37,13 @@ exports.crawl = function(db, instanceID, instanceName, instanceUrl) {
 
   logger.info('Crawling ' + instanceName + '...');
 
-  var regionID;
-
-  return db.one('SELECT region_id FROM instance_region_xref WHERE instance_id = $1', instanceID)
-    .then(function(result) {
-      regionID = result.region_id;
-      return ckan.getFullMetadata(instanceUrl);
-    })
+  return ckan.getFullMetadata(instanceUrl)
     .then(function(data) {
       return db.tx(function(t) {
-        return database.saveData(t, instanceID, regionID, data);
+        return database.saveData(t, instanceID, data);
       });
     })
     .catch(function(err) {
       logger.error(err);
-      return Promise.resolve();
     });
 };

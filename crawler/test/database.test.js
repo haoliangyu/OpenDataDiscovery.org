@@ -24,62 +24,45 @@ var data = {
   ]
 };
 
-
 describe('Save Data', function() {
 
   this.timeout(params.maxTimeout);
 
   // set up the test data
-  before(function(done) {
+  before(function() {
     return readFile('./crawler/test/sql/test_database_data.sql', 'utf8')
       .then(function(content) {
         return db.none(content);
-      })
-      .then(function() {
-        done();
-      })
-      .catch(function(err) {
-        logger.error(err);
       });
   });
 
-  it('It should save test data into the database', function(done) {
-    var instanceID, regionID;
-    return db.one('SELECT instance_id, region_id FROM view_instance_region WHERE instance_name = $1', 'test instance')
+  it('It should save test data into the database', function() {
+    let instanceID;
+
+    return db.one('SELECT instance_id FROM view_instance_region WHERE instance_name = $1', 'test instance')
       .then(function(result) {
         instanceID = result.instance_id;
-        regionID = result.region_id;
-        return database.saveData(db, instanceID, regionID, data);
+        return database.saveData(db, instanceID, data);
       })
       .then(function() {
         var sql = [
-          'WITH region_xref AS (',
-          ' SELECT id FROM instance_region_xref WHERE instance_id = $1 AND region_id = $2)',
-          'SELECT count FROM region_xref AS rx, region_data WHERE instance_region_xref_id = rx.id',
+          'SELECT count FROM instance_data WHERE instance_id = $1',
           'ORDER BY update_date LIMIT 1'
         ].join(' ');
 
-        return db.one(sql, [instanceID, regionID]);
+        return db.one(sql, instanceID);
       })
       .then(function(result) {
         return expect(result.count).to.equal(1010);
-      })
-      .then(function() { done(); })
-      .catch(function(err) {
-        logger.error(err);
-        done();
       });
   });
 
   // clean up test data
-  after(function(done) {
+  after(function() {
     return readFile('./crawler/test/sql/test_database_cleanup.sql', 'utf8')
       .then(function(content) {
         return db.none(content);
       })
-      .finally(function() {
-        done();
-      });
   });
 
 });
