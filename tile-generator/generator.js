@@ -16,23 +16,23 @@ var target = sprintf('%s/regions.mbtiles', path.resolve(__dirname, params.tileDi
 var sql = `
   WITH info AS (
    SELECT
-     viri.region_id AS id,
-     SUM(viri.count) AS count,
+     vii.region_id AS id,
+     SUM(vii.count) AS count,
      array_agg(json_build_object(
-       'id', viri.instance_id,
-       'name', viri.instance_name,
-       'count', viri.count,
-       'update', viri.update_date,
-       'topTag', viri.tags[1],
-       'topOrganization', viri.organizations[1],
-       'topCategory', viri.categories[1]
+       'id', vii.instance_id,
+       'name', vii.instance_name,
+       'count', vii.count,
+       'update', vii.update_date,
+       'topTag', vii.tags[1],
+       'topOrganization', vii.organizations[1],
+       'topCategory', vii.categories[1]
      )) AS instances
    FROM instance_region_xref AS irx
-     LEFT JOIN view_instance_region_info as viri
-       ON viri.instance_id = irx.instance_id AND viri.region_id = irx.region_id
+     LEFT JOIN view_instance_info as vii
+       ON vii.instance_id = irx.instance_id AND vii.region_id = irx.region_id
      LEFT JOIN instance AS i ON i.id = irx.instance_id
    WHERE i.active
-   GROUP BY viri.region_name, viri.region_id
+   GROUP BY vii.region_name, vii.region_id
   )
   SELECT
    'Feature' AS type,

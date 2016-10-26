@@ -36,10 +36,10 @@ exports.getInstanceSummary = function(req, res) {
   const db = pgp(params.dbConnStr);
   const sql = `
     SELECT
-      COUNT(DISTINCT viri.instance_id) AS portal_count,
-      SUM(viri.count) AS dataset_count
-    FROM view_instance_region_info AS viri
-      LEFT JOIN instance AS i ON i.id = viri.instance_id
+      COUNT(DISTINCT vii.instance_id) AS portal_count,
+      SUM(vii.count) AS dataset_count
+    FROM view_instance_info AS vii
+      LEFT JOIN instance AS i ON i.id = vii.instance_id
     WHERE i.active
   `;
 
@@ -68,10 +68,10 @@ exports.getInstanceInfo = function(req, res) {
   var db = pgp(params.dbConnStr);
 
   var sql = [
-    'SELECT instance_name AS name, description, url, location,',
+    'SELECT instance_name AS name, vii.description, url, location,',
     ' update_date, count, tags[1:$1], categories[1:$1], organizations[1:$1]',
-    'FROM view_instance_region_info AS viri',
-    ' LEFT JOIN instance AS i ON i.id = viri.instance_id',
+    'FROM view_instance_info AS vii',
+    ' LEFT JOIN instance AS i ON i.id = vii.instance_id',
     'WHERE instance_id = $2'
   ].join(' ');
 

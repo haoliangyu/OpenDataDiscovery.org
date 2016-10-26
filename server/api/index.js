@@ -113,5 +113,5 @@ exports.attachHandlers = function(router) {
    *    }
    *  ]
    */
-  router.get('/api/export', ex.exportData)
+  router.get('/api/export', ex.exportData);
 };

@@ -19,17 +19,12 @@ describe('Get Data', function() {
 
   this.timeout(params.maxTimeout);
 
-  it('It should return data from data.gov', function(done) {
+  it('It should return data from data.gov', function() {
     return ckan.getFullMetadata('http://catalog.data.gov', {
       extras: { ext_bbox: [] }
     })
     .then(function(data) {
       expect(data.count).to.above(0);
-    })
-    .then(function() { done(); })
-    .catch(function(err) {
-      logger.error(err);
-      done(err);
     });
   });
 });

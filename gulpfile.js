@@ -76,5 +76,6 @@ addWatchTask('watch-tile-generator', scripts.tile_generator, ['eslint-tile-serve
  * Tasks
  */
 
+gulp.task('test', ['test-crawler', 'test-server']);
 gulp.task('watch', ['watch-crawler', 'watch-server', 'watch-tile-server', 'watch-tile-generator']);
 gulp.task('default', ['watch']);
