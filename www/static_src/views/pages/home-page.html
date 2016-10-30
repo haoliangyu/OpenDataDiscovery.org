@@ -1,28 +1,40 @@
 <md-content layout="column">
-  <div flex="70" layout="column" layout-align="center none">
+  <div md-colors="{ background:'primary' }" flex="60" layout="column" layout-align="center none">
     <div>
       <div>
-        <div class="">
+        <div class="md-display-3 text-center margin-40">
           Discovering <span count-to="{{ homepage.datasetCount }}" value="0" duration="2" filter="number"></span> datasets
         </div>
-        <div class="">from {{ homepage.portalCount }} portals</div>
+        <div class="md-headline text-center margin-40">
+          in {{ homepage.portalCount }} portals
+        </div>
       </div>
-      <div layout="row" layout-align="center center">
-        <md-button class="md-raised" data-menuanchor="map-page">
+      <div class="margin-40" layout="row" layout-align="center center">
+        <md-button class="md-raised" ng-click="homepage.scrollTo('map-page')">
           <i class="fa fa-globe "></i> Map View
         </md-button>
-        <md-button class="md-raised" data-menuanchor="export-page ">
+        <md-button class="md-raised" ng-click="homepage.scrollTo('export-page')">
           <i class="fa fa-download"></i> Export Data
         </md-button>
-        <md-button class="md-raised" ng-click="homepage.jumpToRepo()">
+        <md-button class="md-raised" ng-click="homepage.openGitHubRepo()">
           <i class="fa fa-github "></i> Star Me!
         </md-button>
       </div>
     </div>
   </div>
-  <div flex="30">
-    <span>We are gathering information from</span>
-    <div layout="row" layout-align="center center">
+  <div flex="40">
+    <div class="md-title text-center margin-20">
+      Supported Platforms
+    </div>
+    <div class="md-padding" layout="row" layout-align="center center">
+      <md-card ng-repeat="platform in homepage.platforms">
+        <img class="md-card-image platform-logo clickable"
+             ng-src="{{ platform.logo }}"
+             ng-click="homepage.openPlatformSite(platform.url)">
+         <md-tooltip md-direction="buttom">
+          Go to {{ platform.name }}
+         </md-tooltip>
+      </md-card>
     </div>
   </div>
 </md-content>

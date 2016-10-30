@@ -59,12 +59,12 @@ module.exports = {
       geojsonvt: 'geojson-vt',
       SphericalMercator: 'sphericalmercator',
       d3: 'd3',
-      '_': 'lodash',
-      '$': 'jquery'
+      '_': 'lodash'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
-      template: path.resolve(srcDir, 'views/index.html'),
+      template: path.resolve(srcDir, 'views/index.ejs'),
+      baseUrl: 'http://www.opendatadiscovery.org/',
       inject: true
     }),
     new ScriptExtHtmlWebpackPlugin({

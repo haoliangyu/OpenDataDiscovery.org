@@ -3,6 +3,7 @@
 
   <head>
     <title>Open Data Discovery</title>
+    <base href=<%= htmlWebpackPlugin.options.baseUrl %>>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,14 +17,15 @@
   </head>
 
   <body>
-    <div full-page options="pageOptions">
-      <div class="section" id="home-page">
-        <home-page flex></home-page>
+    <header-toolbar></header-toolbar>
+    <div class="content-container">
+      <div class="page" id="home-page">
+        <home-page></home-page>
       </div>
-      <div class="section" id="map-page">
+      <div class="page" id="map-page">
         <map-page flex></map-page>
       </div>
-      <div class="section" id="export-page">
+      <div class="page" id="export-page">
         <export-page flex></export-page>
       </div>
     </div>

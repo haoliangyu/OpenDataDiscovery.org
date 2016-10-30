@@ -2,9 +2,19 @@ import angular from 'angular';
 
 class ajaxService {
 
-  constructor($http) {
+  constructor($http, $location) {
     'ngInject';
+
+    this.$location = $location;
     this.$http = $http;
+  }
+
+  /**
+   * Get current base url.
+   * @return {string} base url
+   */
+  getBaseUrl() {
+    return this.$location.host();
   }
 
   /**
@@ -60,7 +70,7 @@ class ajaxService {
   }
 }
 
-ajaxService.$inject = ['$http'];
+ajaxService.$inject = ['$http', '$location'];
 
 angular.module('OpenDataDiscovery').service('ajaxService', ajaxService);
 

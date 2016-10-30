@@ -71,7 +71,6 @@
     "angular-animate": "^1.5.8",
     "angular-aria": "^1.5.8",
     "angular-filter-count-to": "git+https://github.com/haoliangyu/angular-filter-count-to.git",
-    "angular-fullpage.js": "git+https://github.com/hellsan631/angular-fullpage.js.git",
     "angular-material": "^1.1.1",
     "angular-material-data-table": "^0.10.9",
     "angular-material-sidemenu": "^1.0.2",

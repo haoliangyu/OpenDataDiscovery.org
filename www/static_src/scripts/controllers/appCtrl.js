@@ -4,13 +4,6 @@ class appCtrl {
 
   constructor() {
     'ngInject';
-
-    this.pageOptions = {
-      navigation: true,
-      navigationPosition: 'left',
-      scrollingSpeed: 1000,
-      anchors: ['home-page', 'map-page', 'export-page']
-    };
   }
 }
 

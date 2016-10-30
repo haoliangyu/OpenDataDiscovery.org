@@ -2,11 +2,20 @@ import angular from 'angular';
 
 class homepageCtrl {
 
-  constructor($scope, $timeout, ajaxService) {
+  constructor($scope, ajaxService, pageService) {
     'ngInject';
 
+    this.pageService = pageService;
     this.datasetCount = 0;
     this.portalCount = 0;
+
+    this.platforms = [
+      {
+        name: 'CKAN',
+        logo: require('../../media/images/ckan-logo.png'),
+        url: 'http://ckan.org/'
+      }
+    ];
 
     ajaxService.getInstanceSummary()
       .then(result => {
@@ -18,12 +27,20 @@ class homepageCtrl {
       });
   }
 
-  jumpToRepo() {
-    window.open('https://github.com/haoliangyu/OpenDataDiscovery.org', '_blank');
+  scrollTo(elementID) {
+    this.pageService.scrollTo(elementID);
+  }
+
+  openGitHubRepo() {
+    this.pageService.openGitHubRepo();
+  }
+
+  openPlatformSite(url) {
+    window.open(url, '_blank');
   }
 }
 
-homepageCtrl.$inject = ['$scope', '$timeout', 'ajaxService'];
+homepageCtrl.$inject = ['$scope', 'ajaxService', 'pageService'];
 
 angular.module('OpenDataDiscovery').controller('homepageCtrl', homepageCtrl);
 

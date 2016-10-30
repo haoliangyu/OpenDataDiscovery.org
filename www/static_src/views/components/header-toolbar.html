@@ -1,0 +1,11 @@
+<md-toolbar class="header-toolbar">
+  <div class="md-toolbar-tools">
+    <h2>Open Data Discovery</h2>
+    <span flex></span>
+    <md-button ng-repeat="button in headerToolbar.buttons"
+               ng-click="headerToolbar.scrollTo(button.id)">
+      {{ button.label }}
+    </md-button>
+    <md-button ng-click="headerToolbar.openGitHubRepo()">GitHub</md-button>
+  </div>
+</md-toolbar>
