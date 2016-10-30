@@ -13,8 +13,8 @@ exports.exportData = (req, res) => {
   let qs = new QueryStream(sql);
 
   db.stream(qs, s => {
-    var jsonStart = '[';
-    var jsonEnd = ']';
+    var jsonStart = '{ "success": true, "portals": [';
+    var jsonEnd = ']}';
     var separator = ',';
 
     s.pipe(JSONStream.stringify(jsonStart, separator, jsonEnd)).pipe(res);
@@ -31,88 +31,100 @@ exports.exportData = (req, res) => {
 function getLatestData() {
   return `
     SELECT json_build_object(
-      'name', viri.instance_name,
-      'location', viri.region_name,
-      'count', viri.count,
-      'update_date', viri.update_date,
-      'tags', viri.tags,
-      'organizations', viri.organizations,
-      'categories', viri.categories
+      'name', vii.instance_name,
+      'location', vii.region_name,
+      'description', vii.description,
+      'dataset_count', vii.count,
+      'update_date', vii.update_date,
+      'tags', vii.tags,
+      'organizations', vii.organizations,
+      'categories', vii.categories
     ) AS instance
-    FROM view_instance_region_info AS viri
+    FROM view_instance_info AS vii
   `;
 }
 
 function getHistoryData(date) {
   return `
     WITH latest_category AS (
-          SELECT sorted_data.instance_id,
-             sorted_data.region_id,
-             array_agg(sorted_data.item ORDER BY ((sorted_data.item ->> 'count')::integer) DESC) AS grouped_data
-            FROM ( SELECT DISTINCT ON (irx_1.region_id, ircx.category_id) irx_1.instance_id,
-                     irx_1.region_id,
-                     json_build_object('name', c.name, 'count', cd.count, 'update_date', cd.update_date) AS item
-                    FROM category_data cd
-                      LEFT JOIN instance_region_category_xref ircx ON ircx.id = cd.instance_region_category_xref_id
-                      LEFT JOIN instance_region_xref irx_1 ON irx_1.id = ircx.instance_region_xref_id
-                      LEFT JOIN category c ON c.id = ircx.category_id
-                   WHERE cd.update_date <= DATE '${date}'
-                   ORDER BY irx_1.region_id, ircx.category_id, cd.update_date DESC) sorted_data
-           GROUP BY sorted_data.instance_id, sorted_data.region_id
-         ), latest_tag AS (
-          SELECT sorted_data.instance_id,
-             sorted_data.region_id,
-             array_agg(sorted_data.item ORDER BY ((sorted_data.item ->> 'count')::integer) DESC) AS grouped_data
-            FROM ( SELECT DISTINCT ON (irx_1.region_id, irtx.tag_id) irx_1.instance_id,
-                     irx_1.region_id,
-                     json_build_object('name', t.name, 'count', td.count, 'update_date', td.update_date) AS item
-                    FROM tag_data td
-                      LEFT JOIN instance_region_tag_xref irtx ON irtx.id = td.instance_region_tag_xref_id
-                      LEFT JOIN instance_region_xref irx_1 ON irx_1.id = irtx.instance_region_xref_id
-                      LEFT JOIN tag t ON t.id = irtx.tag_id
-                   WHERE t.name <> '' AND td.update_date <= DATE '${date}'
-                   ORDER BY irx_1.region_id, irtx.tag_id, td.update_date DESC) sorted_data
-           GROUP BY sorted_data.instance_id, sorted_data.region_id
-         ), latest_organization AS (
-          SELECT sorted_data.instance_id,
-             sorted_data.region_id,
-             array_agg(sorted_data.item ORDER BY ((sorted_data.item ->> 'count')::integer) DESC) AS grouped_data
-            FROM ( SELECT DISTINCT ON (irx_1.instance_id, irx_1.region_id, irox.organization_id) irx_1.instance_id,
-                     irx_1.region_id,
-                     json_build_object('name', o.name, 'count', od.count, 'update_date', od.update_date) AS item
-                    FROM organization_data od
-                      LEFT JOIN instance_region_organization_xref irox ON irox.id = od.instance_region_organization_xref_id
-                      LEFT JOIN instance_region_xref irx_1 ON irx_1.id = irox.instance_region_xref_id
-                      LEFT JOIN organization o ON o.id = irox.organization_id
-                   WHERE od.update_date <= DATE '${date}'
-                   ORDER BY irx_1.instance_id, irx_1.region_id, irox.organization_id, od.update_date DESC) sorted_data
-           GROUP BY sorted_data.instance_id, sorted_data.region_id
-         ), latest_data AS (
-          SELECT DISTINCT ON (irx_1.instance_id, irx_1.region_id) irx_1.instance_id,
-             irx_1.region_id,
-             rd.count,
-             rd.update_date
-            FROM region_data rd
-              LEFT JOIN instance_region_xref irx_1 ON irx_1.id = rd.instance_region_xref_id
-            WHERE rd.update_date <= DATE '${date}'
-            ORDER BY irx_1.instance_id, irx_1.region_id, rd.update_date DESC
-         )
-  SELECT i.id AS instance_id,
-     i.name,
-     r.name AS location,
-     ld.count,
-     ld.update_date,
-     COALESCE(lt.grouped_data, '{}'::json[]) AS tags,
-     COALESCE(lc.grouped_data, '{}'::json[]) AS categories,
-     COALESCE(lo.grouped_data, '{}'::json[]) AS organizations
-    FROM region r
-      RIGHT JOIN instance_region_xref irx ON irx.region_id = r.id
-      LEFT JOIN instance i ON irx.instance_id = i.id
-      LEFT JOIN region_level rl ON r.region_level_id = rl.id
-      LEFT JOIN latest_data ld ON ld.region_id = r.id AND ld.instance_id = i.id
-      LEFT JOIN latest_category lc ON lc.region_id = r.id AND lc.instance_id = i.id
-      LEFT JOIN latest_tag lt ON lt.region_id = r.id AND lt.instance_id = i.id
-      LEFT JOIN latest_organization lo ON lo.region_id = r.id AND lo.instance_id = i.id
-   WHERE ld.update_date IS NOT NULL
+      SELECT
+        icx.instance_id,
+        array_agg(json_build_object(
+          'name', c.name,
+          'dataset_count', sorted_data.count,
+          'update_date', sorted_data.update_date
+        )) AS grouped_data
+      FROM (
+        SELECT DISTINCT ON (cd.instance_category_xref_id)
+          cd.instance_category_xref_id,
+          cd.count,
+          cd.update_date
+        FROM category_data AS cd
+        WHERE update_date <= DATE '${date}'
+        ORDER BY cd.instance_category_xref_id, update_date DESC
+      ) AS sorted_data
+      LEFT JOIN instance_category_xref AS icx ON icx.id = sorted_data.instance_category_xref_id
+      LEFT JOIN category AS c ON c.id = icx.category_id
+      GROUP BY instance_id
+    ), latest_tag AS (
+      SELECT
+        itx.instance_id,
+        array_agg(json_build_object(
+          'name', t.name,
+          'dataset_count', sorted_data.count,
+          'update_date', sorted_data.update_date
+        )) AS grouped_data
+      FROM (
+        SELECT DISTINCT ON (td.instance_tag_xref_id)
+          td.instance_tag_xref_id,
+          td.count,
+          td.update_date
+        FROM tag_data AS td
+        WHERE update_date <= DATE '${date}'
+        ORDER BY td.instance_tag_xref_id, update_date DESC
+      ) AS sorted_data
+      LEFT JOIN instance_tag_xref AS itx ON itx.id = sorted_data.instance_tag_xref_id
+      LEFT JOIN tag AS t ON t.id = itx.tag_id
+      GROUP BY instance_id
+    ), latest_organization AS (
+      SELECT
+        iox.instance_id,
+        array_agg(json_build_object(
+          'name', o.name,
+          'dataset_count', sorted_data.count,
+          'update_date', sorted_data.update_date
+        )) AS grouped_data
+      FROM (
+        SELECT DISTINCT ON (od.instance_organization_xref_id)
+          od.instance_organization_xref_id,
+          od.count,
+          od.update_date
+        FROM organization_data AS od
+        WHERE update_date <= DATE '${date}'
+        ORDER BY od.instance_organization_xref_id, update_date DESC
+      ) AS sorted_data
+      LEFT JOIN instance_organization_xref AS iox ON iox.id = sorted_data.instance_organization_xref_id
+      LEFT JOIN organization AS o ON o.id = iox.organization_id
+      GROUP BY instance_id
+    ), latest_data AS (
+      SELECT DISTINCT ON (instance_id) instance_id, count, update_date
+      FROM instance_data WHERE update_date <= DATE '${date}'
+      ORDER BY instance_id, update_date DESC
+    )
+    SELECT
+      i.name,
+      i.description,
+      i.location,
+      ld.count AS dataset_count,
+      ld.update_date,
+      COALESCE(lt.grouped_data, '{}') AS tags,
+      COALESCE(lc.grouped_data, '{}') AS categories,
+      COALESCE(lo.grouped_data, '{}') AS organizations
+    FROM instance AS i
+      LEFT JOIN latest_data AS ld ON ld.instance_id = i.id
+      LEFT JOIN latest_category AS lc ON lc.instance_id = i.id
+      LEFT JOIN latest_tag AS lt ON lt.instance_id = i.id
+      LEFT JOIN latest_organization AS lo ON lo.instance_id = i.id
+    WHERE i.active;
   `;
 }

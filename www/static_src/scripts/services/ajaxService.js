@@ -2,9 +2,19 @@ import angular from 'angular';
 
 class ajaxService {
 
-  constructor($http) {
+  constructor($http, $location) {
     'ngInject';
+
+    this.$location = $location;
     this.$http = $http;
+  }
+
+  /**
+   * Get current base url.
+   * @return {string} base url
+   */
+  getBaseUrl() {
+    return this.$location.host();
   }
 
   /**
@@ -58,9 +68,22 @@ class ajaxService {
         return result.data;
       });
   }
+
+  exportData(date) {
+    let url = '/api/export';
+
+    if (_.isDate(date)) {
+      url += `?${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
+
+    return this.$http.get(url)
+      .then(result => {
+        return result.data;
+      });
+  }
 }
 
-ajaxService.$inject = ['$http'];
+ajaxService.$inject = ['$http', '$location'];
 
 angular.module('OpenDataDiscovery').service('ajaxService', ajaxService);
 

@@ -21,7 +21,6 @@ describe('API - /api/map_styles', function() {
           expect(style.fill).to.match(/^#(?:[0-9a-f]{3}){1,2}$/i);
           expect(style.upperBound).to.be.a('number');
           expect(style.lowerBound).to.be.a('number');
-          expect(style.percentTile).to.be.a('number');
         });
 
         done();

@@ -12,11 +12,6 @@ class mapCtrl {
       this.showLegend = true;
     });
 
-    ajaxService.getInstanceSummary()
-      .then(result => {
-        this.datasets = result.summary.count;
-      });
-
     mapService.initialize();
   }
 }

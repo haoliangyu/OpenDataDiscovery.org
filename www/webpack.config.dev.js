@@ -69,14 +69,15 @@ module.exports = {
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
-      template: path.resolve(srcDir, 'views/index.html'),
+      template: path.resolve(srcDir, 'views/index.ejs'),
+      baseUrl: 'http://localhost:8086/',
       inject: true
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer'
     }),
     new WebpackCleanupPlugin({
-      exclude: 'index.html'
+      exclude: ['index.html']
     }),
     new OptimizeJsPlugin({
       sourceMap: false
