@@ -33,19 +33,23 @@ exports.getInstances = function(req, res) {
 };
 
 exports.getInstanceSummary = function(req, res) {
-  var db = pgp(params.dbConnStr);
-  var sql = [
-    'SELECT SUM(vii.count) FROM view_instance_info AS vii',
-    ' LEFT JOIN instance AS i ON i.id = vii.instance_id',
-    'WHERE i.active'
-  ].join(' ');
+  const db = pgp(params.dbConnStr);
+  const sql = `
+    SELECT
+      COUNT(DISTINCT vii.instance_id) AS portal_count,
+      SUM(vii.count) AS dataset_count
+    FROM view_instance_info AS vii
+      LEFT JOIN instance AS i ON i.id = vii.instance_id
+    WHERE i.active
+  `;
 
   db.one(sql)
     .then(function(result) {
       res.json({
         success: true,
         summary: {
-          count: result.sum
+          datasetCount: +result.dataset_count,
+          portalCount: +result.portal_count
         }
       });
     })

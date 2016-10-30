@@ -2,13 +2,12 @@ import angular from 'angular';
 
 class appCtrl {
 
-  constructor($scope) {
+  constructor() {
     'ngInject';
   }
-
 }
 
-appCtrl.$inject = ['$scope'];
+appCtrl.$inject = [];
 
 angular.module('OpenDataDiscovery').controller('appCtrl', appCtrl);
 

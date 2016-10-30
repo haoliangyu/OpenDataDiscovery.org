@@ -26,12 +26,6 @@ class toolbarCtrl {
         tooltip: 'Show the World',
         icon: 'fa-globe',
         click: this.maxMap.bind(this)
-      },
-      {
-        name: 'github',
-        tooltip: 'Visite Projec Repository',
-        icon: 'fa-github-alt',
-        click: this.showProjectRepo.bind(this)
       }
     ];
   }
@@ -46,10 +40,6 @@ class toolbarCtrl {
 
   maxMap() {
     this.mapService.map.fitWorld();
-  }
-
-  showProjectRepo() {
-    window.open('https://github.com/haoliangyu/OpenDataDiscovery.org', '_blank');
   }
 }
 

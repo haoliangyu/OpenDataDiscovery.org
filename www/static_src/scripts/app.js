@@ -7,6 +7,7 @@ import 'angular-route';
 import 'angular-material-data-table';
 import 'angular-material-sidemenu';
 import 'angular-filter-count-to';
+import 'blob-polyfill';
 
 require('../styles/app.less');
 require('../../../node_modules/angular-material/angular-material.css');

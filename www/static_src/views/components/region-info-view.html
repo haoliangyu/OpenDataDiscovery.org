@@ -1,9 +1,11 @@
 <md-content md-whiteframe="9">
-  <div class="region-name md-title">
-    <span ng-if="!regionInfo.showRegionInfo">Worldwide</span>
-    <span ng-if="regionInfo.showRegionInfo">{{ regionInfo.name }}</span>
+  <div class="md-padding md-body-2" ng-hide="regionInfo.showRegionInfo">
+    Click on the map to get the detial of portals!
   </div>
   <div ng-show="regionInfo.showRegionInfo">
+    <div class="region-name md-title">
+      {{ regionInfo.name }}
+    </div>
     <md-divider></md-divider>
     <div>
       <span class="md-body-2 region-info-title">Datasets</span>&nbsp;&nbsp;
@@ -20,5 +22,4 @@
       </ul>
     </div>
   </div>
-
 </md-content>
