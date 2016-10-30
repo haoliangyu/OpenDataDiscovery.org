@@ -53,7 +53,7 @@ function getHistoryData(date) {
           'name', c.name,
           'dataset_count', sorted_data.count,
           'update_date', sorted_data.update_date
-        ) ORDER BY sorted_data.count DESC) AS grouped_data
+        )) AS grouped_data
       FROM (
         SELECT DISTINCT ON (cd.instance_category_xref_id)
           cd.instance_category_xref_id,
@@ -73,7 +73,7 @@ function getHistoryData(date) {
           'name', t.name,
           'dataset_count', sorted_data.count,
           'update_date', sorted_data.update_date
-        ) ORDER BY sorted_data.count DESC) AS grouped_data
+        )) AS grouped_data
       FROM (
         SELECT DISTINCT ON (td.instance_tag_xref_id)
           td.instance_tag_xref_id,
@@ -93,7 +93,7 @@ function getHistoryData(date) {
           'name', o.name,
           'dataset_count', sorted_data.count,
           'update_date', sorted_data.update_date
-        ) ORDER BY sorted_data.count DESC) AS grouped_data
+        )) AS grouped_data
       FROM (
         SELECT DISTINCT ON (od.instance_organization_xref_id)
           od.instance_organization_xref_id,
