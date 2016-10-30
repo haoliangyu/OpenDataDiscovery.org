@@ -1,6 +1,6 @@
 <md-toolbar class="header-toolbar">
   <div class="md-toolbar-tools">
-    <h2>Open Data Discovery</h2>
+    <h2 class="clickable" ng-click="headerToolbar.scrollTo('home-page')">Open Data Discovery</h2>
     <span flex></span>
     <md-button ng-repeat="button in headerToolbar.buttons"
                ng-click="headerToolbar.scrollTo(button.id)">

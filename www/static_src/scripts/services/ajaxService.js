@@ -68,6 +68,19 @@ class ajaxService {
         return result.data;
       });
   }
+
+  exportData(date) {
+    let url = '/api/export';
+
+    if (_.isDate(date)) {
+      url += `?${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
+
+    return this.$http.get(url)
+      .then(result => {
+        return result.data;
+      });
+  }
 }
 
 ajaxService.$inject = ['$http', '$location'];

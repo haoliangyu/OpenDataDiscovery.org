@@ -99,16 +99,16 @@ exports.attachHandlers = function(router) {
    *    {
    *        "name": "data.gov",
    *        "location": "USA",
-   *        "count": 321973,
-   *        "updateDate": "2016-02-07",
+   *        "dataset_count": 321973,
+   *        "update_date": "2016-02-07",
    *        "tags": [
-   *          { "name": "GIS", "count": 2371, "updateData": "2016-01-23" }
+   *          { "name": "GIS", "dataset_count": 2371, "update_date": "2016-01-23" }
    *        ],
    *        "categories": [
-   *          { "name": "Economic", "count": 2321, "updateData": "2016-01-23" }
+   *          { "name": "Economic", "dataset_count": 2321, "update_date": "2016-01-23" }
    *        ],
    *        "organizations": [
-   *          { "name": "NOAA", "count": 2962, "updateData": "2016-01-23" }
+   *          { "name": "NOAA", "dataset_count": 2962, "update_date": "2016-01-23" }
    *        ]
    *    }
    *  ]
