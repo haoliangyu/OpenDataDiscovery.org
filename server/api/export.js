@@ -30,16 +30,15 @@ exports.exportData = (req, res) => {
 
 function getLatestData() {
   return `
-    SELECT json_build_object(
-      'name', vii.instance_name,
-      'location', vii.region_name,
-      'description', vii.description,
-      'dataset_count', vii.count,
-      'update_date', vii.update_date,
-      'tags', vii.tags,
-      'organizations', vii.organizations,
-      'categories', vii.categories
-    ) AS instance
+    SELECT
+      vii.instance_name AS name,
+      vii.region_name AS location,
+      vii.description,
+      vii.count AS dataset_count,
+      vii.update_date,
+      vii.tags,
+      vii.organizations,
+      vii.categories
     FROM view_instance_info AS vii
   `;
 }

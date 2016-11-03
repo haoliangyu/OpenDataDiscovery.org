@@ -73,7 +73,13 @@ class ajaxService {
     let url = '/api/export';
 
     if (_.isDate(date)) {
-      url += `?${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      let today = new Date();
+
+      if (today.getFullYear() !== date.getFullYear() ||
+          today.getMonth() !== date.getMonth() ||
+          today.getDate() !== date.getDate()) {
+        url += `?${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      }
     }
 
     return this.$http.get(url)
