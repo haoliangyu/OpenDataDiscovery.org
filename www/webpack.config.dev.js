@@ -69,8 +69,7 @@ module.exports = {
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
-      template: path.resolve(srcDir, 'views/index.ejs'),
-      baseUrl: 'http://localhost:8086/',
+      template: path.resolve(srcDir, 'views/index.html'),
       inject: true
     }),
     new ScriptExtHtmlWebpackPlugin({
