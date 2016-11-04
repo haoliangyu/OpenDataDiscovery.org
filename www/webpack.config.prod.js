@@ -64,7 +64,7 @@ module.exports = {
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
       template: path.resolve(srcDir, 'views/index.ejs'),
-      baseUrl: 'http://www.opendatadiscovery.org/',
+      baseUrl: 'http://opendatadiscovery.org/',
       inject: true
     }),
     new ScriptExtHtmlWebpackPlugin({

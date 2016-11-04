@@ -9,17 +9,12 @@ class homepageCtrl {
     this.datasetCount = 0;
     this.portalCount = 0;
 
-    this.platforms = [
-      {
-        name: 'CKAN',
-        logo: require('../../media/images/ckan-logo.png'),
-        url: 'http://ckan.org/'
-      }
-    ];
+    window.addEventListener('resize', () => {
+      pageService.scrollTo(pageService.currentPage);
+    });
 
     ajaxService.getInstanceSummary()
       .then(result => {
-        this.portalCount = result.summary.portalCount;
         this.datasetCount = result.summary.datasetCount;
       })
       .catch(err => {

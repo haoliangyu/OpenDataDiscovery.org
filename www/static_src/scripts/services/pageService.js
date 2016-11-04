@@ -7,6 +7,7 @@ class pageService {
 
     this.$location = $location;
     this.$anchorScroll = $anchorScroll;
+    this.currentPage = 'home-page';
   }
 
   /**
@@ -25,6 +26,7 @@ class pageService {
   scrollTo(elementID) {
     this.$location.hash(elementID);
     this.$anchorScroll();
+    this.currentPage = elementID;
   }
 }
 

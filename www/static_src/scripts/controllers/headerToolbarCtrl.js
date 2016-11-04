@@ -9,6 +9,7 @@ class headerToolbarCtrl {
 
     this.buttons = [
       { label: 'Homepage', id: 'home-page' },
+      { label: 'About', id: 'about-page' },
       { label: 'Map', id: 'map-page' },
       { label: 'Data', id: 'export-page' }
     ];
