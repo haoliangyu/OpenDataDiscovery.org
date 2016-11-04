@@ -1,40 +1,21 @@
-<md-content class="max-size" layout="column">
-  <div md-colors="{ background:'primary' }" flex="60" layout="column" layout-align="center none">
-    <div>
-      <div>
-        <div class="md-display-3 text-center margin-40">
-          Discovering <span count-to="{{ homepage.datasetCount }}" value="0" duration="2" filter="number"></span> datasets
-        </div>
-        <div class="md-headline text-center margin-40">
-          in {{ homepage.portalCount | number }} portals
-        </div>
-      </div>
-      <div class="margin-40" layout="row" layout-align="center center">
-        <md-button class="md-raised" ng-click="homepage.scrollTo('map-page')">
-          <i class="fa fa-globe "></i> &nbsp; Map View
-        </md-button>
-        <md-button class="md-raised" ng-click="homepage.scrollTo('export-page')">
-          <i class="fa fa-download"></i> &nbsp; Export Data
-        </md-button>
-        <md-button class="md-raised" ng-click="homepage.openGitHubRepo()">
-          <i class="fa fa-github "></i> &nbsp; Star Me!
-        </md-button>
-      </div>
-    </div>
+<md-content class="max-size" md-colors="{ background:'primary' }" layout="column" layout-align="center none">
+  <div>
+    <h2 class="md-display-3 text-center">
+      Open Data Discovery
+    </h2>
+    <h5 class="md-headline text-center">
+      Discovering <span count-to="{{ homepage.datasetCount }}" value="0" duration="2" filter="number"></span> datasets
+    </h5>
   </div>
-  <div flex="40">
-    <div class="md-title text-center margin-20">
-      Supported Platforms
-    </div>
-    <div class="md-padding" layout="row" layout-align="center center">
-      <md-card ng-repeat="platform in homepage.platforms">
-        <img class="md-card-image platform-logo clickable"
-             ng-src="{{ platform.logo }}"
-             ng-click="homepage.openPlatformSite(platform.url)">
-         <md-tooltip md-direction="buttom">
-          Go to {{ platform.name }}
-         </md-tooltip>
-      </md-card>
-    </div>
+  <div layout="row" layout-align="center center">
+    <md-button class="md-raised" ng-click="homepage.scrollTo('map-page')">
+      <i class="fa fa-globe "></i> &nbsp; Portal Map
+    </md-button>
+    <md-button class="md-raised" ng-click="homepage.scrollTo('export-page')">
+      <i class="fa fa-download"></i> &nbsp; Data Export
+    </md-button>
+    <md-button class="md-raised" ng-click="homepage.openGitHubRepo()">
+      <i class="fa fa-github "></i> &nbsp; Star Me!
+    </md-button>
   </div>
 </md-content>

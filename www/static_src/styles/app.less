@@ -1,7 +1,8 @@
+@import 'variable.less';
+@import 'home-page.less';
+@import 'about-page.less';
 @import 'map.less';
 @import 'sidebar.less';
-@import 'homepage.less';
-@import 'variable.less';
 
 html, body {
   height: 100%;
@@ -9,15 +10,15 @@ html, body {
   padding: 0;
 }
 
+.md-button {
+  text-transform: none;
+}
+
 .content-container {
   top: @header-toolbar-height;
   height: calc(~'100% - ' @header-toolbar-height);
-  overflow-y: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
-}
-
-.page {
-  .max-size;
 }
 
 .text-center {

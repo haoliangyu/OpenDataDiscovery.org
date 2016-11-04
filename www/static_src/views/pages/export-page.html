@@ -1,32 +1,38 @@
 <md-content class="max-size" layout="row">
   <div class="md-padding" flex>
     <p class="md-title">Data Export</p>
-    <p>
-      OpenDataDiscovery.org is constatly monitoring the status of more than 100 open data portals. The data we collect includes
+    <p class="md-body-1">
+      OpenDataDiscovery.org is constatly monitoring the status of more than 100 open data portals. Every week we record the status of each data portal including
     </p>
-    <ul>
+    <ul class="md-body-1">
       <li>total number of open datasets</li>
       <li>most used data tags</li>
       <li>most used data categories</li>
       <li>organizations that publish most datasets</li>
     </ul>
-    <p>
-      As this information is collected from the open data community, it will be open to the public. To download the historical data, select a date and click the Download button.
+    <p class="md-body-1">
+      As all information is collected from the open data community, it also belongs to the public. To get a snapshoot of the history, simply select a date and you could download the historical data in JSON format.
     </p>
     <form name="exportForm">
+
       <md-input-container>
-        <label>Select a date to export</label>
-        <md-datepicker ng-model="export.exportDate" name="dateField" md-min-date="export.minDate" md-max-date="export.maxDate"></md-datepicker>
+        <label>Select a date</label>
+        <md-datepicker ng-model="export.exportDate" name="dateField" md-min-date="export.minDate" md-max-date="export.maxDate">
+        </md-datepicker>
+        <md-button class="md-raised md-primary" ng-click="export.exportData()" ng-disabled="export.isProcessing">
+          <span ng-if="!export.isProcessing"><i class="fa fa-download"></i> &nbsp; Data Export</span>
+          <span ng-if="export.isProcessing"><i class="fa fa-spinner fa-spin fa-pulse"></i> &nbsp; Processing</span>
+        </md-button>
       </md-input-container>
-      <md-button class="md-raised md-primary" ng-click="export.exportData()" ng-disabled="export.isProcessing">
-        <span ng-if="!export.isProcessing"><i class="fa fa-download"></i> &nbsp; Download</span>
-        <span ng-if="export.isProcessing"><i class="fa fa-spinner fa-spin fa-pulse"></i> &nbsp; Processing</span>
-      </md-button>
+
     </form>
+    <p class="md-title">Complete historical data?</p>
+    <p class="md-body-1">
+      The export of entire dataset is still under development. Please contact me via <a href="mailto:haoliang.yu@outlook.com?subject=OpenDataDiscovery.org Inquery">email</a> for more information and further discussion.
+    </p>
   </div>
   <div class="md-padding" flex>
-    <p class="md-title">Export Example</p>
-    <p>Data export is in JSON format.</p>
-    <pre class="md-padding" md-whiteframe="2">{{ export.example | json }}</pre>
+    <p class="md-title">Data Example</p>
+    <pre class="md-padding md-body-1" md-whiteframe="2">{{ export.example | json }}</pre>
   </div>
 </md-content>
