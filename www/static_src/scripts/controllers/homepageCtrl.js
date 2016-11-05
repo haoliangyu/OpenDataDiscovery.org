@@ -1,4 +1,6 @@
 import angular from 'angular';
+import init from 'social-likes-next';
+import 'social-likes-next/lib/social-likes_birman.css';
 
 class homepageCtrl {
 
@@ -20,6 +22,10 @@ class homepageCtrl {
       .catch(err => {
         console.error(err);
       });
+
+    // initialize social buttons
+    let socialButtons = document.getElementsByClassName('social-likes')[0];
+    init(socialButtons);
 
     /**
      * Modify the base url at base tag, source:
@@ -45,10 +51,6 @@ class homepageCtrl {
 
   openGitHubRepo() {
     this.pageService.openGitHubRepo();
-  }
-
-  openPlatformSite(url) {
-    window.open(url, '_blank');
   }
 }
 

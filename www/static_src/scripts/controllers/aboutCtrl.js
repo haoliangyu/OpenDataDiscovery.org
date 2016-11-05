@@ -21,6 +21,10 @@ class aboutCtrl {
         console.error(err);
       });
   }
+
+  openPlatformSite(url) {
+    window.open(url, '_blank');
+  }
 }
 
 aboutCtrl.$inject = ['ajaxService'];
