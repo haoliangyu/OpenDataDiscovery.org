@@ -11,7 +11,7 @@
       <md-card ng-repeat="platform in about.platforms">
         <img class="md-card-image platform-logo clickable"
              ng-src="{{ platform.logo }}"
-             ng-click="homepage.openPlatformSite(platform.url)">
+             ng-click="about.openPlatformSite(platform.url)">
          <md-tooltip md-direction="buttom">
           Go to {{ platform.name }}
          </md-tooltip>

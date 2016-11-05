@@ -9,12 +9,12 @@ import 'angular-material-sidemenu';
 import 'angular-filter-count-to';
 import 'blob-polyfill';
 
-require('../styles/app.less');
-require('../../../node_modules/angular-material/angular-material.css');
-require('../../../node_modules/angular-material-data-table/dist/md-data-table.css');
-require('../../../node_modules/angular-material-sidemenu/dest/angular-material-sidemenu.css');
-require('../../../node_modules/font-awesome/css/font-awesome.css');
-require('../../../node_modules/leaflet/dist/leaflet.css');
+import 'angular-material/angular-material.css';
+import 'angular-material-data-table/dist/md-data-table.css';
+import 'angular-material-sidemenu/dest/angular-material-sidemenu.css';
+import 'font-awesome/css/font-awesome.css';
+import 'leaflet/dist/leaflet.css';
+import '../styles/app.less';
 
 angular.module('OpenDataDiscovery', [
   'ngMaterial',

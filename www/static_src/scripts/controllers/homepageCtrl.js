@@ -46,10 +46,6 @@ class homepageCtrl {
   openGitHubRepo() {
     this.pageService.openGitHubRepo();
   }
-
-  openPlatformSite(url) {
-    window.open(url, '_blank');
-  }
 }
 
 homepageCtrl.$inject = ['$scope', 'ajaxService', 'pageService'];
