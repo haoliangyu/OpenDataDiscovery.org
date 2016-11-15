@@ -1,16 +1,8 @@
-var Promise = require('bluebird');
-var request = require('request-promise');
-var params = require('./params.js');
-var userAgents = require('./userAgents.js');
-var _ = require('lodash');
-
-var gentleRequest = function(request) {
-  return Promise.delay(_.random(params.minWait, params.maxWait))
-                .then(function() {
-                  return request;
-                })
-                .timeout(params.maxTimeout);
-};
+const Promise = require('bluebird');
+const request = require('request-promise');
+const params = require('../params.js');
+const userAgents = require('../userAgents.js');
+const _ = require('lodash');
 
 var getMetadata = function(url, options) {
   var formData = {};
@@ -23,12 +15,11 @@ var getMetadata = function(url, options) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'User-Agent': _.sample(userAgents)
-    }
+    },
+    json: true
   });
 
-  return gentleRequest(dataRequest).then(function(response) {
-    return JSON.parse(response);
-  });
+  return dataRequest;
 };
 
 exports.getDataTags = function(url, options) {

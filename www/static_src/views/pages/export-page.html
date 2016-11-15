@@ -19,7 +19,7 @@
         <label>Select a date</label>
         <md-datepicker ng-model="export.exportDate" name="dateField" md-min-date="export.minDate" md-max-date="export.maxDate">
         </md-datepicker>
-        <md-button class="md-raised md-primary" ng-click="export.exportData()" ng-disabled="export.isProcessing">
+        <md-button class="md-raised md-primary" ng-click="export.exportData()" ng-disabled="export.isProcessing" aria-label="Data Export">
           <span ng-if="!export.isProcessing"><i class="fa fa-download"></i> &nbsp; Data Export</span>
           <span ng-if="export.isProcessing"><i class="fa fa-spinner fa-spin fa-pulse"></i> &nbsp; Processing</span>
         </md-button>
