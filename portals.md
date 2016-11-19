@@ -1,7 +1,5 @@
 # Supported Portals
 
-OpenDataDiscovery.org is mapping these CKAN portals:
-
 |  Portal |  Region | Region Level(s) |
 | --- | --- | --- |
 | [Data.gov](https://www.data.gov/)  | United States  | Nation |
@@ -104,6 +102,161 @@ OpenDataDiscovery.org is mapping these CKAN portals:
 | [OpenDataBC](https://www.opendatabc.ca/) | British Columbia, Canada | Province |
 | [Tainan City Open Data](http://data.tainan.gov.tw/) | Tainan, Taiwan, China | City |
 | [Oppna Data](http://oppnadata.se/) | Sweden | Nation |
+| [AWC Open Data](data.awcnet.org)  | Washington  | Provice/State |
+| [City of Cambridge Open Data](data.cambridgema.gov)  | Cambridge, MA  | City |
+| [Baltimore Open Data](data.baltimorecity.gov)  | Baltimore, MD  | City |
+| [City of Austin Open Data](data.austintexas.gov)  | Austin, TX  | City |
+| [City of Grande Prairie Open Data](data.cityofgp.com)  | City of Grande Prairie, Canada  | City |
+| [Alameda County Open Data](data.acgov.org)  | Alameda County, CA  | Region/County |
+| [Auburn Open Data](data.auburnwa.gov)  | Auburn, WA  | City |
+| [City of Evanston Open Data](data.cityofevanston.org)  | Evanston, IL  | City |
+| [City of Boston Open Data](data.cityofboston.gov)  | Boston, MA  | City |
+| [CHHS Open Data Portal](chhs.data.ca.gov)  | California  | Provice/State |
+| [Data.HealthCare.gov](data.healthcare.gov)  | United States  | Nation |
+| [EPA ENERGY STAR](data.energystar.gov)  | United States  | Nation |
+| [San Bernardino Community Vital Signs](data.communityvitalsigns.org)  | San Bernardino County, CA  | Region/County |
+| [CIC Open Data](data.cic.mx)  | Monterrey, Mexico  | City |
+| [Greensboro Open Data](data.greensboro-nc.gov)  | Greensboro, NC  | City |
+| [Open Data Douglas County](data.douglas.co.us)  | Douglas County, CO  | Region/County |
+| [Open ATF](data.atf.gov)  | United States  | Nation |
+| [Tacoma Open Data](data.cityoftacoma.org)  | Tacoma, WA  | City |
+| [Code for South Africa Open Data](data.code4sa.org)  | South Africa  | Nation |
+| [Hawaii Open Data](data.hawaii.gov)  | Hawaii  | Provice/State |
+| [Colorado Information Marketplace](data.colorado.gov)  | Colorado  | Provice/State |
+| [California Franchise Tax Board Open Data Portal](data.ftb.ca.gov)  | California  | Provice/State |
+| [Los Angeles Open Data](controllerdata.lacity.org)  | Los Angeles, CA  | City |
+| [Connecticut Open Data](data.ct.gov)  | Connecticut  | Provice/State |
+| [Delaware Data](data.delaware.gov)  | Delaware  | Provice/State |
+| [Riverside County Open Data](data.countyofriverside.us)  | Riverside County, CA  | Region/County |
+| [Danville Open Data Portal](data.danvilleva.gov)  | Danville, VI  | City |
+| [Edmonton Open Data Portal](data.edmonton.ca)  | Edmonton, Canada  | City |
+| [Culver Open Data](data.culvercity.org)  | Culver, CA  | City |
+| [Albany Open Data](data.albanyny.gov)  | Albany, NY  | City |
+| [NYC Open Data](data.cityofnewyork.us)  | New York, NY  | City |
+| [City of Berkeley Open Data Portal](data.cityofberkeley.info)  | Berkeley, CA  | City |
+| [West Sacramento Open Data](data.cityofwestsacramento.org)  | West Sacramento, CA  | City |
+| [NSW Education Datahub](data.cese.nsw.gov.au)  | New South Wales, Australia  | Provice/State |
+| [Hampton Open Data](data.hampton.gov)  | Hampton, VA  | City |
+| [Data City of Hartford](data.hartford.gov)  | Hartford, CT  | City |
+| [Chattanooga Open Data Portal](data.chattlibrary.org)  | Chattanooga, TN  | City |
+| [King County Open Data](data.kingcounty.gov)  | King County, WA  | Region/County |
+| [City of Orlando Open Data Portal](data.cityoforlando.net)  | Orlando, FL  | City |
+| [City of Baton Rouge Open Data Portal](data.brla.gov)  | Baton Rouge, LA  | City |
+| [Burlington Open Data](data.burlingtonvt.gov)  | Burlington, VT  | City |
+| [Open Data City of Jackson](data.jacksonms.gov)  | Jackson, MS  | City |
+| [EDD Data Library](data.edd.ca.gov)  | California  | Provice/State |
+| [dataGNV Gainesville Open Data](data.cityofgainesville.org)  | Gainesville, FL  | City |
+| [Fort Worth Open Data Portal](data.fortworthtexas.gov)  | Fort Worth, TX  | City |
+| [Detroit Open Data Portal](data.detroitmi.gov)  | Detroit, MI  | City |
+| [data.iowa.gov](data.iowa.gov)  | Iowa  | Provice/State |
+| [Cincinnati Open Data Portal](data.cincinnati-oh.gov)  | Cincinnati, OH  | City |
+| [Open Data Centers for Disease Control and Prevention](chronicdata.cdc.gov)  | United States  | Nation |
+| [Data.Medicare.gov](data.medicare.gov)  | United States  | Nation |
+| [DC PCSB Data Portal](data.dcpcsb.org)  | Washington DC  | Nation |
+| [City of Madison Open Data](data.cityofmadison.com)  | Madison, WI  | City |
+| [San Diego Live Well Data Access Portal](data.livewellsd.org)  | San Diego, CA  | City |
+| [Macoupin Open Data Portal](data.macoupincountyil.gov)  | Macoupin County, IL  | Region/County |
+| [IMLS Data Catalog](data.imls.gov)  | United States  | Nation |
+| [Menlo Park Open Data Portal](data.menlopark.org)  | Menlo Park, CA  | City |
+| [Data.Medicaid.gov](data.medicaid.gov)  | United States  | Nation |
+| [Little Rock Open Data Portal](data.littlerock.org)  | Little Rock, AR  | City |
+| [Monroe County FL Open Data Portal](data.monroecounty-fl.gov)  | Monroe County, FL  | Region/County |
+| [OCEPR Open Data](data.oce.gov.pr)  | Puerto Rico  | Nation |
+| [City of Melbourne Open Data Portal](data.melbourne.vic.gov.au)  | Melbourne, Australia  | City |
+| [DataLA](data.lacity.org)  | Los Angeles, CA  | City |
+| [Montgomery County Data](data.montgomerycountymd.gov)  | Montgomery County, MD  | Region/County |
+| [Open Reading](data.readingpa.gov)  | Reading, PA  | City |
+| [MCPS Open Data Portal](data.montgomeryschoolsmd.org)  | Montgomery County, MD  | Region/County |
+| [Open Data Rutland City Police Department](data.rutlandcitypolice.com)  | Rutland, VT  | City |
+| [Michigan Open Data](data.michigan.gov)  | Michigan  | Provice/State |
+| [Maine Open Data](data.maine.gov)  | Maine  | Provice/State |
+| [Open Data Montgomery](data.montgomeryal.gov)  | Montgomery, AL  | City |
+| [Honolulu Open Data Portal](data.honolulu.gov)  | Honolulu, HI  | City |
+| [Open Data City of Providence](data.providenceri.gov)  | Providence, RI  | City |
+| [Queen Anne's County Open Data](data.qac.org)  | Queen Anne's County, MD  | Region/County |
+| [State of New York Open Data](data.ny.gov)  | New York  | Provice/State |
+| [data.pa.gov](data.pa.gov)  | Pennsylvania  | Provice/State |
+| [Nova Scotia Government Open Data Portal](data.novascotia.ca)  | Nova Scotia, Canada  | City |
+| [Puerto Rico Government Open Data Portal](data.pr.gov)  | Puerto Rico  | Nation |
+| [National League of Cities Open Data Portal](data.nlc.org)  | United States  | Nation |
+| [Raleigh Open Data](data.raleighnc.gov)  | Raleigh, NC  | City |
+| [Renton Open Data Portal](data.rentonwa.gov)  | Renton, WA  | City |
+| [New Castle County Open Data Portal](data.nccde.org)  | New Castle County, DE  | Region/County |
+| [Data.CMS.Gov](data.cms.gov)  | United States  | Nation |
+| [LAC Open Data](data.lacounty.gov)  | Los Angeles County, CA  | Region/County |
+| [Open Illinois](data.illinois.gov)  | Illinois  | Provice/State |
+| [Nashville Open Data](data.nashville.gov)  | Nashville, TN  | City |
+| [Open Data Portal City of Richmond, Virginia](data.richmondgov.com)  | Richmond, VI  | City |
+| [Roseville Open Data](data.roseville.ca.us)  | Roseville, CA  | City |
+| [OpenPGC Open Data](data.princegeorgescountymd.gov)  | Prince Georges County, MD  | Region/County |
+| [Open Data City of Oxnard](data.oxnard.org)  | Oxnard, CA  | City |
+| [LOC Open Data Portal](data.orcities.org)  | Oregon  | Provice/State |
+| [State of Missouri Data Portal](data.mo.gov)  | Missouri  | Provice/State |
+| [Oregon Open Data](data.oregon.gov)  | Oregon  | Provice/State |
+| [Data.Redmond.Gov](data.redmond.gov)  | Redmond, WA  | City |
+| [Data Portal State of Montana](data.datamontana.us)  | Montana  | Provice/State |
+| [Police Foundation Open Data Portal](data.policefoundation.org)  | United States  | Nation |
+| [NASA](data.nasa.gov)  | United States  | Nation |
+| [City of Oakland Open Data Portal](data.oaklandnet.com)  | Oakland, CA  | City |
+| [California State Treasurer](data.debtwatch.treasurer.ca.gov)  | California  | Provice/State |
+| [Government Financial Reports California State Controller's Office](bythenumbers.sco.ca.gov)  | California  | Provice/State |
+| [Open Data New Jersey OIT](data.nj.gov)  | New Jersey  | Provice/State |
+| [Data.NOLA.gov](data.nola.gov)  | New Orleans, LA  | Region/County |
+| [Data Center for Disease Control](data.cdc.gov)  | United States  | Nation |
+| [City of Chicago Data Portal](data.cityofchicago.org)  | Chicago, IL  | City |
+| [State of Texas Open Data Portal](data.texas.gov)  | Texas  | Provice/State |
+| [Open Data data.maryland.gov](data.maryland.gov)  | Maryland  | Provice/State |
+| [Open San Mateo County](data.smcgov.org)  | San Mateo County, CA  | Region/County |
+| [Santa Rosa Open Data](data.srcity.org)  | Santa Rosa, CA  | City |
+| [Topeka Open Data](data.topeka.org)  | Topeka, KS  | City |
+| [County of Sonoma Open Data](data.sonomacounty.ca.gov)  | Sonoma County, CA  | Region/County |
+| [Seattle Open Data](data.seattle.gov)  | Seattle, WA  | City |
+| [State of Washington Open Data Platform](data.wa.gov)  | Washington  | Provice/State |
+| [Strathcona County Open Data](data.strathcona.ca)  | Strathcona County, CA  | Region/County |
+| [Open Payments Data](openpaymentsdata.cms.gov)  | United States  | Nation |
+| [Miami-Dade County Open Data Portal](opendata.miamidade.gov)  | Miami-Dade County, FL  | Region/County |
+| [Vermont Open Data](data.vermont.gov)  | Vermont  | Provice/State |
+| [Howard County Open Data Portal](opendata.howardcountymd.gov)  | Howard County, MD  | Region/County |
+| [Santa Monica Sustainable City Plan](data.sustainablesm.org)  | Santa Monica, CA  | City |
+| [New Jersey Depart of Health](healthdata.nj.gov)  | New Jersey  | Provice/State |
+| [Virginia Beach Open Data](data.vbgov.com)  | Virginia Beach, VA  | City |
+| [Henderson Open Data](opendata.cityofhenderson.com)  | Henderson, NC  | City |
+| [Impact STLCO](impact.stlouisco.com)  | St. Louis County, MO  | Region/County |
+| [Sunshine Coast Council Open Data](data.sunshinecoast.qld.gov.au)  | Sunshine Coast, Australia  | City |
+| [Internet Data Portal](idp.nz)  | New Zealand  | Nation |
+| [Santa Monica Open Data](data.smgov.net)  | Santa Monica, CA  | City |
+| [VTA Open Data Portal](data.vta.org)  | Santa Clara, CA  | City |
+| [White House Open Data](open.whitehouse.gov)  | United States  | Nation |
+| [Portal de Datos Abiertos Municipio de Puebla](datosabiertos.pueblacapital.gob.mx)  | Puebla, Mexico  | City |
+| [Las Vegas Open Data](opendata.lasvegasnevada.gov)  | Las Vegas, NV  | City |
+| [Urbana Open Data Portal](data.urbanaillinois.us)  | Urbana, IL  | Region/County |
+| [Township of Langley Open Data Portal](data.tol.ca)  | Township of Langley, Canada  | Region/County |
+| [Richmond Open Data](opendata.ci.richmond.ca.us)  | Richmond, CA  | City |
+| [SF OpenData](data.sfgov.org)  | San Fransico, CA  | City |
+| [Open Data West Hollywood](data.weho.org)  | West Hollywood, CA  | City |
+| [State of New York Open Data Health](health.data.ny.gov)  | New York  | Provice/State |
+| [The City of Saint Paul's Open Data Portal](information.stpaul.gov)  | Saint Paul, MI  | Provice/State |
+| [Open Government Data Sunlight Labs](data.sunlightlabs.com)  | United States  | Nation |
+| [City of Somerville Open Data](data.somervillema.gov)  | Somerville, MA  | City |
+| [Open Data City of Winnipeg](data.winnipeg.ca)  | Winnipeg, Canada  | City |
+| [Data Cook County](datacatalog.cookcountyil.gov)  | Cook County, IL  | Region/County |
+| [Open Data KC](data.kcmo.org)  | Kansas City, MO  | City |
+| [Consumer Complaint Data Center Federal Communications Commission](opendata.fcc.gov)  | United States  | Nation |
+| [MassData](data.mass.gov)  | Massachusetts  | Provice/State |
+| [data.ca.gov](greengov.data.ca.gov)  | California  | Provice/State |
+| [Mesquite Open Data Portal](opendata.cityofmesquite.com)  | Mesquite, TX  | City |
+| [City of Philadelphia Open Data](data.phila.gov)  | Philadelphia, PA  | City |
+| [NYS-DFS SHIP Data](ship.dfs.ny.gov)  | New York  | Provice/State |
+| [Consumer Complaint Database Consumer Financial Protection Bureau](data.consumerfinance.gov)  | United States  | Nation |
+| [Kenya Open Data Portal](www.opendata.go.ke)  | Kenya  | Nation |
+| [SCT Datos Abiertos](www.datossct.gob.mx)  | Mexico  | Nation |
+| [Dallas OpenData](www.dallasopendata.com)  | Dallas, TX  | City |
+| [dataACT](www.data.act.gov.au)  | Australia  | Nation |
+| [State of Utah Open Data Portal](opendata.utah.gov)  | Utah  | Provice/State |
+| [Datos Abiertos Colombia](www.datos.gov.co)  | Colombia  | Nation |
+| [Sudan Evidence Base Programme](www.sudandata.org)  | Sudan  | Nation |
+| [Metro Chicago Data Open Data for Chicago](www.metrochicagodata.org)  | Chicago, IL  | City |
+| [Indicadores Puerto Rico](www.indicadores.pr)  | Puerto Rico  | Nation |
 
 # Planned Portals
 
@@ -111,8 +264,7 @@ These are portals in the support plan, but not added.
 
 |  Portal |  Region | Region Level |
 | --- | --- | --- |
-| [The Humanitarian
-Data Exchange](https://data.humdata.org) | | Worldwide |
+| [The Humanitarian Data Exchange](https://data.humdata.org) | | Worldwide |
 | [The Datahub](http://datahub.io/) | Worldwide | |
 | [The International Aid Transparency Initiative](http://iatiregistry.org/) | Worldwide | |
 
@@ -152,5 +304,3 @@ Data Exchange](https://data.humdata.org) | | Worldwide |
 | [publicdata.eu](http://publicdata.eu/) | EU | API inaccessible |
 | [Ressourcerie Datalocale](http://catalogue.datalocale.fr/) | France | API at version 1.7 |
 | [The Brazilian Senate](http://dadosabertos.senado.gov.br/) | Brazil | API at version 1.7 |
-
-For a full list of CKAN-based portals, please visit [ckan.org](http://ckan.org/instances/#).
