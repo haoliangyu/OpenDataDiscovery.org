@@ -1,6 +1,6 @@
 <md-content class="instance-list" >
   <md-list ng-cloak>
-    <md-subheader class="md-no-sticky">{{ instanceList.instances.length }} CKAN Data Portals</md-subheader>
+    <md-subheader class="md-no-sticky">{{ instanceList.instances.length }} Open Data Portals</md-subheader>
     <md-list-item class="md-2-line"
                   ng-repeat="instance in instanceList.instances | orderBy: 'name'"
                   ng-click="instanceList.seeDetail(instance)">

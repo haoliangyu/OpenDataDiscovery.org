@@ -1,14 +1,14 @@
 <md-content class="md-padding">
   <p class="md-headline text-center">About the Project</p>
   <p class="project-description md-subhead">
-    Open Data Discovery is a project to answer the question <strong>How much data do we have</strong> and present the up-to-date status of the world of open data. It collects information from {{ about.portalCount | number }} open data portals: dataset number, tags, categories, publishers, and more in a weekly basis. These data portals are established by nations, provinces, cities, and institutes worldwide, which make up the main force of the global activity of data openning.
+    Open Data Discovery is a project to track and present the up-to-date status of the world of open data. It collects information from {{ about.portalCount | number }} open data portals: dataset number, tags, categories, publishers, and more in a weekly basis to show how they are acting. These data portals are established by nations, provinces, cities, and institutes worldwide, which make up the main force of the global activity of data openning.
   </p>
   <div>
     <p class="md-headline text-center">
-      Currently Supported Platforms
+      Supported Platforms
     </p>
     <div layout="row" layout-align="center center">
-      <md-card ng-repeat="platform in about.platforms">
+      <md-card class="md-padding" ng-repeat="platform in about.platforms">
         <img class="md-card-image platform-logo clickable"
              ng-src="{{ platform.logo }}"
              ng-click="about.openPlatformSite(platform.url)">
