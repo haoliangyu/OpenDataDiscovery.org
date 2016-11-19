@@ -1,44 +1,50 @@
 # OpenDataDiscovery.org
 
-[**OpenDataDiscovery.org**](http://www.opendatadiscovery.org) aims at presenting the current and history status of data opening worldwide by constantly collecting, analyzing, and visualizing over 90+ governmental data portals worldwide.
+[**OpenDataDiscovery.org**](http://www.opendatadiscovery.org) is a project to track and present the world of open data.
 
-## Why do we start this project?
+## Why do I start this project?
 
-Because the world of open data is highly fragmented. As data in the world is owned by numerous governments and institutes, the effort of data opening spreads widely across the Internet as well as the world. This fact makes it uneasy to generate a precise overview of the movement of open data and even the answer to the simplest question is still very ambiguous:
+Because the world of open data is highly fragmented and separated. There are numerous data owners and publishers across the world, who acts individually and creates lots of information islands. We know everyone is publishing open data and open data is very accessible, but we fail to answer some fundamental questions about data opening:
 
 > How many datasets haven open on earth?
 
-The website is a step further to figure out question like this.
+> How many data portals do we have now?
+
+> How are these portals acting?
+
+> What data can we find for a specific place?
+
+> If I search for something, how many and what should I get?
+
+It's thrilling to see the emerging open data at every corner of the world and the Internet. However, open data is not open until people are able to realize it. With this project, I hope to track and visualize the world of open data for the people who are entering and exploring this exciting world.
 
 ## How does it work?
 
-Fortunately, the open data community is forming the standards and good practices. There are several major open data platforms that have been adopted by many governments and institutes. As most of them open the API for searching, this makes it possible for developers to perform data harvesting and conduct analysis based on the information.
+Fortunately the open data community is creating standards and good practices. Several major open data platforms, which supports hundreds of open data portals worldwide, have provided the feature of web query. It enables user to gather information from data portals without manually checking them on by one.
 
 Just take [CKAN](http://ckan.org/), one of the most widely used open data platform, as example.
 
-If a government chooses CKAN to developer its data portal, it will also expose the standard CKAN API. Particularly, we are able to search the following information:
+Data portal based on CKAN is publishing its portal summary including
 
-* datasets number
+* dataset number
 
-* datasets tags
+* dataset tags
 
 * dataset categories
 
 * dataset publishers
 
-As all CKAN-based portals open their APIs a similar manner. We are able to get the information for the whole CKAN network by looping the API searching for each portal.
-
-By looping the procedure for all major data portal network and harmonizing the information, we should be able to have a more precise picture of the world of open data.
-
-If we keep track with this information, it would be possible to provide a view of the progress of the open data movement.
+This information provides an overview of the status and performance of the portal. By constantly collecting the information of data portals, it is possible to create an overview of major data portals and answer the questions of the world of open data. It would gain us more understanding on the current status of data opening and probably provide a guide on how to improve it.
 
 ## So what is your progress?
 
-OpenDataDiscovery.org now have supported:
+OpenDataDiscovery.org has supported following platforms:
 
-* CKAN (101 portals)
+* [CKAN](http://ckan.org/) (101 portals)
 
-For more detail, see [portal list](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/master/portals.md).
+* [Socrata](https://socrata.com/solutions/publica-open-data-cloud/) (155 portals)
+
+For more details, see the [portal list](https://github.com/haoliangyu/OpenDataDiscovery.org/blob/master/portals.md).
 
 ## How to setup and contribute?
 

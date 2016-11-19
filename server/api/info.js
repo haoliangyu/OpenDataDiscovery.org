@@ -10,7 +10,7 @@ exports.getInstances = function(req, res) {
   var response = { success: true };
   var db = pgp(params.dbConnStr);
   var sql = [
-    'SELECT i.id, i.name, i.location, ST_AsGeoJSON(r.bbox, 3) AS bbox FROM instance AS i',
+    'SELECT i.id, i.name, r.name AS location, ST_AsGeoJSON(r.bbox, 3) AS bbox FROM instance AS i',
     'LEFT JOIN instance_region_xref AS irx ON irx.instance_id = i.id',
     'LEFT JOIN region AS r ON irx.region_id = r.id',
     'WHERE i.active'
@@ -39,8 +39,6 @@ exports.getInstanceSummary = function(req, res) {
       COUNT(DISTINCT vii.instance_id) AS portal_count,
       SUM(vii.count) AS dataset_count
     FROM view_instance_info AS vii
-      LEFT JOIN instance AS i ON i.id = vii.instance_id
-    WHERE i.active
   `;
 
   db.one(sql)
@@ -68,7 +66,7 @@ exports.getInstanceInfo = function(req, res) {
   var db = pgp(params.dbConnStr);
 
   var sql = [
-    'SELECT instance_name AS name, vii.description, url, location,',
+    'SELECT instance_name AS name, vii.description, url, location, platform_name AS platform,',
     ' update_date, count, tags[1:$1], categories[1:$1], organizations[1:$1]',
     'FROM view_instance_info AS vii',
     ' LEFT JOIN instance AS i ON i.id = vii.instance_id',

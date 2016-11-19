@@ -1,14 +1,14 @@
-var logger = require('log4js').getLogger('test_ckan');
-var params = require('../src/params.js');
-var ckan = require('../src/ckan.js');
+const logger = require('log4js').getLogger('test_ckan');
+const params = require('../../src/params.js');
+const ckan = require('../../src/platform/ckan.js');
 
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 
-var expect = chai.expect;
+const expect = chai.expect;
 
-describe('Get Data', function() {
+describe('Get metadata from CKAN instance', function() {
 
   before(function(done) {
     params.minWait = 0;

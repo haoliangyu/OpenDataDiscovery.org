@@ -1,15 +1,20 @@
-var Promise = require('bluebird');
-var Queue = require('promise-queue');
-var worker = require('./src/worker.js');
-var database = require('./src/database.js');
-var _ = require('lodash');
+const Promise = require('bluebird');
+const Queue = require('promise-queue');
+const worker = require('./src/worker.js');
+const database = require('./src/database.js');
+const _ = require('lodash');
 
 Queue.configure(Promise);
 
 exports.harvestAll = function(db) {
-  var queue;
+  let queue;
+  let sql = `
+    SELECT i.id, i.name, i.url, lower(p.name) AS platform FROM instance AS i
+      LEFT JOIN platform AS p ON i.platform_id = p.id
+    WHERE i.active
+  `;
 
-  return db.any('SELECT id, name, url FROM instance')
+  return db.any(sql)
     .then(function(instances) {
       return new Promise(function(resolve) {
         queue = new Queue(10, Infinity, {
@@ -20,7 +25,7 @@ exports.harvestAll = function(db) {
 
         _.forEach(instances, function(instance) {
           queue.add(function() {
-            return worker.crawl(db, instance.id, instance.name, instance.url);
+            return worker.crawl(db, instance);
           });
         });
       });
