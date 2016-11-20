@@ -1,4 +1,5 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 class legendCtrl {
 

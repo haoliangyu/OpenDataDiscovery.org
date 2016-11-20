@@ -1,6 +1,8 @@
 import 'leaflet';
 import 'topojson';
+import _ from 'lodash';
 import angular from 'angular';
+
 
 require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js');
 

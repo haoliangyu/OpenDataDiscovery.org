@@ -64,8 +64,7 @@ module.exports = {
       vectorTile: 'vector-tile',
       geojsonvt: 'geojson-vt',
       SphericalMercator: 'sphericalmercator',
-      d3: 'd3',
-      '_': 'lodash'
+      d3: 'd3'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
