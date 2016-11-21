@@ -1,10 +1,7 @@
 import 'leaflet';
-import 'topojson';
+import 'leaflet.vectorgrid';
 import _ from 'lodash';
 import angular from 'angular';
-
-
-require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js');
 
 class mapService {
 
@@ -54,7 +51,7 @@ class mapService {
 
           return {
             color: '#ececec',
-            weight: 0.5,
+            weight: 2,
             fill: true,
             fillColor: color,
             fillOpacity: 1
@@ -62,11 +59,14 @@ class mapService {
         };
 
         const instanceLayer = L.vectorGrid.protobuf(location.origin + '/vt/regions/{z}/{x}/{y}.pbf', {
-          vectorTileLayerStyles: layerStyle,
-          onMouseOver: this._onMouseOver.bind(this),
-          onMouseOut: this._onMouseOut.bind(this),
-          onClick: this._onClick.bind(this)
-        });
+          vectorTileLayerStyles: {
+            'regions': layerStyle
+          },
+          interactive: true
+        })
+        .on('click', this._onClick.bind(this))
+        .on('mouseover', this._onMouseOver.bind(this))
+        .on('mouseout', this._onMouseOut.bind(this));
 
         this.map.addLayer(instanceLayer);
         this.map.invalidateSize();
@@ -100,28 +100,30 @@ class mapService {
 
   _onClick(e) {
     // get data from the tile
-    const coords = e.target.getCoords();
-    const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+    let properties = e.layer.properties;
 
-    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(geojson.properties.instances, 'id'));
-
-    if (_.isString(geojson.properties.bbox)) {
-      geojson.properties.bbox = JSON.parse(geojson.properties.bbox);
+    if (_.isString(properties.instances)) {
+      properties.instances = JSON.parse(properties.instances);
     }
 
-    this.zoomTo(geojson.properties.bbox);
+    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(properties.instances, 'id'));
+
+    if (_.isString(properties.bbox)) {
+      properties.bbox = JSON.parse(properties.bbox);
+    }
+
+    this.zoomTo(properties.bbox);
   }
 
   _onMouseOver(e) {
     // get data from the tile
-    const coords = e.target.getCoords();
-    const geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+    let properties = e.layer.properties;
 
-    if (_.isString(geojson.properties.instances)) {
-      geojson.properties.instances = JSON.parse(geojson.properties.instances);
+    if (_.isString(properties.instances)) {
+      properties.instances = JSON.parse(properties.instances);
     }
 
-    this.$rootScope.$broadcast('map:inFeature', _.omit(geojson.properties, 'bbox'));
+    this.$rootScope.$broadcast('map:inFeature', _.omit(properties, 'bbox'));
   }
 
   _onMouseOut() {

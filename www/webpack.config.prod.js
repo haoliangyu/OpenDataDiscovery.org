@@ -57,8 +57,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       Pbf: 'pbf',
       vectorTile: 'vector-tile',
-      geojsonvt: 'geojson-vt',
-      SphericalMercator: 'sphericalmercator',
       d3: 'd3'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
