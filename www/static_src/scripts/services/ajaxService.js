@@ -70,8 +70,9 @@ class ajaxService {
       });
   }
 
-  exportData(date) {
+  exportData(date, format) {
     let url = '/api/export';
+    let params = {};
 
     if (_.isDate(date)) {
       let today = new Date();
@@ -79,14 +80,20 @@ class ajaxService {
       if (today.getFullYear() !== date.getFullYear() ||
           today.getMonth() !== date.getMonth() ||
           today.getDate() !== date.getDate()) {
-        url += `?${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+        params.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
       }
     }
 
-    return this.$http.get(url)
-      .then(result => {
-        return result.data;
-      });
+    if (format) {
+      params.format = format;
+    }
+
+    return this.$http.get(url, {
+      params: params
+    })
+    .then(result => {
+      return result.data;
+    });
   }
 }
 
