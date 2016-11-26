@@ -26,7 +26,7 @@ module.exports = {
   eslint: {
     configFile: '../.eslintrc.js',
     quiet: true,
-    failOnError: true
+    failOnError: false
   },
   module: {
     preLoaders: [

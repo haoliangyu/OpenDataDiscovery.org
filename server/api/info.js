@@ -11,9 +11,19 @@ exports.getInstances = function(req, res) {
   var db = pgp(params.dbConnStr);
 
   let sql = `
-    SELECT i.id, i.name, vir.region_name AS location, ST_AsGeoJSON(vir.bbox, 3) AS bbox
+    SELECT
+      i.id,
+      i.name,
+      p.name AS platform,
+      vir.region_name AS formatted_location,
+      json_build_object(
+        'country', r.country
+      ) AS location,
+      ST_AsGeoJSON(vir.bbox, 3) AS bbox
     FROM instance AS i
       LEFT JOIN view_instance_region AS vir ON vir.instance_id = i.id
+      LEFT JOIN region AS r ON r.id = vir.region_id
+      LEFT JOIN platform AS p ON p.id = i.platform_id
     WHERE i.active
   `;
 
@@ -21,6 +31,8 @@ exports.getInstances = function(req, res) {
     .then(function(results) {
       _.forEach(results, result => {
         result.bbox = JSON.parse(result.bbox);
+
+        pgService.camelCase(result, 'formatted_location');
       });
 
       response.instances = results;

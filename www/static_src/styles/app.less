@@ -2,7 +2,7 @@
 @import 'home-page.less';
 @import 'about-page.less';
 @import 'export-page.less';
-@import 'map.less';
+@import 'map-page.less';
 @import 'sidebar.less';
 
 html, body {
@@ -18,7 +18,7 @@ html, body {
 .content-container {
   top: @header-toolbar-height;
   height: calc(~'100% - ' @header-toolbar-height);
-  overflow-y: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
 }
 
