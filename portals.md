@@ -257,16 +257,15 @@
 | [Sudan Evidence Base Programme](www.sudandata.org)  | Sudan  | Nation |
 | [Metro Chicago Data Open Data for Chicago](www.metrochicagodata.org)  | Chicago, IL  | City |
 | [Indicadores Puerto Rico](www.indicadores.pr)  | Puerto Rico  | Nation |
+| [Humanitarian Data Exchange](https://data.humdata.org) | | Globe |
+| [Datahub](http://datahub.io/) | | Globe |
+| [International Aid Transparency Initiative](http://iatiregistry.org/) | | Globe |
+| [Brigade Open Data Sharing Platform](https://brigades.opendatanetwork.com) | | Globe |
+| [Water Point Data Exchange Data](https://data.waterpointdata.org) | | Globe |
+| [World Bank Group Finances](https://finances.worldbank.org) | | Globe |
+| [North American Transportation Statistics NATS](https://www.natsdatasct.gob.mx/) | | Globe |
+| [United Nations Capital Development Fund](https://data.map.uncdf.org) | | Globe |
 
-# Planned Portals
-
-These are portals in the support plan, but not added.
-
-|  Portal |  Region | Region Level |
-| --- | --- | --- |
-| [The Humanitarian Data Exchange](https://data.humdata.org) | | Worldwide |
-| [The Datahub](http://datahub.io/) | Worldwide | |
-| [The International Aid Transparency Initiative](http://iatiregistry.org/) | Worldwide | |
 
 # Unsupported Portals
 
