@@ -1,13 +1,31 @@
 <md-content class="instance-list" >
+  <div class="instance-list-search-bar" layout="row">
+    <md-input-container flex="70">
+      <label><i class="fa fa-search"></i> Search Portal</label>
+      <input ng-model="instanceList.searchKeyWord" ng-change="instanceList.searchInstance(instanceList.searchKeyWord)">
+    </md-input-container>
+    <md-input-container  flex="30">
+      <label>Search / Group by</label>
+      <md-select ng-model="instanceList.groupBy"
+                 ng-change="instanceList.groupInstance(instanceList.groupBy)">
+        <md-option value="name" ng-selected="true">Name</md-option>
+        <md-option value="platform">Platform</md-option>
+        <md-option value="location">Location</md-option>
+      </md-select>
+    </md-input-container>
+  </div>
   <md-list ng-cloak>
-    <md-subheader class="md-no-sticky">{{ instanceList.instances.length }} Open Data Portals</md-subheader>
-    <md-list-item class="md-2-line"
-                  ng-repeat="instance in instanceList.instances | orderBy: 'name'"
-                  ng-click="instanceList.seeDetail(instance)">
-      <div class="md-list-item-text">
-        <h3>{{ instance.name }}</h3>
-        <p>{{ instance.location }}</p>
-      </div>
-    </md-list-item>
+    <div ng-repeat="group in instanceList.instanceGroups | toArray | orderBy: '$key'"
+         ng-show="group.length > 0">
+      <md-subheader><strong>{{ group.$key }}</strong>  ({{ group.length }} portal<span ng-show="group.length > 1">s</span>)</md-subheader>
+      <md-list-item class="md-2-line"
+                    ng-repeat="instance in group | orderBy: 'name'"
+                    ng-click="instanceList.seeDetail(instance)">
+        <div class="md-list-item-text">
+          <h3>{{ instance.name }}</h3>
+          <p>{{ instance.formattedLocation }}</p>
+        </div>
+      </md-list-item>
+    </div>
   </md-list>
 </md-content>

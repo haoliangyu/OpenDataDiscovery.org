@@ -5,6 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var OptimizeJsPlugin = require("optimize-js-plugin");
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 var srcDir = 'static_src';
 var outputDir = 'static';
@@ -30,7 +31,7 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['es2015'],
-          plugins: ['syntax-decorators', 'ng-annotate']
+          plugins: ['syntax-decorators', 'ng-annotate', 'lodash']
         },
         exclude: /node_modules/
       },
@@ -56,10 +57,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       Pbf: 'pbf',
       vectorTile: 'vector-tile',
-      geojsonvt: 'geojson-vt',
-      SphericalMercator: 'sphericalmercator',
-      d3: 'd3',
-      '_': 'lodash'
+      d3: 'd3'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
@@ -72,6 +70,7 @@ module.exports = {
     new WebpackCleanupPlugin(),
     new OptimizeJsPlugin({
       sourceMap: true
-    })
+    }),
+    new LodashModuleReplacementPlugin()
   ]
 };

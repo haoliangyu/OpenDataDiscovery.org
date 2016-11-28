@@ -3,7 +3,13 @@
 </md-content>
 
 <md-content class="instance-info-list" layout="column" ng-show="instanceInfo.instances">
-  <md-card theme="default" ng-repeat="instance in instanceInfo.instances">
+  <div class="instance-list-search-bar" layout="row" ng-show="instanceInfo.instances.length > 1">
+    <md-input-container flex>
+      <label><i class="fa fa-search"></i> Search Portal by Name</label>
+      <input ng-model="instanceInfo.searchKeyWord" ng-change="instanceInfo.searchInstance(instanceInfo.searchKeyWord)">
+    </md-input-container>
+  </div>
+  <md-card theme="default" ng-repeat="instance in instanceInfo.searchResult">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">{{ instance.name }}</span>
@@ -57,7 +63,7 @@
             <td md-cell>
               <span class="list-item-name">Description</span>
             </td>
-            <td md-cell>
+            <td md-cell class="md-body-1">
               <span>{{ instance.description }}</span>
             </td>
           </tr>

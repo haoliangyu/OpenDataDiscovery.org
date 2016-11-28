@@ -8,6 +8,11 @@
     </div>
     <md-divider></md-divider>
     <div>
+      <span class="md-body-2 region-info-title">Data Portals</span>&nbsp;&nbsp;
+      <span class="md-body-1">{{ regionInfo.instances.length | number: 0 }}</span>
+    </div>
+    <md-divider></md-divider>
+    <div>
       <span class="md-body-2 region-info-title">Datasets</span>&nbsp;&nbsp;
       <span class="md-body-1">{{ regionInfo.count | number: 0 }}</span>
     </div>
@@ -15,7 +20,7 @@
     <div>
       <span class="md-body-2 region-info-title">Protals</span>
       <ul class="md-body-1">
-        <li ng-repeat="instance in regionInfo.instances | orderBy: '-count'">
+        <li ng-repeat="instance in regionInfo.instances | orderBy: '-count' | limitTo: 5">
           <i class="fa fa-square" ng-style="{ color: regionInfo.getSquareColor(instance.count)}"></i>
           {{ instance.name }} ({{ instance.count | number: 0 }})
         </li>

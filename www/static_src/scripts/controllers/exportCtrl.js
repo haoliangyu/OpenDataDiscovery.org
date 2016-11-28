@@ -14,7 +14,22 @@ class exportCtrl {
     this.maxDate = new Date();
     this.isProcessing = false;
 
-    this.example = [
+
+    let csvExample = `
+      The CSV file will include following columns:
+
+      1. name
+      2. platform
+      3. location
+      4. website
+      5. dataset count
+      6. tag count
+      7. category count
+      8. publisher count
+      9. update date
+    `;
+
+    let jsonExample = [
       {
         name: 'data.gov',
         location: 'United States',
@@ -31,16 +46,24 @@ class exportCtrl {
         ]
       }
     ];
+
+    this.formats = [
+      { name: 'JSON', ext: 'json', type: 'application/json', example: $filter('json')(jsonExample) },
+      { name: 'CSV', ext: 'csv', type: 'text/plain', example: csvExample }
+    ];
   }
 
-  exportData() {
+  exportData(format) {
     this.isProcessing = true;
 
-    this.ajaxService.exportData(this.exportDate)
+    this.ajaxService.exportData(this.exportDate, this.format.ext)
       .then(data => {
-        let content = this.$filter('json')(data.portals);
-        let blob = new Blob([content], { type: 'application/json' });
-        FileSaver.saveAs(blob, 'data.json');
+        if (this.format.name === 'JSON') {
+          data = this.$filter('json')(data);
+        }
+
+        let blob = new Blob([data], { type: this.format.type });
+        FileSaver.saveAs(blob, `data.${this.format.ext}`);
       })
       .finally(() => {
         this.isProcessing = false;

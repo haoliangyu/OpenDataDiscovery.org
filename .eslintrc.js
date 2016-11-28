@@ -10,7 +10,6 @@ module.exports = {
     "es6": true
   },
   "globals": {
-    "_": true,
     "L": true,
     "d3": true
   },

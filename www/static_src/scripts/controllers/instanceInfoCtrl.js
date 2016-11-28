@@ -1,4 +1,5 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 class instanceInfoCtrl {
 
@@ -12,15 +13,28 @@ class instanceInfoCtrl {
         instanceIDs = [instanceIDs];
       }
 
-      var requests = _.map(instanceIDs, instanceID => {
+      let requests = _.map(instanceIDs, instanceID => {
         return ajaxService.getInstanceInfo(instanceID);
       });
 
       $q.all(requests)
         .then(results => {
           this.instances = _.map(results, 'instance');
+          this.searchResult = _.cloneDeep(this.instances);
         });
     });
+  }
+
+  searchInstance(keyWord) {
+    keyWord = keyWord.toLowerCase();
+
+    if (keyWord) {
+      this.searchResult = _.filter(this.instances, instance => {
+        return instance.name.toLowerCase().indexOf(keyWord) !== -1;
+      });
+    } else {
+      this.searchResult = _.cloneDeep(this.instances);
+    }
   }
 }
 

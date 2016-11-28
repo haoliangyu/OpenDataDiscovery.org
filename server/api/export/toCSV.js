@@ -1,47 +1,22 @@
+const _ = require('lodash');
 const Promise = require('bluebird');
 const pgp = require('pg-promise')({ promiseLib: Promise });
-const QueryStream = require('pg-query-stream');
-const JSONStream = require('JSONStream');
-const logger = require('log4js').getLogger('export');
 
-const params = require('../config/params.js');
+const params = require('../../config/params.js');
 
-exports.exportData = (req, res) => {
+module.exports = (date, res) => {
   const db = pgp(params.dbConnStr);
 
-  let sql = req.query.date ? getHistoryData(req.query.date) : getLatestData();
-  let qs = new QueryStream(sql);
+  let sql = getHistoryData(date);
 
-  db.stream(qs, s => {
-    var jsonStart = '{ "success": true, "portals": [';
-    var jsonEnd = ']}';
-    var separator = ',';
+  return db.any(sql)
+    .then(results => {
+      let header = 'name,platform,location,website,dataset count,tag count,category count,publisher count,update date\n';
+      let content = _.chain(results).map('data').join('\n').value();
 
-    s.pipe(JSONStream.stringify(jsonStart, separator, jsonEnd)).pipe(res);
-  })
-  .catch(err => {
-    logger.error(err);
-    res.status(500).send({
-      success: false,
-      message: err.message
+      res.send(header + content);
     });
-  });
 };
-
-function getLatestData() {
-  return `
-    SELECT
-      vii.instance_name AS name,
-      vii.region_name AS location,
-      vii.description,
-      vii.count AS dataset_count,
-      vii.update_date,
-      vii.tags,
-      vii.organizations,
-      vii.categories
-    FROM view_instance_info AS vii
-  `;
-}
 
 function getHistoryData(date) {
   return `
@@ -111,19 +86,24 @@ function getHistoryData(date) {
       ORDER BY instance_id, update_date DESC
     )
     SELECT
-      i.name,
-      i.description,
-      i.location,
-      ld.count AS dataset_count,
-      ld.update_date,
-      COALESCE(lt.grouped_data, '{}') AS tags,
-      COALESCE(lc.grouped_data, '{}') AS categories,
-      COALESCE(lo.grouped_data, '{}') AS organizations
+      concat_ws(',',
+        i.name,
+        p.name,
+        '"' || vir.region_name || '"',
+        i.url,
+        ld.count::text,
+        array_length(lt.grouped_data, 1)::text,
+        array_length(lc.grouped_data, 1)::text,
+        array_length(lo.grouped_data, 1)::text,
+        to_char(ld.update_date, 'YYYY-MM-DD')
+      ) AS data
     FROM instance AS i
+      LEFT JOIN view_instance_region AS vir ON vir.instance_id = i.id
+      LEFT JOIN platform AS p ON i.platform_id = p.id
       LEFT JOIN latest_data AS ld ON ld.instance_id = i.id
       LEFT JOIN latest_category AS lc ON lc.instance_id = i.id
       LEFT JOIN latest_tag AS lt ON lt.instance_id = i.id
       LEFT JOIN latest_organization AS lo ON lo.instance_id = i.id
-    WHERE i.active;
+    WHERE i.active
   `;
 }

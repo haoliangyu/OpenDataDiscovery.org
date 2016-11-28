@@ -8,6 +8,7 @@ import 'angular-material-data-table';
 import 'angular-material-sidemenu';
 import 'angular-filter-count-to';
 import 'blob-polyfill';
+import 'angular-toarrayfilter';
 
 import 'angular-material/angular-material.css';
 import 'angular-material-data-table/dist/md-data-table.css';
@@ -21,7 +22,8 @@ angular.module('OpenDataDiscovery', [
   'ngRoute',
   'ngMaterialSidemenu',
   'countTo',
-  'md.data.table'
+  'angular-toArrayFilter',
+  'md.data.table',
 ])
 .config(function($routeProvider, $locationProvider, $mdThemingProvider) {
   $routeProvider.when('/', {

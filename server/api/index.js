@@ -1,6 +1,6 @@
 const info = require('./info.js');
 const map = require('./map.js');
-const ex = require('./export.js');
+const ex = require('./export/export.js');
 
 exports.attachHandlers = function(router) {
 
@@ -94,6 +94,8 @@ exports.attachHandlers = function(router) {
    * @api {get} /api/export Export portal data
    * @apiName ExportData
    *
+   * @apiParam (Query String) [format]  format name, could be json, or csv. Default: json
+   *
    * @apiSuccessExample {json} Response
    *  [
    *    {
@@ -112,6 +114,8 @@ exports.attachHandlers = function(router) {
    *        ]
    *    }
    *  ]
+   *
+   *
    */
   router.get('/api/export', ex.exportData);
 };
