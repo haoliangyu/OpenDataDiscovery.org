@@ -70,7 +70,7 @@ CREATE TABLE tag_data (
 );
 
 CREATE INDEX tag_data_update_date_idx ON tag_data (update_date);
-CREATE INDEX tag_data_xref_id_idx ON tag_data (instance_tag_xref_id);
+CREATE INDEX tag_data_count_idx ON tag_data (count);
 
 CREATE TABLE category (
   id serial PRIMARY KEY,
@@ -94,7 +94,7 @@ CREATE TABLE category_data (
 );
 
 CREATE INDEX category_data_update_date_idx ON category_data (update_date);
-CREATE INDEX category_data_xref_id_idx ON category_data (instance_category_xref_id);
+CREATE INDEX category_data_count_idx ON category_data (count);
 
 CREATE TABLE organization (
   id serial PRIMARY KEY,
@@ -118,13 +118,16 @@ CREATE TABLE organization_data (
 );
 
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
-CREATE INDEX organization_data_xref_id_idx ON organization_data (instance_organization_xref_id);
+CREATE INDEX organization_data_count_idx ON organization_data (count);
 
 CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT r.id AS region_id,
-    CASE WHEN rl.name = 'Globe' THEN rl.name
-         WHEN rl.name = 'Continent' THEN r.continent
-         ELSE array_to_string(array_remove(ARRAY[r.city, r.region, r.province, r.country], NULL), ', ')
+    CASE
+        WHEN rl.name = 'Globe' THEN rl.name
+        WHEN rl.name = 'Continent' THEN r.continent
+        WHEN rl.name = 'City' THEN array_to_string(array_remove(ARRAY[r.city, r.province], NULL::text), ', '::text)
+        WHEN rl.name = 'Region/County' THEN array_to_string(array_remove(ARRAY[r.region, r.province], NULL::text), ', '::text)
+        ELSE array_to_string(array_remove(ARRAY[r.city, r.region, r.province, r.country], NULL::text), ', '::text)
     END AS region_name,
     rl.id AS level,
     rl.name AS level_name,
