@@ -71,6 +71,12 @@ module.exports = {
     new OptimizeJsPlugin({
       sourceMap: true
     }),
-    new LodashModuleReplacementPlugin()
+    new LodashModuleReplacementPlugin({
+      shorthands: true,
+      cloning: true,
+      collections: true,
+      paths: true,
+      flattening: true
+    })
   ]
 };
