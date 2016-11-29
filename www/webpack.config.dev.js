@@ -5,6 +5,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var OptimizeJsPlugin = require("optimize-js-plugin");
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 var srcDir = 'static_src';
 var outputDir = 'static';
@@ -39,7 +40,7 @@ module.exports = {
         query: {
           cacheDirectory: true,
           presets: ['es2015'],
-          plugins: ['syntax-decorators', 'ng-annotate']
+          plugins: ['syntax-decorators', 'ng-annotate', 'lodash']
         },
         exclude: /node_modules/
       },
@@ -77,6 +78,13 @@ module.exports = {
     }),
     new OptimizeJsPlugin({
       sourceMap: false
+    }),
+    new LodashModuleReplacementPlugin({
+      shorthands: true,
+      cloning: true,
+      collections: true,
+      paths: true,
+      flattening: true
     })
   ]
 };
