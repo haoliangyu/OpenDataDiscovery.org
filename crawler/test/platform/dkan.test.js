@@ -1,5 +1,5 @@
 const params = require('../../src/params.js');
-const socrata = require('../../src/platform/socrata.js');
+const dkan = require('../../src/platform/dkan.js');
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 
 const expect = chai.expect;
 
-describe('Get metadata from Socrata instance', function() {
+describe('Get metadata from DKAN portal', function() {
 
   before(function(done) {
     params.minWait = 0;
@@ -17,13 +17,13 @@ describe('Get metadata from Socrata instance', function() {
 
   this.timeout(params.maxTimeout);
 
-  it('It should return data from data.seattle.gov', function() {
-    return socrata.getFullMetadata('data.seattle.gov')
+  it('It should return data from healthdata.gov', function() {
+    return dkan.getFullMetadata('http://www.healthdata.gov')
       .then(function(data) {
         expect(data.count).to.above(0);
         expect(data.tags.length).to.above(0);
-        expect(data.categories.length).to.above(0);
-        expect(data.organizations.length).to.equal(0);
+        expect(data.organizations.length).to.above(0);
+        expect(data.categories.length).to.equal(0);
       });
   });
 });
