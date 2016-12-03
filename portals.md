@@ -265,7 +265,7 @@
 | [World Bank Group Finances](https://finances.worldbank.org) | | Globe |
 | [North American Transportation Statistics NATS](https://www.natsdatasct.gob.mx/) | | Globe |
 | [United Nations Capital Development Fund](https://data.map.uncdf.org) | | Globe |
-
+| [Open Data Kosovo](http://data.rks-gov.net) | Kosovo | Nation |
 
 # Unsupported Portals
 
