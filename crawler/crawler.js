@@ -1,18 +1,40 @@
-var Promise = require('bluebird');
-var pgp = require('pg-promise')({ promiseLib: Promise });
+const Promise = require('bluebird');
+const Queue = require('promise-queue');
+const worker = require('./src/worker.js');
+const database = require('./src/database.js');
+const _ = require('lodash');
 
-var worker = require('./src/worker.js');
-var database = require('./src/database.js');
-var params = require('./src/params.js');
+Queue.configure(Promise);
 
-exports.crawl = function(name, id, url, geoferenced, queue) {
-  if (geoferenced) {
-    return worker.spatialCrawl(name, id, url, queue);
-  } else {
-    return worker.crawl(name, id, url, queue);
-  }
+exports.harvestAll = function(db) {
+  let queue;
+  let sql = `
+    SELECT i.id, i.name, i.url, lower(p.name) AS platform FROM instance AS i
+      LEFT JOIN platform AS p ON i.platform_id = p.id
+    WHERE i.active
+  `;
+
+  return db.any(sql)
+    .then(function(instances) {
+      return new Promise(function(resolve) {
+        queue = new Queue(10, Infinity, {
+          onEmpty: function() {
+            resolve();
+          }
+        });
+
+        _.forEach(instances, function(instance) {
+          queue.add(function() {
+            return worker.crawl(db, instance);
+          });
+        });
+      });
+    })
+    .then(function() {
+      return database.refresh(db);
+    });
 };
 
-exports.refresh = function() {
-  return database.refresh(pgp(params.dbConnStr));
+exports.refresh = function(db) {
+  return database.refresh(db);
 };

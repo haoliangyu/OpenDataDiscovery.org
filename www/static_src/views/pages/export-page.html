@@ -1,0 +1,56 @@
+<md-content class="max-size" layout="row">
+  <div class="md-padding" flex>
+    <p class="md-title">Data Export</p>
+    <p class="md-body-1">
+      OpenDataDiscovery.org is constatly monitoring the status of hundreds of data portals. Every week we record the status of each data portal including
+    </p>
+    <ul class="md-body-1">
+      <li>total number of open datasets</li>
+      <li>most used data tags</li>
+      <li>most used data categories</li>
+      <li>organizations that publish most datasets</li>
+    </ul>
+    <p class="md-body-1">
+      As all information is collected from the open data community, it also belongs to the public. To get a snapshoot of the history, simply select a date and you could download the historical data in JSON format.
+    </p>
+    <form layout="row" name="exportForm">
+
+      <md-input-container >
+        <label>Select a date</label>
+        <md-datepicker ng-model="export.exportDate" name="dateField" md-min-date="export.minDate" md-max-date="export.maxDate">
+        </md-datepicker>
+      </md-input-container>
+
+    <md-input-container >
+      <label>Select export format</label>
+      <md-select class="export-select" ng-model="export.format">
+        <md-option ng-repeat="format in export.formats" ng-value="format" ng-selected="$index === 0">
+          {{ format.name }}
+        </md-option>
+      </md-select>
+    </md-input-container>
+
+    <md-input-container>
+      <md-button class="md-raised md-primary" ng-click="export.exportData()" ng-disabled="export.isProcessing" aria-label="Data Export">
+        <span ng-if="!export.isProcessing"><i class="fa fa-download"></i> &nbsp; Downlaod Data</span>
+        <span ng-if="export.isProcessing"><i class="fa fa-spinner fa-spin fa-pulse"></i> &nbsp; Processing</span>
+      </md-button>
+    </md-input-container>
+
+    </form>
+    <p class="md-title">Complete historical data?</p>
+    <p class="md-body-1">
+      The export of entire dataset is still under development. Please contact me via <a href="mailto:haoliang.yu@outlook.com?subject=OpenDataDiscovery.org Inquery">email</a> for more information and further discussion.
+    </p>
+  </div>
+  <div class="md-padding" flex>
+    <p class="md-title">Data Example</p>
+    <md-tabs md-whiteframe="2" md-dynamic-height md-border-bottom>
+      <md-tab ng-repeat="format in export.formats" label="{{format.name}}">
+        <md-content class="md-body-1 md-padding">
+          <pre>{{ format.example }}</pre>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </div>
+</md-content>

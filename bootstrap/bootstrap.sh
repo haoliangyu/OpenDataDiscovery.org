@@ -16,7 +16,7 @@ echo -e "\n######## running apt-get update... ########\n"
 sudo apt-get update
 
 echo -e "\n######## installing some tools... ########\n"
-sudo apt-get -y install unzip
+sudo apt-get -y install gzip
 sudo apt-get -y install git
 sudo apt-get -y install curl
 
@@ -77,7 +77,8 @@ cd /vagrant
 sudo npm install
 
 echo -e "\n######## set up database... ########\n"
-tar zxvf /vagrant/scripts/data/odd_instance.tar.gz -C /vagrant/scripts/data
+curl -o odd_dev_database.gz https://s3.amazonaws.com/open.data.discovery.org/odd_dev_database.gz
+gzip -d odd_dev_database.gz
 
 DB_USER="odd_admin"
 DB_PASSWORD="Bko9tu39"
@@ -88,11 +89,10 @@ sudo -u postgres psql -c "ALTER USER ${DB_USER} CREATEDB;"
 export PGPASSWORD=$DB_PASSWORD
 createdb -h localhost -U $DB_USER odd
 sudo -u postgres psql -d odd -c "CREATE EXTENSION postgis;"
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/schema.sql
-psql -h localhost -U $DB_USER -d odd -f /vagrant/scripts/data/instance_data.sql
+psql -h localhost -U $DB_USER -d odd -f odd_dev_database
+psql -h localhost -U $DB_USER -d odd -c "REFRESH MATERIALIZED VIEW view_instance_region;"
 
-rm /vagrant/scripts/data/schema.sql
-rm /vagrant/scripts/data/instance_data.sql
+rm odd_dev_database
 
 echo -e "\n######## generate static files... ########\n"
 cd www
@@ -109,3 +109,9 @@ make
 sudo make install
 cd ..
 rm -rf tippecanoe
+
+echo -e "\n######## create initial tile server config... ########\n"
+echo "{}" > tile-server/config.json
+
+echo -e "\n######## start server... ########\n"
+bash bootstrap/pm2_prod.sh

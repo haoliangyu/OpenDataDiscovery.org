@@ -1,10 +1,10 @@
 exports.dbConnStr = 'postgres://odd_admin:Bko9tu39@localhost:5432/odd';
 
 exports.searchLimit = {
-  tag: 500,
-  organization: 500,
-  group: 18,
-  default: 500
+  tag: 100000,
+  organization: 100000,
+  group: 100000,
+  default: 100000
 };
 
 exports.minWait = 0;

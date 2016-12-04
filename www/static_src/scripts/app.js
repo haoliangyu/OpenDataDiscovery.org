@@ -2,25 +2,42 @@
  * import dependencies
  */
 import angular from 'angular';
-import 'angular-ui-bootstrap';
+import 'angular-material';
 import 'angular-route';
-import 'lodash';
+import 'angular-material-data-table';
+import 'angular-material-sidemenu';
+import 'angular-filter-count-to';
+import 'blob-polyfill';
+import 'angular-toarrayfilter';
 
-require('../styles/app.less');
+import 'angular-material/angular-material.css';
+import 'angular-material-data-table/dist/md-data-table.css';
+import 'angular-material-sidemenu/dest/angular-material-sidemenu.css';
+import 'font-awesome/css/font-awesome.css';
+import 'leaflet/dist/leaflet.css';
+import '../styles/app.less';
 
 angular.module('OpenDataDiscovery', [
-  'ui.bootstrap',
-  'ngRoute'
+  'ngMaterial',
+  'ngRoute',
+  'ngMaterialSidemenu',
+  'countTo',
+  'angular-toArrayFilter',
+  'md.data.table',
 ])
-.constant('_', window._)
-.config(function($routeProvider, $locationProvider) {
+.config(function($routeProvider, $locationProvider, $mdThemingProvider) {
   $routeProvider.when('/', {
     templateUrl: 'index.html',
-    controller: 'oddCtrl'
+    controller: 'appCtrl'
   });
 
   // configure html5 to get links working on jsfiddle
   $locationProvider.html5Mode(true);
+
+  // set the theme of angular material
+  $mdThemingProvider.theme('default')
+    .warnPalette('red')
+    .accentPalette('blue');
 });
 
 function requireAll(r) { r.keys().forEach(r); }

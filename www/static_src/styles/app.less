@@ -1,11 +1,36 @@
-@import (less) '../../../node_modules/bootstrap/dist/css/bootstrap.css';
-@import (less) '../../../node_modules/font-awesome/css/font-awesome.css';
-@import (less) '../../../node_modules/leaflet/dist/leaflet.css';
+@import 'variable.less';
+@import 'home-page.less';
+@import 'about-page.less';
+@import 'export-page.less';
+@import 'map-page.less';
+@import 'sidebar.less';
 
-@import 'map.less';
-@import 'info-popup.less';
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-body {
-  margin:0;
-  padding:0;
+.md-button {
+  text-transform: none;
+}
+
+.content-container {
+  top: @header-toolbar-height;
+  height: calc(~'100% - ' @header-toolbar-height);
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.max-size {
+  height: 100%;
+  width: 100%;
 }

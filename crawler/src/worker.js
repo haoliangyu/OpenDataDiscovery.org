@@ -1,76 +1,47 @@
-var ckan = require('./ckan.js');
-var Promise = require('bluebird');
-var logger = require('log4js').getLogger('worker');
-var _ = require('lodash');
-var database = require('./database.js');
-var pgp = require('pg-promise')({ promiseLib: Promise });
-var params = require('./params.js');
+const Promise = require('bluebird');
+const logger = require('log4js').getLogger('worker');
+const _ = require('lodash');
+const database = require('./database.js');
+const pgp = require('pg-promise')({ promiseLib: Promise });
+const params = require('./params.js');
+const fs = require('fs');
+const path = require('path');
 
-exports.spatialCrawl = function(instanceName, instanceID, instanceUrl, queue) {
+let platform = {};
 
-  var db = pgp(params.dbConnStr);
-  var sql = 'SELECT region_id, Box2D(bbox) AS bbox FROM view_instance_region WHERE instance_id = $1';
+fs.readdir(path.resolve(__dirname, './platform'), (err, files) => {
+  if (err) {
+    logger.error(err);
+    return;
+  }
 
-  return db.any(sql, instanceID)
-  .then(function(regions) {
-
-    _.forEach(regions, function(region) {
-
-      var match = region.bbox.match(/BOX\(([-.0-9]+) ([-.0-9]+),([-.0-9]+) ([-.0-9]+)\)/);
-      var bbox = _.chain(match).slice(1, 5).map(_.toNumber).value();
-      var promise = ckan.getFullMetadata(instanceUrl, {
-        extras: { ext_bbox: bbox }
-      })
-      .then(function(data) {
-        return db.tx(function(t) {
-          return database.saveData(t, instanceID, region.region_id, data);
-        });
-      })
-      .catch(function(err) {
-        logger.error(err);
-      });
-
-      queue.add(function() { return promise; });
-    });
-  })
-  .catch(function(err) {
-    switch (err) {
-      case 'no region':
-        logger.info('No region is found for instance: ', instanceID);
-        return Promise.resolve();
-      default:
-        logger.warn('Failed to fetch data from ' + instanceUrl);
-        logger.error(err);
-    }
+  _.forEach(files, file => {
+    platform[path.basename(file, '.js')] = require(`./platform/${file}`);
   });
-};
+});
 
-exports.crawl = function(instanceName, instanceID, instanceUrl, queue) {
-  logger.info('Crawling ' + instanceName + '...');
+exports.crawl = function(db, instance) {
 
-  var db = pgp(params.dbConnStr);
-  var sql = [
-    'SELECT region_id FROM instance_region_xref AS irx',
-    'LEFT JOIN instance_region_level as irl ON irl.id = irx.instance_region_level_id',
-    'WHERE irx.instance_id = $1 ORDER BY irl.level LIMIT 1'
-  ].join(' ');
+  db = db || pgp(params.dbConnStr);
 
-  var regionID;
+  logger.info('Crawling ' + instance.name + '...');
 
-  var promise = db.one(sql, instanceID)
-    .then(function(result) {
-      regionID = result.region_id;
-      return ckan.getFullMetadata(instanceUrl);
-    })
+  return gentleRequest(platform[instance.platform.toLowerCase()].getFullMetadata(instance.url))
     .then(function(data) {
       return db.tx(function(t) {
-        return database.saveData(t, instanceID, regionID, data);
+        return database.saveData(t, instance.id, data);
       });
     })
     .catch(function(err) {
+      logger.warn(`Unable to get metadata: ${instance.name}`);
       logger.error(err);
-      return Promise.resolve();
     });
+};
 
-  queue.add(function() { return promise; });
+function gentleRequest(request) {
+  return Promise.delay(_.random(params.minWait, params.maxWait))
+                .then(function() {
+                  return request;
+                })
+                .timeout(params.maxTimeout);
 };

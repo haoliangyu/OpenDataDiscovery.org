@@ -1,14 +1,11 @@
 node_modules
 coverage
 /scripts/*
-/tile-generator/temp/*
-/tile-server/tiles/*
-/tile-server/config.json
+/tile-server/*.mbtiles
+/tile-server/*.mbtiles-journal
 bootstrap/bootstrap_aws.sh
 www/static
 
 !/scripts/sql/db_schema.sql
-!/tile-server/test/*
-!/tile-server/tiles/README.md
 
 .vagrant

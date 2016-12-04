@@ -1,0 +1,29 @@
+<md-content class="max-size" md-colors="{ background:'primary' }" layout="column" layout-align="center none">
+  <div>
+    <h2 class="md-display-3 text-center">
+      Open Data Discovery
+    </h2>
+    <h5 class="md-headline text-center">
+      Discovering <span count-to="{{ homepage.datasetCount }}" value="0" duration="2" filter="number"></span> datasets
+    </h5>
+  </div>
+  <div layout="row" layout-align="center center">
+    <md-button class="md-raised" ng-click="homepage.scrollTo('map-page')">
+      <i class="fa fa-globe "></i> &nbsp; Portal Map
+    </md-button>
+    <md-button class="md-raised" ng-click="homepage.scrollTo('export-page')">
+      <i class="fa fa-download"></i> &nbsp; Data Export
+    </md-button>
+    <md-button class="md-raised" ng-click="homepage.openGitHubRepo()">
+      <i class="fa fa-github "></i> &nbsp; Star Me!
+    </md-button>
+  </div>
+  <div layout="row" layout-align="center center">
+    <p class="md-body-2">Share at</p> &nbsp;&nbsp;
+    <div class="social-likes">
+      <div data-service="facebook" url="http://opendatadiscovery.org"></div>
+      <div data-service="twitter" url="http://opendatadiscovery.org"></div>
+      <div data-service="linkedin" url="http://opendatadiscovery.org"></div>
+    </div>
+  </div>
+</md-content>

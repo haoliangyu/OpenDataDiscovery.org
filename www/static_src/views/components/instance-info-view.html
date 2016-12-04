@@ -1,0 +1,99 @@
+<md-content ng-hide="instanceInfo.instances" class="sidebar-notification">
+  Click on a portal for more detail!
+</md-content>
+
+<md-content class="instance-info-list" layout="column" ng-show="instanceInfo.instances">
+  <div class="instance-list-search-bar" layout="row" ng-show="instanceInfo.instances.length > 1">
+    <md-input-container flex>
+      <label><i class="fa fa-search"></i> Search Portal by Name</label>
+      <input ng-model="instanceInfo.searchKeyWord" ng-change="instanceInfo.searchInstance(instanceInfo.searchKeyWord)">
+    </md-input-container>
+  </div>
+  <md-card theme="default" ng-repeat="instance in instanceInfo.searchResult">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">{{ instance.name }}</span>
+      </md-card-title-text>
+    </md-card-title>
+
+    <md-table-container>
+      <table md-table>
+        <tbody md-body>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Location</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.location }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Platform</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.platform }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Website</span>
+            </td>
+            <td md-cell>
+              <a ng-href="{{instance.url}}" target="_blank">visit the portal</a>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Datasets</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.count | number: 0 }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Update</span>
+            </td>
+            <td md-cell>
+              <span>{{ instance.updateDate | date: 'yyyy-MM-dd' }}</span>
+            </td>
+          </tr>
+          <tr md-row>
+            <td md-cell>
+              <span class="list-item-name">Description</span>
+            </td>
+            <td md-cell class="md-body-1">
+              <span>{{ instance.description }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-divider></md-divider>
+
+    <md-sidemenu>
+      <md-sidemenu-group>
+        <md-sidemenu-content md-heading="Details" md-arrow="true">
+          <div>
+            <div ng-if="instance.tags.length > 0">
+              <span class="chart-title">Most Used Tags of Dataset</span>
+              <instance-info-chart detail-items="instance.tags" bar-color="#62cdee"></instance-info-chart>
+            </div>
+            <div ng-if="instance.categories.length > 0">
+              <md-divider></md-divider>
+              <span class="chart-title">Most Used Categories of Dataset</span>
+              <instance-info-chart detail-items="instance.categories" bar-color="#ae6bdd"></instance-info-chart>
+            </div>
+            <div ng-if="instance.organizations.length > 0">
+              <md-divider></md-divider>
+              <span class="chart-title">Top Dataset Publisher</span>
+              <instance-info-chart detail-items="instance.organizations" bar-color="#63dba3"></instance-info-chart>
+            </div>
+          </div>
+        </md-sidemenu-content>
+      </md-sidemenu-group>
+    </md-sidemenu>
+  </md-card>
+</md-content>

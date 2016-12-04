@@ -1,12 +1,11 @@
-var bodyParser = require('body-parser');
-
-var info = require('./info.js');
-var map = require('./map.js');
+const info = require('./info.js');
+const map = require('./map.js');
+const ex = require('./export/export.js');
 
 exports.attachHandlers = function(router) {
 
   /**
-   * @api {get} /api/instance Get instance information
+   * @api {get} /api/instances Get instance list
    * @apiName GetInstances
    *
    * @apiSuccessExample
@@ -30,27 +29,53 @@ exports.attachHandlers = function(router) {
   router.get('/api/instances', info.getInstances);
 
   /**
-   * @api {get} /api/region_levels Get region levels
-   * @apiName GetRegionLevels
+   * @api {get} /api/instances/summary Get instance summary
+   * @apiName GetInstanceSummary
    *
-   * @apiSuccessExample {json} Response
+   * @apiSuccessExample
    * 	{
    * 		"success": true,
-   * 		"instances": [
-   *   		{ "level": 0, "name": "continent" },
-   *   		{ "level": 1, "name": "nation" }
-   * 		]
+   * 		"summary": {
+   * 		   "count": 12
+   * 		}
    * 	}
    */
 
-  router.get('/api/region_levels', info.getRegionLevels);
+  router.get('/api/instances/summary', info.getInstanceSummary);
 
   /**
-   * @api {post} /api/map_styles Get map styles
+   * @api {get} /api/instance/:id Get instance information
+   * @apiName GetInstanceInfo
+   *
+   * @apiSuccessExample
+   * 	{
+   * 		"success": true,
+   * 		"instance": [
+   * 			{
+   * 				"name": "Data.gov",
+   * 				"count": 2000,
+   * 				"description": "test",
+   *     		"tags": [
+   *     				{ "name": "earth", "updateDate": "2012-08-12", "count": 125 }
+   *     		],
+   * 				"categories": [
+   * 						{ "name": "environment", "updateDate": "2011-08-21", "count": 422 }
+   * 				],
+   *     		"organizations": [
+   *     				{ "name": "department", "updateDate": "2012-08-11", "count":500 }
+   *     		],
+   *     		"updateDate": "2012-06-17"
+   * 			}
+   * 		]
+   * 	}
+   */
+  router.get('/api/instance/:instanceID', info.getInstanceInfo);
+
+  /**
+   * @api {get} /api/map_styles Get map styles
    * @apiName GetMapStyles
    *
-   * @apiParam {integer}    [class=5]     Number of data classes, range from 3 to 11. Default: 5
-   * @apiParam {integer[]}  [instances]   A list of instance IDs to calculate. If not provided, all instances will be in the calculation.
+   * @apiParam {integer}    [count=5]     Number of data classes, range from 3 to 11. Default: 5
    *
    * @apiSuccessExample {json} Response
    * 	{
@@ -63,6 +88,34 @@ exports.attachHandlers = function(router) {
    * 	}
    */
 
-  router.post('/api/map_styles', bodyParser.json(), map.getStyles);
+  router.get('/api/map_styles/:count', map.getStyles);
 
+  /**
+   * @api {get} /api/export Export portal data
+   * @apiName ExportData
+   *
+   * @apiParam (Query String) [format]  format name, could be json, or csv. Default: json
+   *
+   * @apiSuccessExample {json} Response
+   *  [
+   *    {
+   *        "name": "data.gov",
+   *        "location": "USA",
+   *        "dataset_count": 321973,
+   *        "update_date": "2016-02-07",
+   *        "tags": [
+   *          { "name": "GIS", "dataset_count": 2371, "update_date": "2016-01-23" }
+   *        ],
+   *        "categories": [
+   *          { "name": "Economic", "dataset_count": 2321, "update_date": "2016-01-23" }
+   *        ],
+   *        "organizations": [
+   *          { "name": "NOAA", "dataset_count": 2962, "update_date": "2016-01-23" }
+   *        ]
+   *    }
+   *  ]
+   *
+   *
+   */
+  router.get('/api/export', ex.exportData);
 };

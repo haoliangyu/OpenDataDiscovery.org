@@ -1,20 +1,21 @@
 import 'leaflet';
-import 'topojson';
+import 'leaflet.vectorgrid';
+import _ from 'lodash';
 import angular from 'angular';
-
-require('../../../../node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.js');
 
 class mapService {
 
-  constructor($rootScope, $compile, ajaxService) {
+  constructor($rootScope, $compile, ajaxService, sidebarService) {
     'ngInject';
 
     this.$rootScope = $rootScope;
     this.$compile = $compile;
     this.ajaxService = ajaxService;
+    this.sidebarService = sidebarService;
+    this.styles = [];
 
-    this.MAXZOOM = 10;
     this.minZoom = 3;
+    this.maxZoom = 10;
   }
 
   initialize() {
@@ -23,122 +24,114 @@ class mapService {
       center: [0, 0],
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
-      zoom: this.minZoom
+      zoom: this.minZoom,
+      zoomControl: false
     });
 
-    let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    let basemap = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-      subdomains: 'abcd',
-      maxZoom: this.MAXZOOM,
-      minZoom: this.minZoom
+      subdomains: 'abcd'
     });
 
     this.map.addLayer(basemap);
 
-    let baseUrl = this.ajaxService.getBaseUrl();
-    let styles;
-
     this.ajaxService
       .getMapStyles(5)
       .then(result => {
-        styles = result.styles;
-        return this.ajaxService.getRegionLevels();
-      })
-      .then(result => {
-        _.forEach(result.levels, (level, index) => {
-          this.map.createPane(level.name);
-          this.map.getPane(level.name).style.pointerEvents = 'none';
+        this.styles = result.styles;
 
-          // just make them a bit higher than the tileLayer pane
-          this.map.getPane(level.name).style.zIndex = 210 + index * 10;
-        });
+        const layerStyle = properties => {
+          if (_.isString(properties.instances)) {
+            properties.instances = JSON.parse(properties.instances);
+          }
 
-        return this.ajaxService.getInstances();
-      })
-      .then(result => {
-        _.forEach(result.instances, instance => {
-          let latLngs = L.GeoJSON.coordsToLatLngs(instance.bbox.coordinates[0]);
+          const color = _.find(this.styles, style => {
+            return style.lowerBound <= properties.count && properties.count <= style.upperBound;
+          }).fill;
 
-          // only show the upper region level initially
-          let layer = instance.layers[0];
-
-          let layerStyle = {};
-          layerStyle[layer.name] = properties => {
-            var count = properties.count;
-            let color = _.find(styles, style => {
-              return style.lowerBound <= count && count <= style.upperBound;
-            }).fill;
-
-            return {
-              color: '#6c7069',
-              weight: 1,
-              fill: true,
-              fillColor: color,
-              fillOpacity: 0.7
-            };
+          return {
+            color: '#ececec',
+            weight: 2,
+            fill: true,
+            fillColor: color,
+            fillOpacity: 1
           };
+        };
 
-          let tileLayer = L.vectorGrid.protobuf(baseUrl + layer.url, {
-            pane: layer.level,
-            bbox: L.latLngBounds(latLngs),
-            vectorTileLayerStyles: layerStyle,
-            onMouseOver: this._onMouseOver.bind(this),
-            onMouseOut: this._onMouseOut.bind(this),
-            onMouseMove: this._onMouseMove.bind(this)
-          });
+        const instanceLayer = L.vectorGrid.protobuf(location.origin + '/vt/regions/{z}/{x}/{y}.pbf', {
+          vectorTileLayerStyles: {
+            'regions': layerStyle
+          },
+          interactive: true
+        })
+        .on('click', this._onClick.bind(this))
+        .on('mouseover', this._onMouseOver.bind(this))
+        .on('mouseout', this._onMouseOut.bind(this));
 
-          this.map.addLayer(tileLayer);
+        this.map.addLayer(instanceLayer);
+        this.map.invalidateSize();
+
+        this.$rootScope.$broadcast('map:ready');
+      })
+      .then(() => {
+        let label = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.{ext}', {
+          attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          subdomains: 'abcd',
+          ext: 'png'
         });
+
+        this.map.addLayer(label);
       });
   }
 
-  _onMouseOver(e) {
-    this.map.closePopup();
+  disableEventPropagation(elementID) {
+    var dom = L.DomUtil.get(elementID);
+    L.DomEvent.disableClickPropagation(dom);
+    L.DomEvent.on(dom, 'mousewheel', L.DomEvent.stopPropagation);
+  }
 
+  zoomTo(geometry) {
+    const latLngs = _.map(geometry.coordinates[0], coord => {
+      return L.latLng(coord[1], coord[0]);
+    });
+
+    this.map.fitBounds(L.latLngBounds(latLngs));
+  }
+
+  _onClick(e) {
     // get data from the tile
-    let coords = e.target.getCoords();
-    let geojson = e.target.toGeoJSON(coords.x, coords.y, coords.z);
+    let properties = e.layer.properties;
 
-    let content = angular.element('<info-popup></info-popup>');
-    let scope = this.$rootScope.$new(true);
-
-    if (typeof geojson.properties.top_tag === 'string') {
-      geojson.properties.top_tag = JSON.parse(geojson.properties.top_tag);
+    if (_.isString(properties.instances)) {
+      properties.instances = JSON.parse(properties.instances);
     }
 
-    if (typeof geojson.properties.top_category === 'string') {
-      geojson.properties.top_category = JSON.parse(geojson.properties.top_category);
+    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(properties.instances, 'id'));
+
+    if (_.isString(properties.bbox)) {
+      properties.bbox = JSON.parse(properties.bbox);
     }
 
-    if (typeof geojson.properties.top_organization === 'string') {
-      geojson.properties.top_organization = JSON.parse(geojson.properties.top_organization);
+    this.zoomTo(properties.bbox);
+  }
+
+  _onMouseOver(e) {
+    // get data from the tile
+    let properties = e.layer.properties;
+
+    if (_.isString(properties.instances)) {
+      properties.instances = JSON.parse(properties.instances);
     }
 
-    scope.properties = geojson.properties;
-
-    this.currentPopup = L.popup({
-      offset: L.point(0, -1),
-      closeButton: false,
-      minWidth: 200
-    })
-    .setContent(this.$compile(content)(scope)[0])
-    .setLatLng(e.latlng)
-    .openOn(this.map);
+    this.$rootScope.$broadcast('map:inFeature', _.omit(properties, 'bbox'));
   }
 
   _onMouseOut() {
-    this.map.closePopup();
-    delete this.currentPopup;
-  }
-
-  _onMouseMove(e) {
-    if (this.currentPopup) {
-      this.currentPopup.setLatLng(e.latlng);
-    }
+    this.$rootScope.$broadcast('map:outFeature');
   }
 }
 
-mapService.$inject = ['$rootScope', '$compile', 'ajaxService'];
+mapService.$inject = ['$rootScope', '$compile', 'ajaxService', 'sidebarService'];
 
 angular.module('OpenDataDiscovery').service('mapService', mapService);
 
