@@ -1,12 +1,18 @@
 CREATE EXTENSION postgis;
 
+CREATE TABLE platform {
+  id serial PRIMARY KEY,
+  name text,
+  url text
+};
+
 CREATE TABLE instance (
   id serial PRIMARY KEY,
   name text,
   url text,
-  location text,
   description text,
-  active boolean DEFAULT true
+  active boolean DEFAULT true,
+  platform_id integer
 );
 
 CREATE TABLE region (
