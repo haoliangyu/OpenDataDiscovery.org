@@ -28,7 +28,7 @@ var sql = `
        'topCategory', vii.categories[1]
      )) AS instances
    FROM instance_region_xref AS irx
-     LEFT JOIN view_instance_info as vii
+     JOIN view_instance_info as vii
        ON vii.instance_id = irx.instance_id AND vii.region_id = irx.region_id
      LEFT JOIN instance AS i ON i.id = irx.instance_id
    WHERE i.active
