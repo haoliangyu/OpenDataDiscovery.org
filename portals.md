@@ -265,41 +265,49 @@
 | [World Bank Group Finances](https://finances.worldbank.org) | | Globe |
 | [North American Transportation Statistics NATS](https://www.natsdatasct.gob.mx/) | | Globe |
 | [United Nations Capital Development Fund](https://data.map.uncdf.org) | | Globe |
-
-
-# Unsupported Portals
-
-|  Portal |  Region | Reason |
-| --- | --- | --- | --- |
-| [OpenData@WU](http://data.wu.ac.at/) | Austria | site unavailable |
-| [GovData](https://www.govdata.de/) | Germany | API base url unknown |
-| [Berlin Open Data](http://daten.berlin.de/)  | Berlin, Germany  | API unavailable |
-| [cities open data hub](http://cities.opendatahub.gr/)  | Greece  | site unaccessible |
-| [CivicData](http://www.civicdata.io/)  | United States  | non-governmental site |
-| [Dados Abertos IMA](http://dados.ima.sp.gov.br/)  | Brazil  | site unaccessible |
-| [DATA CITY Sabae](http://ckan.sabae.jrrk.org/)  | Sabae, Japan  | site unaccessible |
-| [Data for Suwon](http://data.suwon.go.kr/pubr/main.do)  | Suwon, South Korea  | API unaccessible (unconfirmed) |
-| [data.bris Research Data Repository](https://data.bris.ac.uk/data/)  | Bristol, United Kingdom  | API unaccessible |
-| [data.salzburgerland.com](http://data.salzburgerland.com/)  | Salzburgerland  | very little data provided |
-| [Denver Open Data Catalog](http://data.denvergov.org/)  | Denver, Colorado, USA  | API unavailable |
-| [ECAI Data Portal](http://ecaidata.org/)  | Worldwide | not region-specific |
-| [Etsin](https://etsin.avointiede.fi/)  | Worldwide | no standard CKAN API provided |
-| [Yokohama Open Data Portal](http://data.yokohamaopendata.jp/)  | Yokohama, Japan | site unaccessible |
-| [Going.io](http://gong.io/)  | Wollongong, Australia | site unaccessible |
-| [Graz Open Data](http://data.graz.gv.at/)  | Graz, Austria | no standard CKAN API provided |
-| [II Portale Opendata della Provincia di Roma](http://www.opendata.provincia.roma.it/)  | Province of Rome, Italy | API not working |
-| [Indonesia Data Portal](http://data.go.id/)  | Indonesia | API not working |
-| [Lake Winnipeg Basin Information Network Data Hub](http://130.179.67.140/)  | Canada |
-| [Lexington's Open Data Portal](http://data.lexingtonky.gov/)  | Lexington, KY, USA | API not working |
-| [Linz Open Data](https://www.data.gv.at/suche/?search-term=&top10Filter_Stadt+Linz=on&publisherFilter_Stadt+Linz=on&search-data-only=search-data-only&hideFilters)  | Linz, Austria | it's a page of [data.gv.at](data.gv.at) |
-| [National Geothermal Data System](http://geothermaldata.org/)  | USA | API not working |
-| [Offene Daten Mettmann](http://www.offene-daten.me/)  | Mettmann, Germany | Site inaccessible |
-| [Open Data Burkina Faso](http://data.gov.bf/)  | Burkina Faso | Site inaccessible |
-| [Open Canarias](http://opendatacanarias.es/) | Canary Island, Spain | API inaccessible |
-| [Open Data Hub Italy](http://www.sciamlab.com/opendatahub/) | Italy | standard API inaccessible |
-| [OpenDataPortal Austria](https://www.opendataportal.at/) | Austria | API inaccessible |
-| [Portal de Datos Publicos](http://datospublicos.gob.ar/) | Argentina | Site inaccessible |
-| [Santa Cruz Open Data](http://data.cityofsantacruz.com/) | Santa Cruz, CA, USA | Site inaccessible |
-| [publicdata.eu](http://publicdata.eu/) | EU | API inaccessible |
-| [Ressourcerie Datalocale](http://catalogue.datalocale.fr/) | France | API at version 1.7 |
-| [The Brazilian Senate](http://dadosabertos.senado.gov.br/) | Brazil | API at version 1.7 |
+| [Open Data Kosovo](http://data.rks-gov.net) | Kosovo | Nation |
+| [HealthData.gov](http://www.healthdata.gov)  | United States  | Nation |
+| [Open Data Cologne](http://www.offenedaten-koeln.de)  | Cologne, Germany  | City |
+| [ABRE Puerto Rico](http://abrepr.org)  | Puerto Rico  | Nation |
+| [OpenOakland](http://data.openoakland.org)  | Oakland, CA  | City |
+| [dati.gov.it](http://www.dati.gov.it)  | Italy  | Nation |
+| [USDA National Agricultural Library](https://data.nal.usda.gov)  | United States  | Nation |
+| [Stadt Mannheim](https://opendata.mannheim.de)  | Mannheim, Germany  | City |
+| [Bielefeld University](https://dszbo-portal.uni-bielefeld.de)  | Bielefeld, Germany  | City |
+| [Belarus](https://opendata.by)  | Belarus  | Nation |
+| [Open Data Bosnia and Herzegovina](http://opendata.ba)  | Bosnia and Herzegovina  | Nation |
+| [openpompeii](http://open.pompeiisites.org)  | Pompei, Italy  | City |
+| [Mexican IMSS](http://datos.imss.gob.mx)  | Mexico  | Nation |
+| [data.gov.sa](http://data.gov.sa)  | Saudi Arabia  | Nation |
+| [Pusat Data Kehutanan Riau](http://hutanriau.org)  | Riau, Indonesia  | Provice/State |
+| [data.ok.gov](http://data.ok.gov)  | Oklahoma  | Provice/State |
+| [Open Knowledge El Salvador](http://datoselsalvador.org)  | El Salvador  | Nation |
+| [North Dakota GIS](https://gis.nd.gov)  | North Dakota  | Provice/State |
+| [Louisville Metro Open Data Portal](https://data.louisvilleky.gov)  | Louisville, KY  | City |
+| [California OPen Data Portal](https://data.ca.gov)  | California  | Provice/State |
+| [City of San Diego Open Data Portal](http://data.sandiego.gov)  | San Diego, CA  | City |
+| [Cambridgeshire Insight](http://opendata.cambridgeshireinsight.org.uk)  | Cambridgeshire, UK  | Region/County |
+| [Marine Scotland](http://marinedata.scotland.gov.uk)  | Scotland, UK  | Provice/State |
+| [Detail Data Portal](http://data.nicva.org)  | Northern Ireland, UK  | Provice/State |
+| [OFFENE DATEN: BONN](https://opendata.bonn.de)  | Bonn, Germany  | City |
+| [OFFENE DATEN WUPPERTAL](http://offenedaten-wuppertal.de)  | Wuppertal, Germany  | City |
+| [Rhein-Neckar-Verkehr GmbH](https://opendata.rnv-online.de)  | Germany  | Nation |
+| [OFFENE DATEN: kdvz Rhein-Erft-Rur](http://offenedaten.kdvz-frechen.de)  | Frechen, Germany  | City |
+| [Open Data del Comune di Genova](http://dati.comune.genova.it)  | Genova, Italy  | City |
+| [Open Data Formia](http://dati.comune.formia.lt.it)  | Formia, Italy  | City |
+| [Confiscati Bene](http://www.confiscatibene.it/it)  | Globe  | Globe |
+| [Open Data Ministry of Finance, Czech Republic](http://data.mfcr.cz)  | Czech Republic  | Nation |
+| [Open Data Ministry of Defence, Czech Republic](http://data.army.cz)  | Czech Republic  | Nation |
+| [Code for Ikoma](http://data.code4ikoma.org)  | Ikoma, Japan  | City |
+| [Open Data Banda Aceh](http://data.bandaacehkota.go.id)  | Banda Aceh, Indonesia  | City |
+| [Jamaica Open Data](data.gov.jm)  | Jamaica  | Nation |
+| [CONCYTEC](http://datos.concytec.gob.pe)  | Peru  | Nation |
+| [Datos Minedu](http://datos.minedu.gob.pe)  | Peru  | Nation |
+| [Repositorio de Datos Minsa](http://datos.minsa.gob.pe)  | Peru  | Nation |
+| [JNE - Portal de Datos Abiertos](http://jnedatosabiertos.pe)  | Peru  | Nation |
+| [Trabajo, Ministerio de Trabajo y Promocion del Empleo](http://datos.trabajo.gob.pe)  | Peru  | Nation |
+| [Open Data Windsor Essex](http://odwe.ca)  | Windsor, Canada  | City |
+| [Fredericton Open Data](http://data.fredericton.ca/en)  | Fredericton, Canada  | City |
+| [TransformAgriculture](http://transformagriculture.org)  | Africa  | Continent |
+| [Ghana Open Data Initiative](http://data.gov.gh)  | Ghana  | Nation |
+| [Sayada OpenData](http://opendata.sayada.tn/fr)  | Sayada, Tunisia  | City |

@@ -1,4 +1,3 @@
-const logger = require('log4js').getLogger('test_ckan');
 const params = require('../../src/params.js');
 const ckan = require('../../src/platform/ckan.js');
 

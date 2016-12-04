@@ -12,6 +12,11 @@ class aboutCtrl {
         url: 'http://ckan.org/'
       },
       {
+        name: 'DKAN',
+        logo: require('../../media/images/dkan-logo.png'),
+        url: 'http://www.nucivic.com/dkan/'
+      },
+      {
         name: 'Socrata',
         logo: require('../../media/images/socrata-logo.png'),
         url: 'https://socrata.com/solutions/publica-open-data-cloud/'

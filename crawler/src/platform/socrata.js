@@ -1,6 +1,4 @@
-const Promise = require('bluebird');
 const request = require('request-promise');
-const params = require('../params.js');
 const userAgents = require('../userAgents.js');
 const _ = require('lodash');
 
@@ -20,8 +18,8 @@ exports.getFullMetadata = url => {
       tags: facetNormalize(result, 'tags'),
       // because socrata API doesn't provide publisher information
       organizations: []
-    }
-  })
+    };
+  });
 };
 
 function facetNormalize(data, facet) {
