@@ -12,23 +12,49 @@ exports.getFullMetadata = url => {
     json: true
   })
   .then(result => {
-    let tags = _.chain(result.dataset)
+    let datasets;
+
+    if (_.isArray(result)) {
+      datasets = _.remove(result, { title: 'Data Catalog' });
+    } else {
+      datasets = result.dataset;
+    }
+
+    let tags = _.chain(datasets)
                 .map('keyword')
                 .flatten()
                 .uniq()
                 .value();
 
-    let organizations = _.chain(result.dataset)
+    let tagData = _.map(tags, tag => {
+      return {
+        display_name: tag,
+        count: _.filter(datasets, dataset => {
+          return _.includes(datasets.keyword, tag);
+        }).length
+      };
+    });
+
+    let organizations = _.chain(datasets)
                          .map('publisher')
                          .map('name')
                          .uniq()
                          .value();
 
+    let orgData = _.map(organizations, organization => {
+      return {
+        display_name: organization,
+        count: _.filter(datasets, dataset => {
+          return dataset.publisher.name === organization;
+        }).length
+      };
+    });
+
     return {
-      count: result.dataset.length,
+      count: datasets.length,
       categories: [],
-      tags: tags,
-      organizations: organizations
+      tags: tagData,
+      organizations: orgData
     };
   });
 };

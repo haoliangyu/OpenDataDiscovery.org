@@ -26,4 +26,14 @@ describe('Get metadata from DKAN portal', function() {
         expect(data.categories.length).to.equal(0);
       });
   });
+
+  it('It should return data from opendata.sayada.tn/fr (API version 1.0)', function() {
+    return dkan.getFullMetadata('http://opendata.sayada.tn/fr')
+      .then(function(data) {
+        expect(data.count).to.above(0);
+        expect(data.tags.length).to.above(0);
+        expect(data.organizations.length).to.above(0);
+        expect(data.categories.length).to.equal(0);
+      });
+  });
 });
