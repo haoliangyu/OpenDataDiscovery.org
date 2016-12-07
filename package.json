@@ -101,7 +101,6 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "social-likes-next": "^1.1.0",
-    "sprintf-js": "^1.0.3",
     "vector-tile": "^1.3.0"
   }
 }
