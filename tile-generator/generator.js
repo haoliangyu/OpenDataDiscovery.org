@@ -2,7 +2,6 @@ var Promise = require('bluebird');
 var pgp = require('pg-promise')({ promiseLib: Promise });
 var fs = require('fs');
 var path = require('path');
-var sprintf = require('sprintf-js').sprintf;
 var exec = require('child-process-promise').exec;
 var QueryStream = require('pg-query-stream');
 var JSONStream = require('JSONStream');
@@ -10,8 +9,12 @@ var JSONStream = require('JSONStream');
 var crawler = require('../crawler/crawler.js');
 var params = require('./params.js');
 var db = pgp(params.dbConnStr);
-var source = sprintf('%s/regions.geojson', path.resolve(__dirname, params.tempDir));
-var target = sprintf('%s/regions.mbtiles', path.resolve(__dirname, params.tileDir));
+
+let sourceFolder = path.resolve(__dirname, params.tempDir);
+var source = `${sourceFolder}/regions.geojson`;
+
+let targetFolder = path.resolve(__dirname, params.tileDir);
+let target = `${targetFolder}/regions.mbtiles`;
 
 var sql = `
   WITH info AS (

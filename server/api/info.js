@@ -59,8 +59,8 @@ exports.getInstanceSummary = function(req, res) {
       res.json({
         success: true,
         summary: {
-          datasetCount: +result.dataset_count,
-          portalCount: +result.portal_count
+          datasetCount: result.dataset_count,
+          portalCount: result.portal_count
         }
       });
     })
@@ -79,7 +79,7 @@ exports.getInstanceInfo = function(req, res) {
   var db = pgp(params.dbConnStr);
 
   var sql = [
-    'SELECT instance_name AS name, vii.description, url, location, platform_name AS platform,',
+    'SELECT instance_name AS name, vii.description, url, region_name AS location, platform_name AS platform,',
     ' update_date, count, tags[1:$1], categories[1:$1], organizations[1:$1]',
     'FROM view_instance_info AS vii',
     ' LEFT JOIN instance AS i ON i.id = vii.instance_id',
