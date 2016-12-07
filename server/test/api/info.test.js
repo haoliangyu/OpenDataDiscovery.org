@@ -30,7 +30,8 @@ describe('API - /api/instances/summary', function() {
     })
     .then(body => {
       expect(body.success).to.be.true;
-      expect(body.summary.count).to.be.above(0);
+      expect(body.summary.datasetCount).to.be.above(0);
+      expect(body.summary.portalCount).to.be.above(0);
     });
   });
 });
@@ -40,7 +41,7 @@ describe('API - /api/instance/:instanceID', function() {
   it('It should return instance data information', () => {
     return rp({
       method: 'GET',
-      uri: `http://localhost:${params.port.production}/api/api/instance/1`,
+      uri: `http://localhost:${params.port.production}/api/instance/1`,
       json: true
     })
     .then(body => {
