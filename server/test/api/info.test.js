@@ -1,50 +1,53 @@
-var request = require('supertest');
-var chai = require('chai');
-var chaiAsPromised = require('chai-as-promised');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const rp = require('request-promise');
 
 chai.use(chaiAsPromised);
-var expect = chai.expect;
+const expect = chai.expect;
 
-var params = require('../../config/params.js');
+const params = require('../../config/params.js');
 
 describe('API - /api/instances', function() {
-  it('It should return an array of instance information', function(done) {
-    request('localhost:' + params.port.development)
-      .get('/api/instances')
-      .expect(200)
-      .end(function(err, res) {
-        expect(res.body.success).to.be.true;
-        expect(res.body.instances.length).to.be.above(0);
-        done();
-      });
+  it('It should return an array of instance information', () => {
+    return rp({
+      method: 'GET',
+      uri: `http://localhost:${params.port.production}/api/instances`,
+      json: true
+    })
+    .then(body => {
+      expect(body.success).to.be.true;
+      expect(body.instances.length).to.be.above(0);
+    });
   });
 });
 
 describe('API - /api/instances/summary', function() {
-  it('It should return a summary of instances', function(done) {
-    request('localhost:' + params.port.development)
-      .get('/api/instances/summary')
-      .expect(200)
-      .end(function(err, res) {
-        expect(res.body.success).to.be.true;
-        expect(res.body.summary.count).to.be.above(0);
-        done();
-      });
+  it('It should return a summary of instances', () => {
+    return rp({
+      method: 'GET',
+      uri: `http://localhost:${params.port.production}/api/instances/summary`,
+      json: true
+    })
+    .then(body => {
+      expect(body.success).to.be.true;
+      expect(body.summary.count).to.be.above(0);
+    });
   });
 });
 
 
 describe('API - /api/instance/:instanceID', function() {
-  it('It should return instance data information', function(done) {
-    request('localhost:' + params.port.development)
-      .get('/api/instance/1')
-      .expect(200)
-      .end(function(err, res) {
-        expect(res.body.success).to.be.true;
-        expect(res.body.instance.tags).to.have.lengthOf(10);
-        expect(res.body.instance.categories).to.have.lengthOf(10);
-        expect(res.body.instance.organizations).to.have.lengthOf(10);
-        done();
-      });
+  it('It should return instance data information', () => {
+    return rp({
+      method: 'GET',
+      uri: `http://localhost:${params.port.production}/api/api/instance/1`,
+      json: true
+    })
+    .then(body => {
+      expect(body.success).to.be.true;
+      expect(body.instance.tags).to.have.lengthOf(10);
+      expect(body.instance.categories).to.have.lengthOf(10);
+      expect(body.instance.organizations).to.have.lengthOf(10);
+    });
   });
 });
