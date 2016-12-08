@@ -20,6 +20,7 @@ CREATE TABLE region (
   name text,
   geom geometry(MULTIPOLYGON, 4326),
   bbox geometry(POLYGON, 4326),
+  center geometry(POINT, 4326),
   region_level_id integer
 );
 

@@ -19,7 +19,8 @@ exports.getInstances = function(req, res) {
       json_build_object(
         'country', r.country
       ) AS location,
-      ST_AsGeoJSON(vir.bbox, 3) AS bbox
+      ST_AsGeoJSON(vir.bbox, 3) AS bbox,
+      ST_AsGeoJSON(r.center, 3) AS center
     FROM instance AS i
       LEFT JOIN view_instance_region AS vir ON vir.instance_id = i.id
       LEFT JOIN region AS r ON r.id = vir.region_id
