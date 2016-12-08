@@ -45,7 +45,7 @@ exports.getFullMetadata = url => {
       return {
         display_name: organization,
         count: _.filter(datasets, dataset => {
-          return dataset.publisher.name === organization;
+          return _.get(dataset.publisher, 'name') === organization;
         }).length
       };
     });
