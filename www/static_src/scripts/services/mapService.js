@@ -13,7 +13,7 @@ class mapService {
     this.ajaxService = ajaxService;
     this.sidebarService = sidebarService;
     this.styles = [];
-    this.instances = [];
+    this.portalGeoJSON = undefined;
 
     this.currentLayer = undefined;
     this.currentLayerType = undefined;
@@ -47,9 +47,13 @@ class mapService {
         return this.ajaxService.getInstances();
       })
       .then(result => {
-        this.instances = {
+        let features = _.filter(result.instances, instance => {
+          return instance.center;
+        });
+
+        this.portalGeoJSON = {
           type: 'FeatureCollection',
-          features: _.map(result.instances, instance => {
+          features: _.map(features, instance => {
             for (let i = 0, n = this.styles.length; i < n; i++) {
               if (this.styles[i].lowerBound <= instance.datasetCount && instance.datasetCount <= this.styles[i].upperBound) {
                 instance.color = this.styles[i].fill;
@@ -212,7 +216,7 @@ class mapService {
       });
     };
 
-    this.currentLayer = L.geoJSON(this.instances, {
+    this.currentLayer = L.geoJSON(this.portalGeoJSON, {
       pointToLayer: pointToLayer.bind(this)
     })
     .on('click', _onClick.bind(this))
