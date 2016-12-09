@@ -15,15 +15,16 @@ exports.getInstances = function(req, res) {
       i.id,
       i.name,
       p.name AS platform,
-      vir.region_name AS formatted_location,
+      vii.count AS dataset_count,
+      vii.region_name AS formatted_location,
       json_build_object(
         'country', r.country
       ) AS location,
-      ST_AsGeoJSON(vir.bbox, 3) AS bbox,
+      ST_AsGeoJSON(r.bbox, 3) AS bbox,
       ST_AsGeoJSON(r.center, 3) AS center
     FROM instance AS i
-      LEFT JOIN view_instance_region AS vir ON vir.instance_id = i.id
-      LEFT JOIN region AS r ON r.id = vir.region_id
+      LEFT JOIN view_instance_info AS vii ON vii.instance_id = i.id
+      LEFT JOIN region AS r ON r.id = vii.region_id
       LEFT JOIN platform AS p ON p.id = i.platform_id
     WHERE i.active
   `;
@@ -32,8 +33,10 @@ exports.getInstances = function(req, res) {
     .then(function(results) {
       _.forEach(results, result => {
         result.bbox = JSON.parse(result.bbox);
+        result.center = JSON.parse(result.center);
 
         pgService.camelCase(result, 'formatted_location');
+        pgService.camelCase(result, 'dataset_count');
       });
 
       response.instances = results;

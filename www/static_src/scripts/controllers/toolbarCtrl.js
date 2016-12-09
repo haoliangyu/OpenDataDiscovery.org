@@ -7,6 +7,7 @@ class toolbarCtrl {
 
     this.$rootScope = $rootScope;
     this.mapService = mapService;
+    this.showLayerOptions = false;
 
     this.buttons = [
       {
@@ -23,8 +24,8 @@ class toolbarCtrl {
       },
       {
         name: 'world',
-        tooltip: 'Show the World',
-        icon: 'fa-globe',
+        tooltip: 'Zoom Back to the World',
+        icon: 'fa-map',
         click: this.maxMap.bind(this)
       }
     ];
