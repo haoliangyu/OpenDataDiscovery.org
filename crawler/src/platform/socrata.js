@@ -1,9 +1,10 @@
 const request = require('request-promise');
 const userAgents = require('../userAgents.js');
 const _ = require('lodash');
+const core = require('../core.js');
 
 exports.getFullMetadata = url => {
-  return request({
+  let task = request({
     method: 'GET',
     uri: `http://api.us.socrata.com/api/catalog/v1/domains/${url}/facets`,
     headers: {
@@ -20,6 +21,8 @@ exports.getFullMetadata = url => {
       organizations: []
     };
   });
+
+  return core.gentleRequest(task);
 };
 
 function facetNormalize(data, facet) {

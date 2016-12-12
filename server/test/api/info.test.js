@@ -17,6 +17,15 @@ describe('API - /api/instances', function() {
     .then(body => {
       expect(body.success).to.be.true;
       expect(body.instances.length).to.be.above(0);
+
+      if (body.instances.length > 0) {
+        let instance = body.instances[0];
+
+        expect(instance.id).to.be.a('number');
+        expect(instance.name).to.be.a('string');
+        expect(instance.platform).to.be.a('string');
+        expect(instance.formattedLocation).to.be.a('string');
+      }
     });
   });
 });
