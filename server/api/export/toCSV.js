@@ -1,11 +1,7 @@
 const _ = require('lodash');
-const Promise = require('bluebird');
-const pgp = require('pg-promise')({ promiseLib: Promise });
-
-const params = require('../../config/params.js');
+const db = require('../../database.js').getConnection();
 
 module.exports = (date, res) => {
-  const db = pgp(params.dbConnStr);
 
   let sql = getHistoryData(date);
 
