@@ -1,9 +1,9 @@
-var Promise = require('bluebird');
-var pgp = require('pg-promise')({ promiseLib: Promise });
-var params = require('./params.js');
-var _ = require('lodash');
+const Promise = require('bluebird');
+const pgp = require('pg-promise')({ promiseLib: Promise });
+const params = require('./params.js');
+const _ = require('lodash');
 
-var dbSchema = {
+const dbSchema = {
   tag: {
     idColumn: 'tag_id',
     xrefID: 'instance_tag_xref_id',
@@ -82,15 +82,11 @@ exports.saveData = function(db, instanceID, data) {
                });
              })
              .then(function(result) {
-               var tags = _.keyBy(result.tag, 'name');
-               var organizations = _.keyBy(result.organization, 'name');
-               var categories = _.keyBy(result.category, 'name');
-               var tasks = [];
+               let tags = _.keyBy(result.tag, 'name');
+               let organizations = _.keyBy(result.organization, 'name');
+               let categories = _.keyBy(result.category, 'name');
 
-               var dataPromise = exports.updateInstanceData(tx, instanceID, data.count, dataCount);
-               tasks.push(dataPromise);
-
-               var tagPromise = Promise.each(data.tags, function(tag) {
+               let tagUpdates = _.map(data.tags, tag => {
                  return exports.updateItemData(
                    tx,
                    instanceID,
@@ -101,9 +97,8 @@ exports.saveData = function(db, instanceID, data) {
                    tagData[tag.display_name]
                  );
                });
-               tasks.push(tagPromise);
 
-               var orgPromise = Promise.each(data.organizations, function(organization) {
+               let orgUpdates = _.map(data.organizations, organization => {
                  return exports.updateItemData(
                    tx,
                    instanceID,
@@ -114,9 +109,8 @@ exports.saveData = function(db, instanceID, data) {
                    orgData[organization.display_name]
                  );
                });
-               tasks.push(orgPromise);
 
-               var catPromise = Promise.each(data.categories, function(category) {
+               let catUpdates = _.map(data.categories, category => {
                  return exports.updateItemData(
                    tx,
                    instanceID,
@@ -127,38 +121,28 @@ exports.saveData = function(db, instanceID, data) {
                    catData[category.display_name]
                  );
                });
-               tasks.push(catPromise);
 
-               return Promise.all(tasks);
+               return Promise.all(_.concat(tagUpdates, orgUpdates, catUpdates))
+                .then(updates => {
+                  let updateSQL = _.reduce(updates, (updateSQL, update) => {
+                    return updateSQL + update;
+                  }, '');
+
+                  if (data.count !== dataCount) {
+                    updateSQL += `
+                      INSERT INTO instance_data (instance_id, count, create_date, update_date)
+                      VALUES (${instanceID}, ${data.count}, now(), now());
+                    `;
+                  } else {
+                    updateSQL += `
+                      UPDATE instance_data SET update_date = now() WHERE instance_id = ${instanceID} AND count = ${data.count};
+                    `;
+                  }
+
+                  return db.none(updateSQL);
+                });
              });
   });
-};
-
-/**
- * save region data,
- * @param  {object}   db                pgp database object
- * @param  {integer}  instanceID        instance ID
- * @param  {object}   count             data count
- * @param  {integer}  lastUpdate        latest data count for this region
- * @return {object}   promise
- */
-exports.updateInstanceData = function(db, instanceID, count, lastUpdate) {
-  let sql;
-
-  // check if the data is the same as the latest record
-  if (lastUpdate === count) {
-    sql = [
-      'UPDATE instance_data SET update_date = now()',
-      'WHERE instance_id = $1 AND count = $2'
-    ].join(' ');
-  } else {
-    sql = [
-      'INSERT INTO instance_data (instance_id, count, create_date, update_date)',
-      'VALUES ($1, $2, now(), now())'
-    ].join(' ');
-  }
-
-  return db.none(sql, [instanceID, count]);
 };
 
 /**
@@ -199,14 +183,17 @@ exports.updateItemData = function(db, instanceID, item, itemSchema, name, count,
     promise = Promise.resolve();
   }
 
-  return promise.then(function() {
+  return promise.then(() => {
     if (lastUpdate && lastUpdate.count === count) {
-      sql = 'UPDATE $1^ SET update_date = now() WHERE $2^ = $3 AND count = $4';
-    } else {
-      sql = 'INSERT INTO $1^ ($2^, count, create_date, update_date) VALUES ($3, $4, now(), now())';
+      return `
+        UPDATE ${itemSchema.dataTable} SET update_date = now() WHERE ${itemSchema.xrefID} = ${item.xref_id} AND count = ${count};
+      `;
     }
 
-    return db.none(sql, [itemSchema.dataTable, itemSchema.xrefID, item.xref_id, count]);
+    return `
+      INSERT INTO ${itemSchema.dataTable} (${itemSchema.xrefID}, count, create_date, update_date)
+      VALUES (${item.xref_id}, ${count}, now(), now());
+    `;
   });
 };
 
