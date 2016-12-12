@@ -13,7 +13,7 @@ class mapService {
     this.ajaxService = ajaxService;
     this.sidebarService = sidebarService;
     this.styles = [];
-    this.portalGeoJSON = undefined;
+    this.regionGeoJSON = { type: 'FeatureCollection', features: [] };
 
     this.currentLayer = undefined;
     this.currentLayerType = undefined;
@@ -47,27 +47,28 @@ class mapService {
         return this.ajaxService.getInstances();
       })
       .then(result => {
-        let features = _.filter(result.instances, instance => {
+        let instances = _.filter(result.instances, instance => {
           return instance.center;
         });
 
-        this.portalGeoJSON = {
-          type: 'FeatureCollection',
-          features: _.map(features, instance => {
-            for (let i = 0, n = this.styles.length; i < n; i++) {
-              if (this.styles[i].lowerBound <= instance.datasetCount && instance.datasetCount <= this.styles[i].upperBound) {
-                instance.color = this.styles[i].fill;
-                break;
-              }
-            }
+        let groupped = _.groupBy(instances, 'formattedLocation');
 
-            return {
-              type: 'Feature',
-              geometry: instance.center,
-              properties: instance
-            };
-          })
-        };
+        this.regionGeoJSON.features = _.map(groupped, (instances, region) => {
+          let totalCount = _.reduce(instances, (count, instance) => {
+            return count + instance.datasetCount;
+          }, 0);
+
+          return {
+            type: 'Feature',
+            geometry: instances[0].center,
+            properties: {
+              instances: _.map(instances, 'id'),
+              name: region,
+              bbox: instances[0].bbox,
+              color: this.getMapStyle(totalCount).fill
+            }
+          };
+        });
 
         this.showRegionLayer();
         this.map.invalidateSize();
@@ -116,19 +117,11 @@ class mapService {
         properties.instances = JSON.parse(properties.instances);
       }
 
-      let color;
-      for (let i = 0, n = this.styles.length; i < n; i++) {
-        if (this.styles[i].lowerBound <= properties.count && properties.count <= this.styles[i].upperBound) {
-          color = this.styles[i].fill;
-          break;
-        }
-      }
-
       return {
         color: '#ececec',
         weight: 2,
         fill: true,
-        fillColor: color,
+        fillColor: this.getMapStyle(properties.count).fill,
         fillOpacity: 1
       };
     };
@@ -179,8 +172,8 @@ class mapService {
     this.currentLayerType = 'region';
   }
 
-  showPortalLayer() {
-    if (this.currentLayerType === 'portal') { return; }
+  showMarkerLayer() {
+    if (this.currentLayerType === 'marker') { return; }
 
     if (this.currentLayer) {
       this.map.removeLayer(this.currentLayer);
@@ -189,16 +182,8 @@ class mapService {
     let _onClick = e => {
       let properties = e.layer.toGeoJSON().properties;
 
-      this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', [properties.id]);
+      this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', properties.instances);
       this.zoomTo(properties.bbox);
-    };
-
-    let _onMouseOver = e => {
-      e.layer.openPopup();
-    };
-
-    let _onMouseOut = e => {
-      e.layer.closePopup();
     };
 
     let pointToLayer = (point, latlng) => {
@@ -210,21 +195,27 @@ class mapService {
           iconAnchor: [11, 34],
         })
       })
-      .bindPopup(properties.name, {
-        offset: L.point([0, -30]),
-        closeButton: false
+      .bindTooltip(`<strong>${properties.name}</strong>`, {
+        offset: L.point([0, -35]),
+        direction: 'top'
       });
     };
 
-    this.currentLayer = L.geoJSON(this.portalGeoJSON, {
+    this.currentLayer = L.geoJSON(this.regionGeoJSON, {
       pointToLayer: pointToLayer.bind(this)
     })
-    .on('click', _onClick.bind(this))
-    .on('mouseover', _onMouseOver.bind(this))
-    .on('mouseout', _onMouseOut.bind(this));
+    .on('click', _onClick.bind(this));
 
     this.map.addLayer(this.currentLayer);
-    this.currentLayerType = 'portal';
+    this.currentLayerType = 'marker';
+  }
+
+  getMapStyle(count) {
+    for (let i = 0, n = this.styles.length; i < n; i++) {
+      if (this.styles[i].lowerBound <= count && count <= this.styles[i].upperBound) {
+        return this.styles[i];
+      }
+    }
   }
 }
 

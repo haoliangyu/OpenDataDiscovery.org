@@ -4,6 +4,7 @@ coverage
 /tile-server/*.mbtiles
 /tile-server/*.mbtiles-journal
 bootstrap/bootstrap_aws.sh
+npm-debug.log
 www/static
 
 !/scripts/sql/db_schema.sql
