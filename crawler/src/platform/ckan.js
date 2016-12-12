@@ -1,4 +1,3 @@
-const Promise = require('bluebird');
 const request = require('request-promise');
 const params = require('../params.js');
 const userAgents = require('../userAgents.js');

@@ -24,7 +24,7 @@ describe('API - /api/instances', function() {
         expect(instance.id).to.be.a('number');
         expect(instance.name).to.be.a('string');
         expect(instance.platform).to.be.a('string');
-        expect(instance.formatted_location).to.be.a('string');
+        expect(instance.formattedLocation).to.be.a('string');
       }
     });
   });

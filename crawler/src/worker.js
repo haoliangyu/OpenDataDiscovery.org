@@ -26,7 +26,7 @@ exports.crawl = function(db, instance) {
 
   logger.info('Crawling ' + instance.name + '...');
 
-  return gentleRequest(platform[instance.platform.toLowerCase()].getFullMetadata(instance.url))
+  return platform[instance.platform.toLowerCase()].getFullMetadata(instance.url)
     .then(function(data) {
       return db.tx(function(t) {
         return database.saveData(t, instance.id, data);
@@ -36,12 +36,4 @@ exports.crawl = function(db, instance) {
       logger.warn(`Unable to get metadata: ${instance.name}`);
       logger.error(err);
     });
-};
-
-function gentleRequest(request) {
-  return Promise.delay(_.random(params.minWait, params.maxWait))
-                .then(function() {
-                  return request;
-                })
-                .timeout(params.maxTimeout);
 };
