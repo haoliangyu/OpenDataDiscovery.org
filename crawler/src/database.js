@@ -139,7 +139,7 @@ exports.saveData = function(db, instanceID, data) {
                     `;
                   }
 
-                  return db.none(updateSQL);
+                  return tx.none(updateSQL);
                 });
              });
   });
