@@ -20,7 +20,7 @@ fs.readdir(path.resolve(__dirname, './platform'), (err, files) => {
   });
 });
 
-exports.crawl = function(db, instance) {
+exports.crawl = function(db, instance, insertOnly) {
 
   db = db || pgp(params.dbConnStr);
 
@@ -29,7 +29,7 @@ exports.crawl = function(db, instance) {
   return platform[instance.platform.toLowerCase()].getFullMetadata(instance.url)
     .then(function(data) {
       return db.tx(function(t) {
-        return database.saveData(t, instance.id, data);
+        return database.saveData(t, instance.id, data, insertOnly);
       });
     })
     .catch(function(err) {
