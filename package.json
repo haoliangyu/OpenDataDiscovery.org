@@ -70,9 +70,9 @@
   "dependencies": {
     "@turf/turf": "^3.7.0",
     "JSONStream": "^1.2.1",
-    "angular": "^1.5.9",
-    "angular-animate": "^1.5.9",
-    "angular-aria": "^1.5.9",
+    "angular": "1.5.9",
+    "angular-animate": "1.5.9",
+    "angular-aria": "1.5.9",
     "angular-filter-count-to": "git+https://github.com/haoliangyu/angular-filter-count-to.git",
     "angular-material": "^1.1.1",
     "angular-material-data-table": "^0.10.9",
