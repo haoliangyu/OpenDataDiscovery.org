@@ -216,6 +216,9 @@ class mapService {
         return this.styles[i];
       }
     }
+
+    // default map style
+    return { fill: '#fff' };
   }
 }
 

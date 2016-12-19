@@ -16,8 +16,8 @@ exports.getInstances = function(req, res) {
       json_build_object(
         'country', r.country
       ) AS location,
-      ST_AsGeoJSON(r.bbox, 3) AS bbox,
-      ST_AsGeoJSON(r.center, 3) AS center
+      ST_AsGeoJSON(r.bbox, 3)::json AS bbox,
+      ST_AsGeoJSON(r.center, 3)::json AS center
     FROM instance AS i
       LEFT JOIN view_instance_info AS vii ON vii.instance_id = i.id
       LEFT JOIN region AS r ON r.id = vii.region_id
@@ -28,9 +28,6 @@ exports.getInstances = function(req, res) {
   db.any(sql)
     .then(function(results) {
       _.forEach(results, result => {
-        result.bbox = JSON.parse(result.bbox);
-        result.center = JSON.parse(result.center);
-
         pgService.camelCase(result, 'formatted_location');
         pgService.camelCase(result, 'dataset_count');
       });
@@ -88,6 +85,10 @@ exports.getInstanceInfo = function(req, res) {
 
   db.oneOrNone(sql, [itemCount, instanceID])
     .then(function(result) {
+      if (result.url.indexOf('http') === -1) {
+        result.url = 'http://' + result.url;
+      }
+
       pgService.camelCase(result, 'update_date');
 
       _.forEach(result.tags, function(tag) {

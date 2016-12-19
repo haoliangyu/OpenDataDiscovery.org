@@ -32,9 +32,10 @@ const dbSchema = {
  * @param  {object}   db            pgp database object
  * @param  {integer}  instanceID    instance ID
  * @param  {object}   data          open data summary
+ * @param  {boolean}  [insertOnly]  indicates whether to insert new data only
  * @return {object}   promise
  */
-exports.saveData = function(db, instanceID, data) {
+exports.saveData = function(db, instanceID, data, insertOnly) {
   return db.tx(function(tx) {
     var tagData = {};
     var catData = {};
@@ -94,7 +95,8 @@ exports.saveData = function(db, instanceID, data) {
                    dbSchema.tag,
                    tag.display_name,
                    tag.count,
-                   tagData[tag.display_name]
+                   tagData[tag.display_name],
+                   insertOnly
                  );
                });
 
@@ -106,7 +108,8 @@ exports.saveData = function(db, instanceID, data) {
                    dbSchema.organization,
                    organization.display_name,
                    organization.count,
-                   orgData[organization.display_name]
+                   orgData[organization.display_name],
+                   insertOnly
                  );
                });
 
@@ -118,7 +121,8 @@ exports.saveData = function(db, instanceID, data) {
                    dbSchema.category,
                    category.display_name,
                    category.count,
-                   catData[category.display_name]
+                   catData[category.display_name],
+                   insertOnly
                  );
                });
 
@@ -133,7 +137,7 @@ exports.saveData = function(db, instanceID, data) {
                       INSERT INTO instance_data (instance_id, count, create_date, update_date)
                       VALUES (${instanceID}, ${data.count}, now(), now());
                     `;
-                  } else {
+                  } else if (!insertOnly) {
                     updateSQL += `
                       UPDATE instance_data SET update_date = now() WHERE instance_id = ${instanceID} AND count = ${data.count};
                     `;
@@ -154,9 +158,10 @@ exports.saveData = function(db, instanceID, data) {
  * @param  {string}   name              tag name
  * @param  {integer}  count             data count
  * @param  {object}   lastUpdate        latest data for this item
+ * @param  {boolean}  insertOnly        indicates whether to insert only data only
  * @return {object}   promise
  */
-exports.updateItemData = function(db, instanceID, item, itemSchema, name, count, lastUpdate) {
+exports.updateItemData = function(db, instanceID, item, itemSchema, name, count, lastUpdate, insertOnly) {
   let promise, sql;
 
   if (!item) {
@@ -184,7 +189,7 @@ exports.updateItemData = function(db, instanceID, item, itemSchema, name, count,
   }
 
   return promise.then(() => {
-    if (lastUpdate && lastUpdate.count === count) {
+    if (lastUpdate && lastUpdate.count === count && !insertOnly) {
       return `
         UPDATE ${itemSchema.dataTable} SET update_date = now() WHERE ${itemSchema.xrefID} = ${item.xref_id} AND count = ${count};
       `;
