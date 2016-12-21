@@ -113,10 +113,6 @@ class mapService {
     }
 
     const layerStyle = properties => {
-      if (_.isString(properties.instances)) {
-        properties.instances = JSON.parse(properties.instances);
-      }
-
       return {
         color: '#ececec',
         weight: 2,
