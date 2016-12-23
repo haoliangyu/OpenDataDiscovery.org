@@ -128,22 +128,23 @@ exports.saveData = function(db, instanceID, data, insertOnly) {
 
                return Promise.all(_.concat(tagUpdates, orgUpdates, catUpdates))
                 .then(updates => {
-                  let updateSQL = _.reduce(updates, (updateSQL, update) => {
-                    return updateSQL + update;
-                  }, '');
+
+                  let sql;
 
                   if (data.count !== dataCount) {
-                    updateSQL += `
+                    sql = `
                       INSERT INTO instance_data (instance_id, count, create_date, update_date)
                       VALUES (${instanceID}, ${data.count}, now(), now());
                     `;
                   } else if (!insertOnly) {
-                    updateSQL += `
+                    sql = `
                       UPDATE instance_data SET update_date = now() WHERE instance_id = ${instanceID} AND count = ${data.count};
                     `;
                   }
 
-                  return tx.none(updateSQL);
+                  updates.push(sql);
+
+                  return tx.none(updates.join('\n'));
                 });
              });
   });
@@ -189,10 +190,14 @@ exports.updateItemData = function(db, instanceID, item, itemSchema, name, count,
   }
 
   return promise.then(() => {
-    if (lastUpdate && lastUpdate.count === count && !insertOnly) {
-      return `
-        UPDATE ${itemSchema.dataTable} SET update_date = now() WHERE ${itemSchema.xrefID} = ${item.xref_id} AND count = ${count};
-      `;
+    if (lastUpdate && lastUpdate.count === count) {
+      if (!insertOnly) {
+        return `
+          UPDATE ${itemSchema.dataTable} SET update_date = now() WHERE ${itemSchema.xrefID} = ${item.xref_id} AND count = ${count};
+        `;
+      }
+
+      return '';
     }
 
     return `

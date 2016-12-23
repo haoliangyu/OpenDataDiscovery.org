@@ -485,21 +485,13 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-angular-animate@1.5.9:
+angular-animate@1.5.9, angular-animate@^1.5.0:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.5.9.tgz#c958d524f9333a48abdaefb32947c7e611f54453"
 
-angular-animate@^1.5.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/angular-animate/-/angular-animate-1.6.0.tgz#448f754afaf8f56f1655cee8dab2aa8ddae4dacc"
-
-angular-aria@1.5.9:
+angular-aria@1.5.9, angular-aria@^1.5.0:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/angular-aria/-/angular-aria-1.5.9.tgz#cef4936fbcf8dbf7ecdabc5b475da59d98b3694b"
-
-angular-aria@^1.5.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/angular-aria/-/angular-aria-1.6.0.tgz#d4be04d286b380ed5f52120a7fde3d595c2b2f70"
 
 "angular-filter-count-to@git+https://github.com/haoliangyu/angular-filter-count-to.git":
   version "0.0.5"
@@ -534,13 +526,9 @@ angular-toarrayfilter@^1.0.1:
     karma-chrome-launcher "^0.1.4"
     karma-jasmine "^0.1.5"
 
-angular@1.5.9:
+angular@1.5.9, angular@^1.5.0:
   version "1.5.9"
   resolved "https://registry.yarnpkg.com/angular/-/angular-1.5.9.tgz#b7aeff42dad87881e06be16b6690fe766d868b51"
-
-angular@^1.5.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.0.tgz#16c5edebd0a342046bd5281cca2decf04c40df76"
 
 ansi-escapes@^1.1.0:
   version "1.4.0"
