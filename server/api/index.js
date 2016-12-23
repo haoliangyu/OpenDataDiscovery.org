@@ -1,6 +1,8 @@
 const info = require('./info.js');
 const map = require('./map.js');
 const ex = require('./export/export.js');
+const monit = require('../util/monit.js');
+const db = require('../database.js').getConnection();
 
 exports.attachHandlers = function(router) {
 
@@ -117,5 +119,5 @@ exports.attachHandlers = function(router) {
    *
    *
    */
-  router.get('/api/export', ex.exportData);
+  router.get('/api/export', monit.apiUsage(db, 'export'), ex.exportData);
 };

@@ -311,3 +311,23 @@
 | [TransformAgriculture](http://transformagriculture.org)  | Africa  | Continent |
 | [Ghana Open Data Initiative](http://data.gov.gh)  | Ghana  | Nation |
 | [Sayada OpenData](http://opendata.sayada.tn/fr)  | Sayada, Tunisia  | City |
+| [Open Data Portal for the European Structural Inverstment Funds](cohesiondata.ec.europa.eu)  | Europe  | Continent |
+| [Grup Sagessa Dades Obertes](dadesobertes.grupsagessa.cat)  | Spain  | Nation |
+| [Bath: Hacked](data.bathhacked.org)  | Bath & North East Somerset, UK  | Region/County |
+| [CDP Open Data Portal](data.cdp.net)  | Globe  | Globe |
+| [Eindhoven Open Data](data.eindhoven.nl)  | Eindhoven, Netherlands  | City |
+| [Sheffield Open Data](data.sheffield.gov.uk)  | Sheffield, UK  | City |
+| [Art Data Impact Open Data Portal](data.theaudienceagency.org)  | United Kingdoms  | Nation |
+| [Gavà Open Data](gavaobert.gavaciutat.cat)  | Gavà, Spain  | City |
+| [Gijón Open Data](observa.gijon.es)  | Gijón, Spain  | City |
+| [Bristol City Council Open Data](opendata.bristol.gov.uk)  | Bristol, UK  | City |
+| [Camden Council Open Data](opendata.camden.gov.uk)  | London Borough of Camden, UK  | City |
+| [Cheshire East Open Data](opendata.cheshireeast.gov.uk)  | Cheshire East, UK  | Region/County |
+| [Granollers Open Data](opendata.granollers.cat)  | Granollers, Spain  | City |
+| [RDW Open Data](opendata.rdw.nl)  | Netherlands  | Nation |
+| [Rubí Open Data](opendata.rubi.cat)  | Rubí, Spain  | City |
+| [Terrassa Open Data](opendata.terrassa.cat)  | Terrassa, Spain  | City |
+| [Portal de Transparència de la Diputació de Lleida](portaltransparencia.diputaciolleida.cat)  | Lleida, Spain  | City |
+| [Regione Autonoma Friuli Venezia Giulia Open Data](www.dati.friuliveneziagiulia.it)  | Friuli-Venezia Giulia, Italy  | Provice/State |
+| [Open Data Regione Lombardia](www.dati.lombardia.it)  | Lombardy, Italy  | Provice/State |
+| [Oxfordshire Open Data](www2.oxopendata.uk)  | Oxfordshire, UK  | Region/County |

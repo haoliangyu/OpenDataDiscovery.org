@@ -1,23 +1,29 @@
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-var OptimizeJsPlugin = require("optimize-js-plugin");
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const path = require('path');
+const fs = require('fs');
+const cheerio = require('cheerio');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackProcessingPlugin = require('html-webpack-processing-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const OptimizeJsPlugin = require("optimize-js-plugin");
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
-var srcDir = 'static_src';
-var outputDir = 'static';
+let config = {};
+
+if (fs.existsSync('./static_src/config.js')) {
+  config = require('./static_src/config.js');
+}
 
 module.exports = {
   devtool: 'source-map',
   debug: true,
   entry: {
-    app: path.resolve(srcDir, 'scripts/app.js')
+    app: './static_src/scripts/app.js'
   },
   output: {
-    path: outputDir,
+    path: 'static',
     filename: '[name].[hash].bundle.js',
     sourceMapFilename: '[name].[hash].map'
   },
@@ -61,8 +67,9 @@ module.exports = {
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new HtmlWebpackPlugin({
-      template: path.resolve(srcDir, 'views/index.html'),
-      inject: true
+      template: './static_src/views/index.html',
+      inject: true,
+      postProcessing: addGoogleAnalytics
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'defer'
@@ -77,6 +84,28 @@ module.exports = {
       collections: true,
       paths: true,
       flattening: true
-    })
+    }),
+    new HtmlWebpackProcessingPlugin()
   ]
 };
+
+function addGoogleAnalytics(html) {
+  if (!config.googleAnalyticsID) { return html; }
+
+  let $ = cheerio.load(html);
+  let analytics = `
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '${config.googleAnalyticsID}', 'auto');
+      ga('send', 'pageview');
+    </script>
+  `;
+
+  $('head').append(analytics);
+
+  return $.html();
+}

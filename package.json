@@ -1,6 +1,6 @@
 {
   "name": "open.data.discovery",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Open data visualization",
   "scripts": {
     "webpack-watch": "cd www; webpack --config webpack.config.dev.js --watch"
@@ -30,6 +30,7 @@
     "babel-preset-es2015": "^6.18.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "cheerio": "^0.22.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.12.0",
     "eslint-loader": "^1.6.1",
@@ -89,6 +90,7 @@
     "file-saver": "^1.3.3",
     "font-awesome": "^4.7.0",
     "geostats": "^1.5.0",
+    "html-webpack-processing-plugin": "^0.1.2",
     "leaflet": "^1.0.2",
     "leaflet.vectorgrid": "^1.1.0",
     "lodash": "^4.17.2",

@@ -53,13 +53,13 @@ class exportCtrl {
     ];
   }
 
-  exportData(format) {
+  exportData() {
     this.isProcessing = true;
 
     this.ajaxService.exportData(this.exportDate, this.format.ext)
       .then(data => {
         if (this.format.name === 'JSON') {
-          data = this.$filter('json')(data);
+          data = JSON.stringify(data);
         }
 
         let blob = new Blob([data], { type: this.format.type });
