@@ -1,5 +1,18 @@
 CREATE EXTENSION postgis;
 
+CREATE TABLE api (
+  id serial PRIMARY KEY,
+  name text NOT NULL
+);
+
+INSERT INTO api (name) VALUES ('export');
+
+CREATE TABLE api_usage (
+  id serial PRIMARY KEY,
+  api_id integer REFERENCES api (id),
+  request_time timestamp DEFAULT now()
+);
+
 CREATE TABLE platform {
   id serial PRIMARY KEY,
   name text,
@@ -126,6 +139,12 @@ CREATE TABLE organization_data (
 
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 CREATE INDEX organization_data_count_idx ON organization_data (count);
+
+CREATE VIEW view_api_usage AS
+  SELECT a.id, a.name, COUNT(au.id)
+  FROM api_usage AS au
+    LEFT JOIN api AS a ON a.id = au.api_id
+  GROUP BY a.id, a.name;
 
 CREATE MATERIALIZED VIEW view_instance_region AS
   SELECT r.id AS region_id,

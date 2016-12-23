@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const logger = require('log4js').getLogger('info');
-const pgService = require('../util/pgService.js');
+const pgUtil = require('../util/pg.js');
 const db = require('../database.js').getConnection();
 
 exports.getInstances = function(req, res) {
@@ -28,8 +28,8 @@ exports.getInstances = function(req, res) {
   db.any(sql)
     .then(function(results) {
       _.forEach(results, result => {
-        pgService.camelCase(result, 'formatted_location');
-        pgService.camelCase(result, 'dataset_count');
+        pgUtil.camelCase(result, 'formatted_location');
+        pgUtil.camelCase(result, 'dataset_count');
       });
 
       response.instances = results;
@@ -89,18 +89,18 @@ exports.getInstanceInfo = function(req, res) {
         result.url = 'http://' + result.url;
       }
 
-      pgService.camelCase(result, 'update_date');
+      pgUtil.camelCase(result, 'update_date');
 
       _.forEach(result.tags, function(tag) {
-        pgService.camelCase(tag, 'update_date');
+        pgUtil.camelCase(tag, 'update_date');
       });
 
       _.forEach(result.organizations, function(organization) {
-        pgService.camelCase(organization, 'update_date');
+        pgUtil.camelCase(organization, 'update_date');
       });
 
       _.forEach(result.categories, function(category) {
-        pgService.camelCase(category, 'update_date');
+        pgUtil.camelCase(category, 'update_date');
       });
 
       res.json({
