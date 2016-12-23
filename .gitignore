@@ -6,6 +6,7 @@ coverage
 bootstrap/bootstrap_aws.sh
 npm-debug.log
 www/static
+www/static_src/config.js
 
 !/scripts/sql/db_schema.sql
 
