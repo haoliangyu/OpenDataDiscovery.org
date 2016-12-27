@@ -129,7 +129,7 @@ exports.saveData = function(db, instanceID, data, insertOnly) {
                return Promise.all(_.concat(tagUpdates, orgUpdates, catUpdates))
                 .then(updates => {
 
-                  let sql;
+                  let sql = '';
 
                   if (data.count !== dataCount) {
                     sql = `
@@ -144,7 +144,11 @@ exports.saveData = function(db, instanceID, data, insertOnly) {
 
                   updates.push(sql);
 
-                  return tx.none(updates.join('\n'));
+                  let updateSQL = updates.join('');
+
+                  if (updateSQL.length > 0) {
+                    return tx.none(updateSQL);
+                  }
                 });
              });
   });
