@@ -10,7 +10,7 @@ class exportCtrl {
     this.ajaxService = ajaxService;
 
     this.exportDate = new Date();
-    this.minDate = new Date(2016, 9, 1);
+    this.minDate = new Date(2017, 1, 1);
     this.maxDate = new Date();
     this.isProcessing = false;
 
