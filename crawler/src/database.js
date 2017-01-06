@@ -27,6 +27,35 @@ const dbSchema = {
   }
 };
 
+let database;
+
+/**
+ * Initialize database connection.
+ * @return {object}   pgp database connection
+ */
+exports.initialize = () => {
+  database = pgp(params.dbConnStr);
+  return database;
+};
+
+/**
+ * Get database connection.
+ * @return {object}   pgp database connection
+ */
+exports.getConnection = () => {
+  return database || exports.initialize();
+};
+
+/**
+ * Set database connection.
+ * @param  {object}   db  pgp database object
+ * @return {object}       pgp database connection
+ */
+exports.setConnection = db => {
+  database = db;
+  return database;
+};
+
 /**
  * main entry to save crawled data into database
  * @param  {object}   db            pgp database object
