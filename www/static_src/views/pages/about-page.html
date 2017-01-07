@@ -8,8 +8,9 @@
       Supported Platforms
     </p>
     <div layout="row" layout-align="center center">
-      <md-card class="md-padding" ng-repeat="platform in about.platforms">
-        <img class="md-card-image platform-logo clickable"
+      <md-card class="md-padding platform-logo" ng-repeat="platform in about.platforms" layout="row">
+        <img class="md-card-image clickable"
+             layout-align="center center"
              ng-src="{{ platform.logo }}"
              ng-click="about.openPlatformSite(platform.url)">
          <md-tooltip md-direction="buttom">{{ platform.name }}</md-tooltip>

@@ -3,7 +3,9 @@
   "version": "0.1.9",
   "description": "Open data visualization",
   "scripts": {
-    "webpack-watch": "cd www; webpack --config webpack.config.dev.js --watch"
+    "webpack-watch": "cd www; webpack --config webpack.config.dev.js --watch",
+    "build": "cd www; webpack --config webpack.config.prod.js",
+    "build-dev": "cd www; webpack --config webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
