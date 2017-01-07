@@ -19,7 +19,7 @@ describe('Get metadata from CKAN instance', function() {
   this.timeout(params.maxTimeout);
 
   it('It should return data from data.gov', function() {
-    return ckan.getFullMetadata('http://catalog.data.gov', {
+    return ckan.getFullMetadata('https://catalog.data.gov', {
       extras: { ext_bbox: [] }
     })
     .then(function(data) {
