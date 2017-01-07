@@ -1,5 +1,6 @@
 const params = require('../../src/params.js');
 const proxyquire = require('proxyquire');
+const Promise = require('bluebird');
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -8,17 +9,21 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const junar = proxyquire('../../src/platform/junar.js', {
-  db: {
-    one: () => {
+  '../database.js': {
+    getConnection: () => {
       return {
-        api_url: 'http://api.data.cityofsacramento.org',
-        api_key: 'c2ec3f2208a504bc8c2f84ff47a26b889717cdcf'
+        one: () => {
+          return Promise.resolve({
+            api_url: 'http://api.data.cityofsacramento.org',
+            api_key: 'c2ec3f2208a504bc8c2f84ff47a26b889717cdcf'
+          });
+        }
       };
     }
   }
 });
 
-describe('Get metadata from Socrata instance', function() {
+describe('Get metadata from Junar instance', function() {
 
   before(function(done) {
     params.minWait = 0;
