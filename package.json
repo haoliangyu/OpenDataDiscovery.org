@@ -3,7 +3,9 @@
   "version": "0.1.9",
   "description": "Open data visualization",
   "scripts": {
-    "webpack-watch": "cd www; webpack --config webpack.config.dev.js --watch"
+    "webpack-watch": "cd www; webpack --config webpack.config.dev.js --watch",
+    "build": "cd www; webpack --config webpack.config.prod.js",
+    "build-dev": "cd www; webpack --config webpack.config.dev.js"
   },
   "repository": {
     "type": "git",
@@ -100,6 +102,7 @@
     "pg-promise": "^5.5.0",
     "pg-query-stream": "^1.0.0",
     "promise-queue": "git+https://github.com/haoliangyu/promise-queue.git#on-empty",
+    "proxyquire": "^1.7.10",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "social-likes-next": "^1.1.0",

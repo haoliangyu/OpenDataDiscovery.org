@@ -20,6 +20,11 @@ class aboutCtrl {
         name: 'Socrata',
         logo: require('../../media/images/socrata-logo.png'),
         url: 'https://socrata.com/solutions/publica-open-data-cloud/'
+      },
+      {
+        name: 'Junar',
+        logo: require('../../media/images/junar-logo.jpg'),
+        url: 'http://junar.com/'
       }
     ];
 

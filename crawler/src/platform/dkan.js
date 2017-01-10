@@ -30,7 +30,7 @@ exports.getFullMetadata = url => {
       return {
         display_name: tag,
         count: _.filter(datasets, dataset => {
-          return _.includes(datasets.keyword, tag);
+          return _.includes(dataset.keyword, tag);
         }).length
       };
     });

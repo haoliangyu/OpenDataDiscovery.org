@@ -331,3 +331,14 @@
 | [Regione Autonoma Friuli Venezia Giulia Open Data](www.dati.friuliveneziagiulia.it)  | Friuli-Venezia Giulia, Italy  | Provice/State |
 | [Open Data Regione Lombardia](www.dati.lombardia.it)  | Lombardy, Italy  | Provice/State |
 | [Oxfordshire Open Data](www2.oxopendata.uk)  | Oxfordshire, UK  | Region/County |
+| [City of Sacramento Open Data](http://data.cityofsacramento.org)  | Sacramento, CA  | City |
+| [City of Palo Alto Open Data](http://data.cityofpaloalto.org)  | Palo Alto, CA  | City |
+| [Penalolen Open Data](http://recursos.penalolen.cl)  | Penalolen, Chile  | City |
+| [City of San Jose Open Data](http://data.sanjoseca.gov)  | San Jose, CA  | City |
+| [Puente Alto Open Data](http://datos.mpuentealto.cl)  | Puente Alto, Chile  | City |
+| [City of Cupertino Open Data Portal](http://data.cupertino.org)  | Cupertino, CA  | City |
+| [City of Pasadena Open Data](http://data.cityofpasadena.net)  | Pasadena, CA  | City |
+| [La Nacion Data](http://data.lanacion.com.ar)  | Argentina  | Nation |
+| [Anaheim Open Data Portal](http://anaheim.opendata.junar.com)  | Anaheim, CA  | City |
+| [Sacramento County Open Data Portal](http://data.saccounty.net)  | Sacramento County, CA  | Region/County |
+| [Cordoba Deliberative Council Open Data](http://cdcordoba.opendata.junar.com)  | Cordoba, Argentina  | Provice/State |

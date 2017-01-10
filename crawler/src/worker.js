@@ -1,9 +1,6 @@
-const Promise = require('bluebird');
 const logger = require('log4js').getLogger('worker');
 const _ = require('lodash');
 const database = require('./database.js');
-const pgp = require('pg-promise')({ promiseLib: Promise });
-const params = require('./params.js');
 const fs = require('fs');
 const path = require('path');
 
@@ -22,7 +19,11 @@ fs.readdir(path.resolve(__dirname, './platform'), (err, files) => {
 
 exports.crawl = function(db, instance, insertOnly) {
 
-  db = db || pgp(params.dbConnStr);
+  if (db) {
+    database.setConnection(db);
+  } else {
+    db = database.initialize();
+  }
 
   logger.info('Crawling ' + instance.name + '...');
 

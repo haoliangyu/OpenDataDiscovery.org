@@ -19,6 +19,13 @@ CREATE TABLE platform {
   url text
 };
 
+CREATE TABLE junar_instance_info (
+  id serial PRIMARY KEY,
+  instance_id integer REFERENCES instance(id),
+  api_url text,
+  api_key text
+);
+
 CREATE TABLE instance (
   id serial PRIMARY KEY,
   name text,
