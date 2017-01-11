@@ -27,7 +27,9 @@ exports.crawl = function(db, instance, insertOnly) {
 
   logger.info('Crawling ' + instance.name + '...');
 
-  return platform[instance.platform.toLowerCase()].getFullMetadata(instance.url)
+  let crawlerName = instance.platform.replace(' ', '-').toLowerCase();
+
+  return platform[crawlerName].getFullMetadata(instance.url)
     .then(function(data) {
       return db.tx(function(t) {
         return database.saveData(t, instance.id, data, insertOnly);
