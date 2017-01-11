@@ -25,6 +25,11 @@ class aboutCtrl {
         name: 'Junar',
         logo: require('../../media/images/junar-logo.jpg'),
         url: 'http://junar.com/'
+      },
+      {
+        name: 'ArcGIS Open Data',
+        logo: require('../../media/images/arcgis-logo.png'),
+        url: 'http://opendata.arcgis.com/'
       }
     ];
 
