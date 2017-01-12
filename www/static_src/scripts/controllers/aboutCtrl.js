@@ -35,6 +35,11 @@ class aboutCtrl {
         name: 'OpenDataSoft',
         logo: require('../../media/images/opendatasoft-logo.png'),
         url: 'https://www.opendatasoft.com/'
+      },
+      {
+        name: 'GeoNode',
+        logo: require('../../media/images/geonode-logo.png'),
+        url: 'http://geonode.org/'
       }
     ];
 
