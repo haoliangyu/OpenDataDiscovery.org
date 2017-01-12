@@ -30,6 +30,11 @@ class aboutCtrl {
         name: 'ArcGIS Open Data',
         logo: require('../../media/images/arcgis-logo.png'),
         url: 'http://opendata.arcgis.com/'
+      },
+      {
+        name: 'OpenDataSoft',
+        logo: require('../../media/images/opendatasoft-logo.png'),
+        url: 'https://www.opendatasoft.com/'
       }
     ];
 
