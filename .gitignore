@@ -1,7 +1,7 @@
 node_modules
 coverage
 scripts/*
-tile-generator/regions.geojson
+server/config/credential.js
 tile-server/*.mbtiles
 tile-server/*.mbtiles-journal
 bootstrap/bootstrap_aws.sh

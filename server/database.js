@@ -1,15 +1,21 @@
 const Promise = require('bluebird');
 const pgp = require('pg-promise')({ promiseLib: Promise });
-const params = require('./config/params.js');
+const core = require('./util/core.js');
 
-let db;
+let db, dbConnStr;
+
+if (core.existSync('./config/credential.js')) {
+  dbConnStr = require('./config/params.js').dbConnStr;
+} else {
+  dbConnStr = require('./config/credential.js').dbConnStr;
+}
 
 /**
  * Initialize database connection.
  * @return {object}   pgp database connection
  */
 exports.initialize = () => {
-  db = pgp(params.dbConnStr);
+  db = pgp(dbConnStr);
   return db;
 };
 
