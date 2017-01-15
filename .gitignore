@@ -1,13 +1,14 @@
 node_modules
 coverage
-/scripts/*
-/tile-server/*.mbtiles
-/tile-server/*.mbtiles-journal
+scripts/*
+server/config/credential.js
+tile-server/*.mbtiles
+tile-server/*.mbtiles-journal
 bootstrap/bootstrap_aws.sh
 npm-debug.log
 www/static
 www/static_src/config.js
 
-!/scripts/sql/db_schema.sql
+!scripts/sql/db_schema.sql
 
 .vagrant

@@ -153,7 +153,7 @@ CREATE VIEW view_api_usage AS
     LEFT JOIN api AS a ON a.id = au.api_id
   GROUP BY a.id, a.name;
 
-CREATE MATERIALIZED VIEW view_instance_region AS
+CREATE VIEW view_instance_region AS
   SELECT r.id AS region_id,
     CASE
         WHEN rl.name = 'Globe' THEN rl.name
@@ -173,8 +173,6 @@ CREATE MATERIALIZED VIEW view_instance_region AS
      LEFT JOIN region r ON r.id = irx.region_id
      LEFT JOIN region_level rl ON rl.id = r.region_level_id
   WHERE i.active;
-
-CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom);
 
 CREATE MATERIALIZED VIEW view_instance_info AS
   WITH latest_category AS (

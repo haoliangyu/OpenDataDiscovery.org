@@ -43,7 +43,7 @@ exports.getInstances = function(req, res) {
 };
 
 exports.getInstanceSummary = function(req, res) {
-  // const db = pgp(params.dbConnStr);
+
   const sql = `
     SELECT
       COUNT(DISTINCT vii.instance_id) AS portal_count,
@@ -73,7 +73,6 @@ exports.getInstanceSummary = function(req, res) {
 exports.getInstanceInfo = function(req, res) {
   var instanceID = req.params.instanceID;
   var itemCount = req.query.item_count || 10;
-  // var db = pgp(params.dbConnStr);
 
   var sql = [
     'SELECT instance_name AS name, vii.description, url, region_name AS location, platform_name AS platform,',
