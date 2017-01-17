@@ -1,4 +1,3 @@
-const path = require('path');
 const fs = require('fs');
 const cheerio = require('cheerio');
 const webpack = require('webpack');
@@ -9,6 +8,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 const OptimizeJsPlugin = require("optimize-js-plugin");
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 let config = {};
 
@@ -66,6 +66,12 @@ module.exports = {
       d3: 'd3'
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: {removeAll: true } },
+      canPrint: true
+    }),
     new HtmlWebpackPlugin({
       template: './static_src/views/index.html',
       inject: true,
