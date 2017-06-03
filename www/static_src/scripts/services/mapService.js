@@ -13,6 +13,10 @@ class mapService {
     this.ajaxService = ajaxService;
     this.sidebarService = sidebarService;
     this.styles = [];
+    this.regionGeoJSON = { type: 'FeatureCollection', features: [] };
+
+    this.currentLayer = undefined;
+    this.currentLayerType = undefined;
 
     this.minZoom = 3;
     this.maxZoom = 10;
@@ -40,44 +44,47 @@ class mapService {
       .then(result => {
         this.styles = result.styles;
 
-        const layerStyle = properties => {
-          if (_.isString(properties.instances)) {
-            properties.instances = JSON.parse(properties.instances);
-          }
+        return this.ajaxService.getInstances();
+      })
+      .then(result => {
+        let instances = _.filter(result.instances, instance => {
+          return instance.center;
+        });
 
-          const color = _.find(this.styles, style => {
-            return style.lowerBound <= properties.count && properties.count <= style.upperBound;
-          }).fill;
+        let groupped = _.groupBy(instances, 'formattedLocation');
+
+        this.regionGeoJSON.features = _.map(groupped, (instances, region) => {
+          let totalCount = _.reduce(instances, (count, instance) => {
+            return count + instance.datasetCount;
+          }, 0);
 
           return {
-            color: '#ececec',
-            weight: 2,
-            fill: true,
-            fillColor: color,
-            fillOpacity: 1
+            type: 'Feature',
+            geometry: instances[0].center,
+            properties: {
+              instances: _.map(instances, 'id'),
+              name: region,
+              bbox: instances[0].bbox,
+              color: this.getMapStyle(totalCount).fill
+            }
           };
-        };
+        });
 
-        const instanceLayer = L.vectorGrid.protobuf(location.origin + '/vt/regions/{z}/{x}/{y}.pbf', {
-          vectorTileLayerStyles: {
-            'regions': layerStyle
-          },
-          interactive: true
-        })
-        .on('click', this._onClick.bind(this))
-        .on('mouseover', this._onMouseOver.bind(this))
-        .on('mouseout', this._onMouseOut.bind(this));
-
-        this.map.addLayer(instanceLayer);
+        this.showRegionLayer();
         this.map.invalidateSize();
 
         this.$rootScope.$broadcast('map:ready');
       })
       .then(() => {
+        this.map.createPane('labels');
+        this.map.getPane('labels').style.zIndex = 500;
+        this.map.getPane('labels').style.pointerEvents = 'none';
+
         let label = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.{ext}', {
           attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           subdomains: 'abcd',
-          ext: 'png'
+          ext: 'png',
+          pane: 'labels'
         });
 
         this.map.addLayer(label);
@@ -98,36 +105,116 @@ class mapService {
     this.map.fitBounds(L.latLngBounds(latLngs));
   }
 
-  _onClick(e) {
-    // get data from the tile
-    let properties = e.layer.properties;
+  showRegionLayer() {
+    if (this.currentLayerType === 'region') { return; }
 
-    if (_.isString(properties.instances)) {
-      properties.instances = JSON.parse(properties.instances);
+    if (this.currentLayer) {
+      this.map.removeLayer(this.currentLayer);
     }
 
-    this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(properties.instances, 'id'));
+    const layerStyle = properties => {
+      return {
+        color: '#ececec',
+        weight: 2,
+        fill: true,
+        fillColor: this.getMapStyle(properties.count).fill,
+        fillOpacity: 1
+      };
+    };
 
-    if (_.isString(properties.bbox)) {
-      properties.bbox = JSON.parse(properties.bbox);
-    }
+    const _onClick = e => {
+      // get data from the tile
+      let properties = e.layer.properties;
 
-    this.zoomTo(properties.bbox);
+      if (_.isString(properties.instances)) {
+        properties.instances = JSON.parse(properties.instances);
+      }
+
+      this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', _.map(properties.instances, 'id'));
+
+      if (_.isString(properties.bbox)) {
+        properties.bbox = JSON.parse(properties.bbox);
+      }
+
+      this.zoomTo(properties.bbox);
+    };
+
+    const _onMouseOver = e => {
+      // get data from the tile
+      let properties = e.layer.properties;
+
+      if (_.isString(properties.instances)) {
+        properties.instances = JSON.parse(properties.instances);
+      }
+
+      this.$rootScope.$broadcast('map:inFeature', _.omit(properties, 'bbox'));
+    };
+
+    const _onMouseOut = () => {
+      this.$rootScope.$broadcast('map:outFeature');
+    };
+
+    this.currentLayer = L.vectorGrid.protobuf(location.origin + '/vt/regions/{z}/{x}/{y}.pbf', {
+      vectorTileLayerStyles: {
+        'regions': layerStyle
+      },
+      interactive: true
+    })
+    .on('click', _onClick.bind(this))
+    .on('mouseover', _onMouseOver.bind(this))
+    .on('mouseout', _onMouseOut.bind(this));
+
+    this.map.addLayer(this.currentLayer);
+    this.currentLayerType = 'region';
   }
 
-  _onMouseOver(e) {
-    // get data from the tile
-    let properties = e.layer.properties;
+  showMarkerLayer() {
+    if (this.currentLayerType === 'marker') { return; }
 
-    if (_.isString(properties.instances)) {
-      properties.instances = JSON.parse(properties.instances);
+    if (this.currentLayer) {
+      this.map.removeLayer(this.currentLayer);
     }
 
-    this.$rootScope.$broadcast('map:inFeature', _.omit(properties, 'bbox'));
+    let _onClick = e => {
+      let properties = e.layer.toGeoJSON().properties;
+
+      this.$rootScope.$broadcast('sidebar:switch', 'Instance Info', properties.instances);
+      this.zoomTo(properties.bbox);
+    };
+
+    let pointToLayer = (point, latlng) => {
+      let properties = point.properties;
+
+      return L.marker(latlng, {
+        icon: L.icon({
+          iconUrl: `http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${properties.color.slice(1)}&chf=a,s,ee00FFFF`,
+          iconAnchor: [11, 34],
+        })
+      })
+      .bindTooltip(`<strong>${properties.name}</strong>`, {
+        offset: L.point([0, -35]),
+        direction: 'top'
+      });
+    };
+
+    this.currentLayer = L.geoJSON(this.regionGeoJSON, {
+      pointToLayer: pointToLayer.bind(this)
+    })
+    .on('click', _onClick.bind(this));
+
+    this.map.addLayer(this.currentLayer);
+    this.currentLayerType = 'marker';
   }
 
-  _onMouseOut() {
-    this.$rootScope.$broadcast('map:outFeature');
+  getMapStyle(count) {
+    for (let i = 0, n = this.styles.length; i < n; i++) {
+      if (this.styles[i].lowerBound <= count && count <= this.styles[i].upperBound) {
+        return this.styles[i];
+      }
+    }
+
+    // default map style
+    return { fill: '#fff' };
   }
 }
 

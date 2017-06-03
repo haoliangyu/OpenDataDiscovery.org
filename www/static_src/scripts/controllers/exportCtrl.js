@@ -10,7 +10,7 @@ class exportCtrl {
     this.ajaxService = ajaxService;
 
     this.exportDate = new Date();
-    this.minDate = new Date(2016, 9, 1);
+    this.minDate = new Date(2017, 1, 1);
     this.maxDate = new Date();
     this.isProcessing = false;
 
@@ -53,13 +53,13 @@ class exportCtrl {
     ];
   }
 
-  exportData(format) {
+  exportData() {
     this.isProcessing = true;
 
     this.ajaxService.exportData(this.exportDate, this.format.ext)
       .then(data => {
         if (this.format.name === 'JSON') {
-          data = this.$filter('json')(data);
+          data = JSON.stringify(data);
         }
 
         let blob = new Blob([data], { type: this.format.type });

@@ -1,5 +1,4 @@
 import angular from 'angular';
-import _ from 'lodash';
 
 class regionInfoCtrl {
 
@@ -29,9 +28,7 @@ class regionInfoCtrl {
   }
 
   getSquareColor(count) {
-    return _.find(this.mapService.styles, style => {
-      return style.lowerBound <= count && count <= style.upperBound;
-    }).fill;
+    return this.mapService.getMapStyle(count).fill;
   }
 }
 

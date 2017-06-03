@@ -1,10 +1,30 @@
 CREATE EXTENSION postgis;
 
+CREATE TABLE api (
+  id serial PRIMARY KEY,
+  name text NOT NULL
+);
+
+INSERT INTO api (name) VALUES ('export');
+
+CREATE TABLE api_usage (
+  id serial PRIMARY KEY,
+  api_id integer REFERENCES api (id),
+  request_time timestamp DEFAULT now()
+);
+
 CREATE TABLE platform {
   id serial PRIMARY KEY,
   name text,
   url text
 };
+
+CREATE TABLE junar_instance_info (
+  id serial PRIMARY KEY,
+  instance_id integer REFERENCES instance(id),
+  api_url text,
+  api_key text
+);
 
 CREATE TABLE instance (
   id serial PRIMARY KEY,
@@ -20,6 +40,7 @@ CREATE TABLE region (
   name text,
   geom geometry(MULTIPOLYGON, 4326),
   bbox geometry(POLYGON, 4326),
+  center geometry(POINT, 4326),
   region_level_id integer
 );
 
@@ -126,7 +147,13 @@ CREATE TABLE organization_data (
 CREATE INDEX organization_data_update_date_idx ON organization_data (update_date);
 CREATE INDEX organization_data_count_idx ON organization_data (count);
 
-CREATE MATERIALIZED VIEW view_instance_region AS
+CREATE VIEW view_api_usage AS
+  SELECT a.id, a.name, COUNT(au.id)
+  FROM api_usage AS au
+    LEFT JOIN api AS a ON a.id = au.api_id
+  GROUP BY a.id, a.name;
+
+CREATE VIEW view_instance_region AS
   SELECT r.id AS region_id,
     CASE
         WHEN rl.name = 'Globe' THEN rl.name
@@ -146,8 +173,6 @@ CREATE MATERIALIZED VIEW view_instance_region AS
      LEFT JOIN region r ON r.id = irx.region_id
      LEFT JOIN region_level rl ON rl.id = r.region_level_id
   WHERE i.active;
-
-CREATE INDEX view_instance_region_geom_idx ON view_instance_region USING gist(geom);
 
 CREATE MATERIALIZED VIEW view_instance_info AS
   WITH latest_category AS (

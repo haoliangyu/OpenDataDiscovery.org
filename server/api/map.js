@@ -1,15 +1,11 @@
-var Promise = require('bluebird');
-var pgp = require('pg-promise')({ promiseLib: Promise });
-var logger = require('log4js').getLogger('map');
-var geostats = require('geostats');
-var cb = require('colorbrewer');
-var _ = require('lodash');
-
-var params = require('../config/params.js');
+const logger = require('log4js').getLogger('map');
+const geostats = require('geostats');
+const cb = require('colorbrewer');
+const _ = require('lodash');
+const db = require('../database.js').getConnection();
 
 exports.getStyles = function(req, res) {
   var response = { success: true };
-  var db = pgp(params.dbConnStr);
   var count = req.params.count;
   var palette = cb.RdYlBu[count];
 

@@ -17,8 +17,8 @@ app.use(express.static(path.resolve(__dirname, './../www/static/')))
     });
 
 http.createServer(app)
-    .listen(params.port.production, function() {
-      logger.info(`Server is running at port ${params.port.production}...`);
+    .listen(params.port, function() {
+      logger.info(`Server is running at port ${params.port}...`);
     })
     .on('request', function(req) {
       logger.info(`[${req.method}] ${req.url}`);

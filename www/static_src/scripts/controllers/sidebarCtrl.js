@@ -6,6 +6,7 @@ class sidebarCtrl {
   constructor($scope, mapService, sidebarService) {
     'ngInject';
 
+    this.selectedTab = 0;
     this.sidebarService = sidebarService;
     this.tabs = ['Instance List', 'Instance Info'];
 

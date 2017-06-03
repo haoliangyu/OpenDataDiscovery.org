@@ -1,7 +1,39 @@
-<div ng-repeat="button in toolbar.buttons">
-  <md-button class="md-fab md-primary md-mini toolbar-button"
-             ng-click="button.click()" aria-label="{{ button.name }}">
-    <md-tooltip md-direction="left">{{ button.tooltip }}</md-tooltip>
-    <i class="fa fa-lg" ng-class="button.icon"></i>
-  </md-button>
+<div layout="column" layout-align="end end">
+  <div ng-repeat="button in toolbar.buttons">
+    <md-button class="md-fab md-primary md-mini toolbar-button"
+               ng-click="button.click()" aria-label="{{ button.name }}">
+      <md-tooltip md-direction="left">{{ button.tooltip }}</md-tooltip>
+      <i class="fa fa-lg" ng-class="button.icon"></i>
+    </md-button>
+  </div>
+
+  <md-fab-speed-dial class="md-fling" md-open="toolbar.showLayerOptions" md-direction="left"
+                     ng-mouseenter="toolbar.showLayerOptions=true"
+                     ng-mouseleave="toolbar.showLayerOptions=false">
+    <md-fab-trigger>
+      <md-button aria-label="menu" class="md-fab md-primary md-mini toolbar-button">
+        <i class="fa fa-align-justify"></i>
+        <md-tooltip md-direction="bottom">
+          Map Options
+        </md-tooltip>
+      </md-button>
+    </md-fab-trigger>
+
+    <md-fab-actions>
+      <md-button class="md-fab md-raised md-mini"
+                 ng-click="toolbar.mapService.showMarkerLayer()">
+        <i class="fa fa-lg fa-map-marker"></i>
+        <md-tooltip md-direction="bottom">
+          Show Point Map
+        </md-tooltip>
+      </md-button>
+      <md-button class="md-fab md-raised md-mini"
+                 ng-click="toolbar.mapService.showRegionLayer()">
+        <i class="fa fa-lg fa-globe"></i>
+        <md-tooltip md-direction="bottom">
+          Show Region Map
+        </md-tooltip>
+      </md-button>
+    </md-fab-actions>
+  </md-fab-speed-dial>
 </div>
